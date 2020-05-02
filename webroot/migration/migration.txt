@@ -1,0 +1,4 @@
+ALTER TABLE `user` ADD `gender` VARCHAR(200) NULL AFTER `create_date`, ADD `dob` VARCHAR(200) NULL AFTER `gender`, ADD `class` VARCHAR(200) NULL AFTER `dob`, ADD `update_date` DATETIME NULL AFTER `class`;
+
+
+

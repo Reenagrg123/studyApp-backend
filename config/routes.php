@@ -60,6 +60,7 @@ $routes->connect('/api/signup', ['controller' => 'Api', 'action' => 'signup']);
 
 $routes->connect('/api/login', ['controller' => 'Api', 'action' => 'login']);
 
+$routes->connect('/api/profile', ['controller' => 'Api', 'action' => 'profile']);
 
 
 

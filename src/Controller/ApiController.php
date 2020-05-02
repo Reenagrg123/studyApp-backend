@@ -50,7 +50,72 @@ class ApiController extends AppController{
 
 
 
+public function profile(){
 
+    if($this->request->is("post")) {
+
+
+        $date = date("Y-m-d");
+        $data = $this->request->data;
+
+        if($data['gender']==''  || $data['class']=='' || $data['dob']=='' || $data['userid']==''){
+
+            $send['error']=1;
+            $send['msg']="Parameters should not empty";
+
+            echo json_encode($send);
+            exit;
+        }
+
+        $userobj = $this->Users->findById($data['userid'])->first();
+
+        if($userobj==null){
+            $send['error'] = 1;
+            $send['msg'] = "User not exist ";
+          //  $send['id'] = $userobj->id;
+
+            echo json_encode($send);
+            exit;
+        }
+
+       // $userobj=$this->Users->newEntity();
+
+        $userobj->gender=$data['gender'];
+        $userobj->class = $data['class'];
+        $userobj->dob = $data['dob'];
+
+        // $encryptpass = Security::encrypt($data['password'], $this->key);
+
+
+        // $resultr = Security::decrypt($result, $this->key);
+
+        $userobj->update_date = date("Y-m-d H:i:s");
+
+            if ($this->Users->save($userobj)) {
+
+                $send['error'] = 0;
+                $send['msg'] = "Updated successfully ";
+                //$send['id'] = $userobj->id;
+
+                echo json_encode($send);
+                exit;
+
+            }
+
+
+
+
+
+
+
+    }
+
+
+
+        var_dump("fsdfsdfsd");exit;
+
+
+}
 
 
     public function index(){

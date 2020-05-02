@@ -16,13 +16,17 @@ use Cake\Routing\Router;
 use Cake\Mailer;
 use Cake\Datasource\ConnectionManager;
 use Cake\Datasource\EntityInterface;
+use Cake\Utility\Security;
 
 
 
 class ApiController extends AppController{
 
 
+
+
     public $base_url;
+    public $key;
 
     public function initialize(){
         parent::initialize();
@@ -30,72 +34,162 @@ class ApiController extends AppController{
         $this->base_url=Router::url("/",true);
         $connection = ConnectionManager::get('default');
         // $this->table=TableRegistry::get("user");
-        $this->loadModel('Files');
-        $this->Setting=$this->loadModel("setting");
-        $this->Wallet=$this->loadModel("Wallet");
-        $this->Posts=$this->loadModel(PostsTables::class);
-        $this->Categories=$this->loadModel(CategorysTables::class);
-        $this->Appritiate=$this->loadModel(AppritiatespostsTables::class);
-        $this->Traffic=$this->loadModel(TrafficsTables::class);
 
-        $this->Profile=$this->loadModel(ProfilesTables::class);
-        $this->Notification=$this->loadModel(NotificationsTables::class);
-        $this->Transaction=$this->loadModel(TransactionsTables::class);
+
         $session = $this->getRequest()->getSession();
-        $this->authorize();
-        $email=$session->read('user');
-        if($email== null ){
+        // $this->authorize();
 
-
-        }
         $this->Users=$this->loadModel("User");
-        $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
-        $userid=$dataobj[0]['id'];
 
-        $this->set("adminame",$dataobj[0]['f_name']);
-
-        $totaltraf=0;
-        $totalappri=0;
-        $post=$this->Posts->findAllByUserId($userid)->toArray();
-        foreach ($post as $p){
-            $total = $this->Appritiate->find()->where(['post_id'=>$p['id'] ])->count();
-            $traffic = $this->Traffic->find()->where(['post_id'=>$p['id'] ])->toArray();
-            foreach ($traffic as $t){
-                $totaltraf=$totaltraf+$t['count'];
-
-            }
-            $totalappri=$totalappri+$total;
+        $this->key = 'wt1U5MACWJFTXGenFoZoiLwQGrLgdbHA';
 
 
-
-        }
-        $settingtrafficcost=$this->Setting->findByName('per_traffic_cost')->toArray();
-        $appritiatecost=$this->Setting->findByName('per_appritiate_cost')->toArray();
-        $trcost=$settingtrafficcost[0]['value'];
-        $apcost=$appritiatecost[0]['value'];
-
-
-        $notifications=$this->Notification->findAllByUserId($userid)->toArray();
-
-        $notificationsall=$this->Notification->findAllByUserId(0)->toArray();
-        //array_push($notifications,$notificationsall);
-        //var_dump($notifications);exit;
-        $this->set("earning",$this->getcost()['totalearn']);
-        $this->set("traffic",$totaltraf);
-        $this->set("appritiate",$totalappri);
-        $this->set("notification",$notifications);
 
         $this->set("title","Dashboard");
     }
 
 
-public function index(){
 
 
-    var_dump("ASfasfasf");exit;
 
-}
 
+    public function index(){
+
+
+        var_dump("ASfasfasf");exit;
+
+    }
+
+    public function signup(){
+        $send=[];
+
+        if($this->request->is("post")) {
+
+
+
+
+            $date=date("Y-m-d");
+            $data = $this->request->data;
+
+            if($data['f_name']==''  || $data['mobile']=='' || $data['password']==''){
+
+                $send['error']=1;
+                $send['msg']="Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+
+
+
+
+            $userobj=$this->Users->newEntity();
+
+            $userobj->mobile=$data['mobile'];
+            $userobj->f_name = $data['f_name'];
+            $userobj->email = $data['email'];
+
+            // $encryptpass = Security::encrypt($data['password'], $this->key);
+
+
+            // $resultr = Security::decrypt($result, $this->key);
+
+            $userobj->create_date = date("Y-m-d H:i:s");
+
+
+            $userobj->password=md5($data['password']);
+
+            try{
+
+                if ($this->Users->save($userobj)) {
+
+                    $send['error']=0;
+                    $send['msg']="Added successfully ";
+                    $send['id']=$userobj->id;
+
+                    echo json_encode($send);
+                    exit;
+                }
+
+
+            }catch(\Exception $e){
+                var_dump($e->getMessage());
+                $send['error']=1;
+                $send['msg']="Try Again";
+
+                echo json_encode($send);
+                exit;
+            }
+
+
+        }else{
+            $send['error']=1;
+            $send['msg']="Only Use Post Method";
+
+            echo json_encode($send);
+            exit;
+
+        }
+
+    }
+
+
+    public function login(){
+
+        $send=[];
+
+        if($this->request->is("post")) {
+
+            $data = $this->request->data;
+
+            if($data['phone']==''  || $data['password']==''){
+
+                $send['error']=1;
+                $send['msg']="Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+
+            $dataphone=$this->Users->find()->where(["mobile"=>$data['phone']])->first();
+
+            if($dataphone==null){
+                $send['error']=1;
+                $send['msg']="User Not exist";
+
+                echo json_encode($send);
+                exit;
+
+            }
+
+
+            $datauser=$this->Users->find()->where(["mobile"=>$data['phone'],"password"=>md5($data['password'])])->first();
+
+            //   var_dump($datauser);exit;
+            //   $data=$this->Users->get(2);
+
+            if($datauser){
+
+                $send['error']=0;
+                $send['msg']="Data Mached";
+                $send['id']=$datauser->toArray()['id'];
+
+                echo json_encode($send);
+                exit;
+
+            }else{
+                $send['error']=1;
+                $send['msg']="Wrong Password or Username";
+
+                echo json_encode($send);
+                exit;
+            }
+
+
+
+        }
+
+    }
 
 
 }

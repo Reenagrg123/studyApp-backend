@@ -54,8 +54,16 @@ $routes->connect('/viewpost', ['controller' => 'Admin', 'action' => 'viewpost'])
 $routes->connect('/wallet/*', ['controller' => 'Admin', 'action' => 'wallet']);
 $routes->connect('/post', ['controller' => 'Admin', 'action' => 'post']);
 $routes->connect('/admin', ['controller' => 'Admin', 'action' => 'index']);
-  $routes->connect('/', ['controller' => 'Main', 'action' => 'index']);
+$routes->connect('/', ['controller' => 'Main', 'action' => 'index']);
 $routes->connect('/api', ['controller' => 'Api', 'action' => 'index']);
+$routes->connect('/api/signup', ['controller' => 'Api', 'action' => 'signup']);
+
+$routes->connect('/api/login', ['controller' => 'Api', 'action' => 'login']);
+
+
+
+
+
 
 $routes->connect('/post/category', ['controller' => 'Post', 'action' => 'category']);
 $routes->connect('/login', ['controller' => 'Main', 'action' => 'login']);
@@ -66,13 +74,13 @@ $routes->connect('/register', ['controller' => 'Main', 'action' => 'register']);
 
 $routes->connect('/contact', ['controller' => 'Main', 'action' => 'contact']);
 
-  $routes->connect('/post/:param1', ['controller' => 'Post', 'action' => 'post'],["pass"=>["param1"]]);
+$routes->connect('/post/:param1', ['controller' => 'Post', 'action' => 'post'],["pass"=>["param1"]]);
 
 $routes->connect('/giveappri', ['controller' => 'Post', 'action' => 'giveappri']);
 
 $routes->connect('/forgot', ['controller' => 'Main', 'action' => 'forgot']);
 
- //$routes->connect('/:param1/:param2', ['controller' => 'Test', 'action' => 'Index', 'index'],["pass"=>["param1","param2"]]);
+//$routes->connect('/:param1/:param2', ['controller' => 'Test', 'action' => 'Index', 'index'],["pass"=>["param1","param2"]]);
 
 Router::scope('/', function (RouteBuilder $routes) {
     // Register scoped middleware for in scopes.
@@ -84,14 +92,14 @@ Router::scope('/', function (RouteBuilder $routes) {
      * Apply a middleware to the current route scope.
      * Requires middleware to be registered via `Application::routes()` with `registerMiddleware()`
      */
-   // $routes->applyMiddleware('csrf');
+    // $routes->applyMiddleware('csrf');
 
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-   // $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    // $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.

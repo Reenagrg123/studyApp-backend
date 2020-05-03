@@ -62,8 +62,9 @@ $routes->connect('/api/login', ['controller' => 'Api', 'action' => 'login']);
 
 $routes->connect('/api/profile', ['controller' => 'Api', 'action' => 'profile']);
 
-
-
+$routes->connect('/api/getclass', ['controller' => 'Api', 'action' => 'getclass']);
+$routes->connect('/api/getsubject', ['controller' => 'Api', 'action' => 'getsubject']);
+$routes->connect('/api/getexcersice', ['controller' => 'Api', 'action' => 'getexcersice']);
 
 
 $routes->connect('/post/category', ['controller' => 'Post', 'action' => 'category']);

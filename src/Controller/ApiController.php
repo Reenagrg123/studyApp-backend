@@ -6,9 +6,12 @@ use App\Controller\AppController;
 use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
 use App\Model\Table\CategorysTables;
+use App\Model\Table\ClasssTables;
+use App\Model\Table\ExercisessTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
+use App\Model\Table\SubjectsTables;
 use App\Model\Table\TrafficsTables;
 use App\Model\Table\TransactionsTables;
 use Cake\Network\Email\Email;
@@ -35,6 +38,12 @@ class ApiController extends AppController{
         $connection = ConnectionManager::get('default');
         // $this->table=TableRegistry::get("user");
 
+        $this->Class=$this->loadModel(ClasssTables::class);
+
+
+        $this->Subject=$this->loadModel(SubjectsTables::class);
+
+        $this->Exercise=$this->loadModel(ExercisessTables::class);
 
         $session = $this->getRequest()->getSession();
         // $this->authorize();
@@ -49,6 +58,104 @@ class ApiController extends AppController{
     }
 
 
+public function getclass(){
+
+    $classobj = $this->Class->find('all')->toArray();
+
+$data=[];
+        foreach($classobj as $c){
+$tm=[];
+$tm['id']=$c['id'];
+$tm['name']=$c['class_name'];
+
+array_push($data,$tm);
+
+        }
+        $send['error'] = 0;
+        $send['data'] = $data;
+        //  $send['id'] = $userobj->id;
+
+        echo json_encode($send);
+        exit;
+
+}
+
+public function getsubject(){
+    if ($this->request->is("post")) {
+
+
+        $date = date("Y-m-d");
+        $data = $this->request->data;
+
+        if ($data['c_id'] == '' ) {
+            $send['error']=1;
+            $send['msg']="Parameters should not empty";
+
+            echo json_encode($send);
+            exit;
+        }
+
+        $classobj = $this->Subject->find()->where(['c_id'=>$data['c_id']])->toArray();
+
+        $data=[];
+        foreach($classobj as $c){
+            $tm=[];
+            $tm['id']=$c['id'];
+            $tm['name']=$c['subject_name'];
+
+            array_push($data,$tm);
+
+        }
+        $send['error'] = 0;
+        $send['data'] = $data;
+        //  $send['id'] = $userobj->id;
+
+        echo json_encode($send);
+        exit;
+
+
+
+    }
+}
+
+public function getexcersice()
+{
+
+    if ($this->request->is("post")) {
+
+
+        $date = date("Y-m-d");
+        $data = $this->request->data;
+
+        if ($data['c_id'] == '' || $data['s_id'] == '' ) {
+            $send['error']=1;
+            $send['msg']="Parameters should not empty";
+
+            echo json_encode($send);
+            exit;
+        }
+        $classobj = $this->Exercise->find()->where(['c_id'=>$data['c_id'],'s_id'=>$data['s_id']])->toArray();
+
+        $data=[];
+        foreach($classobj as $c){
+            $tm=[];
+            $tm['id']=$c['id'];
+            $tm['name']=$c['title'];
+
+            array_push($data,$tm);
+
+        }
+        $send['error'] = 0;
+        $send['data'] = $data;
+        //  $send['id'] = $userobj->id;
+
+        echo json_encode($send);
+        exit;
+
+
+
+    }
+}
 
 public function profile(){
 
@@ -112,7 +219,7 @@ public function profile(){
 
 
 
-        var_dump("fsdfsdfsd");exit;
+    //    var_dump("fsdfsdfsd");exit;
 
 
 }

@@ -2,3 +2,10 @@ ALTER TABLE `user` ADD `gender` VARCHAR(200) NULL AFTER `create_date`, ADD `dob`
 
 
 
+CREATE TABLE `appretiate`.`class` ( `id` INT NOT NULL AUTO_INCREMENT ,  `class_name` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `appretiate`.`subject` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` VARCHAR(200) NOT NULL ,  `subject_name` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `appretiate`.`exercises` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` VARCHAR(200) NOT NULL ,  `s_id` VARCHAR(200) NOT NULL ,  `title` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;

@@ -145,7 +145,15 @@ public function profile(){
                 exit;
             }
 
+            $datausercheck=$this->Users->find()->where(["mobile"=>$data['mobile'] ])->toList();
 
+if(!$datausercheck==null){
+    $send['error']=1;
+    $send['msg']="User Already Exist";
+
+    echo json_encode($send);
+    exit;
+}
 
 
             $userobj=$this->Users->newEntity();
@@ -171,6 +179,17 @@ public function profile(){
                     $send['error']=0;
                     $send['msg']="Added successfully ";
                     $send['id']=$userobj->id;
+                    $datauser=$this->Users->findById($userobj->id)->first()->toArray();
+                    $send['name']=$datauser['f_name'];
+                    $send['mobile']=$datauser['mobile'];
+                    $send['email']=$datauser['email'];
+                    $send['class']=$datauser['class'];
+                    $send['gender']=$datauser['gender'];
+
+
+
+
+
 
                     echo json_encode($send);
                     exit;
@@ -238,6 +257,11 @@ public function profile(){
                 $send['error']=0;
                 $send['msg']="Data Mached";
                 $send['id']=$datauser->toArray()['id'];
+                $send['name']=$datauser->toArray()['f_name'];
+                $send['mobile']=$datauser->toArray()['mobile'];
+                $send['email']=$datauser->toArray()['email'];
+                $send['class']=$datauser->toArray()['class'];
+                $send['gender']=$datauser->toArray()['gender'];
 
                 echo json_encode($send);
                 exit;

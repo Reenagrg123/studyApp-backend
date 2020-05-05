@@ -84,20 +84,20 @@
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "post" ]); ?>">
+        <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "classadd" ]); ?>">
           <i class="fa fa-fw fa-chart-area"></i>
-          <span>New Post</span></a>
+          <span>add Class</span></a>
       </li>
 
        <li class="nav-item">
-              <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "viewpost" ]); ?>">
+              <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
                 <i class="fa fa-fw fa-chart-area"></i>
-                <span>Your Post</span></a>
+                <span>Add Subject</span></a>
             </li>
    <li class="nav-item">
-        <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "wallet" ]); ?>">
+        <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "excersise" ]); ?>">
           <i class="fa fa-fw fa-chart-area"></i>
-          <span>Wallet</span></a>
+          <span>Add Exercise</span></a>
       </li>
       <li class="nav-item">
               <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "profile" ]); ?>">

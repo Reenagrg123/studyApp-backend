@@ -76,6 +76,9 @@ $routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index'
 
 $routes->connect('/post/category', ['controller' => 'Post', 'action' => 'category']);
 $routes->connect('/login', ['controller' => 'Main', 'action' => 'login']);
+$routes->connect('/classadd', ['controller' => 'Admin', 'action' => 'classadd']);
+$routes->connect('/subject', ['controller' => 'Admin', 'action' => 'subject']);
+$routes->connect('/excersise', ['controller' => 'Admin', 'action' => 'excersise']);
 
 
 $routes->connect('/search/:param1', ['controller' => 'Appreciate', 'action' => 'search'],["pass"=>["param1"]]);

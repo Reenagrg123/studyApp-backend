@@ -63,6 +63,24 @@ return $c=strip_tags($c);
 
 }
 
+public function classadd(){
+
+
+
+}
+
+public function subject(){
+
+
+
+}
+
+public function excersise(){
+
+
+
+}
+
 public function index(){
 
 $this->set("title","demo title");

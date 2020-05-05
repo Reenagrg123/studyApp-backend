@@ -507,8 +507,6 @@ $cat=$this->Categories->find('all')->toArray();
 
 
 
-
-
         $data = $this->request->data;
 
         $fileName =  strip_tags(substr(preg_replace("/ /", '_',$data['title']).rand(1,20),0,10)).".jpg";

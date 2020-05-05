@@ -361,39 +361,16 @@ public function login(){
         $email=$data['email'];
         $password=$data['password'];
 
-        $data=$this->Users->find("all")->where(["email"=>$email,"password"=>$password])->toList();
+        $data=$this->Users->find("all")->where(["email"=>$email,"password"=>md5($password)])->toList();
         //   $data=$this->Users->get(2);
 
-        if(! $data==null){
-
-            $session = $this->getRequest()->getSession();
-            $session->write('user',$email);
-if(! $url==''){
 
 
-    $this->redirect(array("controller" => "Post",
-        "action" => "Post","id"=>$url));
-    return ;
-}
-
-
-            $this->redirect(array("controller" => "Main",
-                "action" => "login"));
+            $this->redirect(array("controller" => "Docupload",
+                "action" => "index"));
 
             return;
 
-        }else{
-
-
-            $this->Flash->set(' Wrong password or username.', [
-                'element' => 'success'
-            ]);
-            $this->redirect(array("controller" => "Main",
-                "action" => "login"));
-
-            return;
-
-        }
 
 
 

@@ -66,6 +66,13 @@ $routes->connect('/api/getclass', ['controller' => 'Api', 'action' => 'getclass'
 $routes->connect('/api/getsubject', ['controller' => 'Api', 'action' => 'getsubject']);
 $routes->connect('/api/getexcersice', ['controller' => 'Api', 'action' => 'getexcersice']);
 
+$routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
+
+$routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index']);
+
+
+
+
 
 $routes->connect('/post/category', ['controller' => 'Post', 'action' => 'category']);
 $routes->connect('/login', ['controller' => 'Main', 'action' => 'login']);

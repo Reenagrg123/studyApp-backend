@@ -43,7 +43,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fa fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3"><?php echo $adminame; ?></sup></div>
+        <div class="sidebar-brand-text mx-3">hghghf</sup></div>
       </a>
 
       <!-- Divider -->
@@ -186,9 +186,6 @@
                 <h6 class="dropdown-header">
                   Alerts Center
                 </h6>
-                <?php
-                foreach ($notification as $noti){
-                ?>
 
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="mr-3">
@@ -198,10 +195,10 @@
                   </div>
                   <div>
                     <div class="small text-gray-500"><?php echo $noti['date']; ?></div>
-                    <span class="font-weight-bold"><?= $noti['content']; ?></span>
+                    <span class="font-weight-bold">sdfsdgs</span>
                   </div>
                 </a>
-<?php } ?>
+
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
             </li>

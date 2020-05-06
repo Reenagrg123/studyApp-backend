@@ -22,11 +22,11 @@
             <h3 align="center" > Add Class/Paper </h3>
             <!--<form id="post" method="post" enctype="multipart/form-data">-->
 
-            <form>
+            <form method="post">
 
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a class or paper name</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" name="class" class="form-control" id="exampleFormControlInput1">
                 </div>
                 <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->
                 <!--</div>-->

@@ -20,20 +20,19 @@
 
         <div class="container">
             <h3 align="center" > Add Subject </h3>
-            <form>
+            <form method="post">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select a class/paper</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option>10th</option>
-                        <option>11th</option>
-                        <option>12th</option>
-                        <option>Jee Main</option>
-                        <option>Jee Advance</option>
+                    <select class="form-control" name="c_id" id="exampleFormControlSelect1">
+                       <?php foreach($class as $c){ ?>
+                        <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
+                        <?php } ?>
+
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a subject name</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" name="sub_name" class="form-control" id="exampleFormControlInput1">
                 </div>
                 <button type="submit" class="btn btn-success">Submit</button>
 

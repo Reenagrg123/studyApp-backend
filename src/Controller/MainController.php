@@ -36,22 +36,6 @@ public function initialize(){
     $connection = ConnectionManager::get('default');
   // $this->table=TableRegistry::get("user");
    $this->Users=$this->loadModel("User");
-    $this->Setting=$this->loadModel("setting");
-    $this->Contact=$this->loadModel(ContactsTables::class);
-    $this->Post=$this->loadModel(PostsTables::class);
-
-
-    $this->Setting=$this->loadModel("setting");
-    $this->Wallet=$this->loadModel("Wallet");
-    $this->Posts=$this->loadModel(PostsTables::class);
-    $this->Categories=$this->loadModel(CategorysTables::class);
-    $this->Appritiate=$this->loadModel(AppritiatespostsTables::class);
-    $this->Traffic=$this->loadModel(TrafficsTables::class);
-
-    $this->Profile=$this->loadModel(ProfilesTables::class);
-    $this->Notification=$this->loadModel(NotificationsTables::class);
-    $this->Transaction=$this->loadModel(TransactionsTables::class);
-    $this->Category=$this->loadModel(CategorysTables::class);
 
 
 }
@@ -63,23 +47,6 @@ return $c=strip_tags($c);
 
 }
 
-public function classadd(){
-
-
-
-}
-
-public function subject(){
-
-
-
-}
-
-public function excersise(){
-
-
-
-}
 
 public function index(){
 
@@ -367,7 +334,7 @@ public function login(){
    if(! $t=="" && !$t==null ){
 
        $this->redirect(array("controller" => "Admin",
-           "action" => "index"));
+           "action" => "classadd"));
 
        return;
    }
@@ -379,13 +346,23 @@ public function login(){
         $email=$data['email'];
         $password=$data['password'];
 
-        $data=$this->Users->find("all")->where(["email"=>$email,"password"=>md5($password)])->toList();
+        $data=$this->Users->find("all")->where(["email"=>$email,"password"=>$password,'type'=>'admin'])->toArray();
         //   $data=$this->Users->get(2);
 
+if($data){
+    $session = $this->getRequest()->getSession();
+    $session->write('user',$email);
+
+    $this->redirect(array("controller" => "Admin",
+        "action" => "classadd"));
+}else{
+
+    $this->Flash->set('Invalid Username Password.', [
+        'element' => 'success'
+    ]);
+}
 
 
-            $this->redirect(array("controller" => "Docupload",
-                "action" => "index"));
 
             return;
 

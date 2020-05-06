@@ -54,7 +54,7 @@ $routes->connect('/viewpost', ['controller' => 'Admin', 'action' => 'viewpost'])
 $routes->connect('/wallet/*', ['controller' => 'Admin', 'action' => 'wallet']);
 $routes->connect('/post', ['controller' => 'Admin', 'action' => 'post']);
 $routes->connect('/admin', ['controller' => 'Admin', 'action' => 'index']);
-$routes->connect('/', ['controller' => 'Main', 'action' => 'index']);
+
 $routes->connect('/api', ['controller' => 'Api', 'action' => 'index']);
 $routes->connect('/api/signup', ['controller' => 'Api', 'action' => 'signup']);
 
@@ -69,7 +69,7 @@ $routes->connect('/api/getexcersice', ['controller' => 'Api', 'action' => 'getex
 $routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
 
 $routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index']);
-
+$routes->connect('/', ['controller' => 'Main', 'action' => 'login']);
 
 
 

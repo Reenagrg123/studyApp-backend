@@ -12,3 +12,6 @@ CREATE TABLE `appretiate`.`exercises` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_i
 
 
 CREATE TABLE `appretiate`.`testmcq` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` VARCHAR(200) NOT NULL ,  `s_id` VARCHAR(200) NOT NULL ,  `e_id` VARCHAR(200) NOT NULL ,  `data` TEXT NOT NULL ,  `type` VARCHAR(200) NOT NULL ,  `create_date` VARCHAR(200) NOT NULL ,  `modify_date` VARCHAR(200) NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+ALTER TABLE `user` ADD `type` VARCHAR(200) NULL AFTER `update_date`;

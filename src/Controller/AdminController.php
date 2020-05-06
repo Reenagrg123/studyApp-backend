@@ -6,9 +6,12 @@ use App\Controller\AppController;
 use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
 use App\Model\Table\CategorysTables;
+use App\Model\Table\ClasssTables;
+use App\Model\Table\ExercisessTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
+use App\Model\Table\SubjectsTables;
 use App\Model\Table\TrafficsTables;
 use App\Model\Table\TransactionsTables;
 use Cake\Network\Email\Email;
@@ -28,6 +31,19 @@ class AdminController extends AppController{
         $this->base_url=Router::url("/",true);
         $connection = ConnectionManager::get('default');
         // $this->table=TableRegistry::get("user");
+        $this->Users=$this->loadModel("User");
+        $this->Class=$this->loadModel(ClasssTables::class);
+        $this->Subject=$this->loadModel(SubjectsTables::class);
+        $this->Exercise=$this->loadModel(ExercisessTables::class);
+        $session = $this->getRequest()->getSession();
+        $t= $session->read('user');
+        if( $t=="" || $t==null ){
+
+            $this->redirect(array("controller" => "Main",
+                "action" => "login"));
+
+            return;
+        }
 
 
         $this->set("title","Dashboard");
@@ -36,11 +52,99 @@ class AdminController extends AppController{
 
     public function classadd(){
 
+        $data=$this->Class->find("all")->toArray();
+        if($this->request->is("post")) {
+
+            $data = $this->request->data();
+$classname=$data['class'];
+            $data=$this->Class->find("all")->where(["class_name"=>$classname])->toArray();
+            //   $data=$this->Users->get(2);
+if($data){
+    $this->Flash->set(' Class Already Added.', [
+        'element' => 'error'
+    ]);
+    return;
+
+}
+
+
+            $classobj=$this->Class->newEntity();
+
+            $classobj->class_name=$data['class'];
+
+            // $encryptpass = Security::encrypt($data['password'], $this->key);
+
+
+            // $resultr = Security::decrypt($result, $this->key);
+
+            $classobj->create_date = date("Y-m-d H:i:s");
+
+
+
+
+
+                $this->Class->save($classobj);
+            $this->Flash->set(' Class Added.', [
+                'element' => 'Success'
+            ]);
+return;
+
+        }
+
+
+        $this->set("class",$data);
 
 
     }
 
     public function subject(){
+
+        $data=$this->Class->find("all")->toArray();
+        if($this->request->is("post")) {
+
+            $data = $this->request->data();
+            $sub_name=$data['sub_name'];
+            $c_id=$data['c_id'];
+
+            $data=$this->Subject->find("all")->where(["c_id"=>$c_id,"subject_name"=>$sub_name])->toArray();
+            //   $data=$this->Users->get(2);
+            if($data){
+                $this->Flash->set(' Subject Already Added.', [
+                    'element' => 'error'
+                ]);
+                return;
+
+            }
+
+
+            $classobj=$this->Subject->newEntity();
+
+            $classobj->c_id=$c_id;
+            $classobj->subject_name=$sub_name;
+            // $encryptpass = Security::encrypt($data['password'], $this->key);
+
+
+            // $resultr = Security::decrypt($result, $this->key);
+
+            $classobj->create_date = date("Y-m-d H:i:s");
+
+
+
+
+
+            $this->Subject->save($classobj);
+            $this->Flash->set(' Subject Added.', [
+                'element' => 'Success'
+            ]);
+            $this->redirect(array("controller" => "Admin",
+                "action" => "subject"));
+
+            return;
+
+        }
+
+
+        $this->set("class",$data);
 
 
 
@@ -48,6 +152,53 @@ class AdminController extends AppController{
 
     public function excersise(){
 
+
+
+        $data=$this->Class->find("all")->toArray();
+        $subject=$this->Subject->find("all")->toArray();
+        if($this->request->is("post")) {
+
+            $data = $this->request->data();
+            $sub_name=$data['s_id'];
+            $c_id=$data['c_id'];
+            $ex=$data['exercise'];
+
+          //  $data=$this->Subject->find("all")->where(["c_id"=>$c_id,"subject_name"=>$sub_name])->toArray();
+            //   $data=$this->Users->get(2);
+
+
+            $classobj=$this->Exercise->newEntity();
+
+            $classobj->c_id=$c_id;
+            $classobj->s_id=$sub_name;
+            $classobj->title=$ex;
+            // $encryptpass = Security::encrypt($data['password'], $this->key);
+
+
+            // $resultr = Security::decrypt($result, $this->key);
+
+            $classobj->create_date = date("Y-m-d H:i:s");
+
+
+
+
+
+            $this->Exercise->save($classobj);
+            $this->Flash->set(' Exercise Added.', [
+                'element' => 'Success'
+            ]);
+            $this->redirect(array("controller" => "Admin",
+                "action" => "excersise"));
+
+            return;
+
+        }
+
+
+        $this->set("class",$data);
+
+
+        $this->set("subject",$subject);
 
 
     }

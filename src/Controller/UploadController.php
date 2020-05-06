@@ -4,10 +4,34 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use App\Controller\Services\ExecuteService;
+use Cake\Http\Response;
+use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
 
 
 class UploadController extends AppController{
+
+    public $path;
+    public $exercise;
+    public $hasid;
+
+
+
+    public function __construct($p,$ex,$has)
+    {
+  $this->path=$p;
+  $this->exercise=$ex;
+  $this->hasid=$has;
+
+
+     }
+
+
+     public function fitertext(){
+
+
+     }
+
 
 
     public function index(){

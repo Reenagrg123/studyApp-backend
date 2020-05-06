@@ -74,6 +74,7 @@ $routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index'
 
 
 
+
 $routes->connect('/post/category', ['controller' => 'Post', 'action' => 'category']);
 $routes->connect('/login', ['controller' => 'Main', 'action' => 'login']);
 $routes->connect('/classadd', ['controller' => 'Admin', 'action' => 'classadd']);

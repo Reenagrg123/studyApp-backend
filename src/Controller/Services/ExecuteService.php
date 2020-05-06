@@ -27,6 +27,10 @@ class ExecuteService extends AppController{
         $this->document = $DocxFilePath;
        // $this->extractImages();
     }
+
+
+
+
     function extractImages() {
         $ZipArchive = new \ZipArchive();
         if ( true === $ZipArchive->open( $this->document ) ) {

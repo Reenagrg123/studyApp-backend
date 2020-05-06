@@ -19,7 +19,7 @@ use Cake\Datasource\EntityInterface;
 
 
 
-class AdminController extends AppController
+class LoginController extends AppController
 {
     public $base_url;
     public function initialize(){

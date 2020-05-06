@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use App\Controller\Services\ExecuteService;
+use App\Controller\Services\McqService;
 use Cake\Datasource\ConnectionManager;
 use Cake\Routing\Router;
 
@@ -21,7 +22,12 @@ class DocuploadController extends AppController{
 
     }
 
+public function view(){
 
+
+
+
+}
 
     public function index(){
 
@@ -63,8 +69,30 @@ class DocuploadController extends AppController{
 
 //unzip
                 $this->unzip($uploadFile,'mcq/'.$exercise.'/'.$hashid.'/',$exercise,$hashid);
+// unzip complete
+
+$filename=$this->getfilename('mcq/'.$exercise.'/'.$hashid.'/');
+if($filename['filename']=='' && $filename['er']==1){
+    var_dump("asdasadsd");exit;
+   // echo $filename['filename'];
+}
+
+$textfile=$this->createtextfile($filename['filename'],'mcq/'.$exercise.'/'.$hashid.'/');
+if($textfile['textfile']==''){
+
+    var_dump("dfgdgdg");exit;
+}
+
+$mcqservice=new McqService('mcq/'.$exercise.'/'.$hashid.'/'.$textfile['textfile'],$exercise,$hashid);
+$mcqservice->fitertext();
 
 
+                $this->redirect(array("controller" => "Docupload",
+                    "action" => "view"));
+
+                return;
+
+                 var_dump($textfile);
 
                  var_dump("upload");exit;
 
@@ -76,19 +104,69 @@ class DocuploadController extends AppController{
 
                 return;
 
-
             }
-
-
-
-
-
 
         }
 
         //var_dump("sdfsadfdsaf");
     }
 
+    public function createtextfile($filename,$path){
+
+
+        $content = file_get_contents($path.$filename);
+        $content = str_replace('<p>', ' ', $content);
+        $content = str_replace('</p>', "\r\n", $content);
+
+        $tags = array("<p>", "</p>", "<font>", "</font>");
+//$string = "<p><font>Hello World of PHP</font></p>";
+//echo str_replace($tags, "", $content);
+
+        $strip_list = array('<style>', 'p', '<div>','<img>');
+        $content = preg_replace('/{.*?\}/is', '', $content);
+//$content = preg_replace('/(B)/', \n'(B)', $content);
+        $content = str_replace('Q.', "\n\n Q.", $content);
+        $content = str_replace('(A)', "\n (A).", $content);
+        $content = str_replace('(B)', "\n (B)", $content);
+        $content = str_replace('(C)', "\n(C).", $content);
+        //    $content = str_replace('src="', 'src="1', $content);
+        $content = preg_replace('/style[^>]*/', '', $content);
+        $contents= str_replace('(D)', "\n (D).", $content);
+        $contents=strip_tags($content,'<p><img><div>');
+        $ext = explode('.', $filename);
+        $myfile = fopen($path.$ext[0].".txt", "w") or die("Unable to open file!");
+       // $txt = "John Doe\n";
+        fwrite($myfile, $contents);
+
+        return ['textfile'=>$ext[0].".txt"];
+       // $handle = fopen("newfile34.txt", "r");
+
+    }
+
+    public function getfilename($path){
+$send=['er'=>1,'filename'=>''];
+$ext ='';
+        if (is_dir($path)){
+            if ($dh = opendir($path)){
+                while (($file = readdir($dh)) !== false){
+//echo $file;
+                    $ext = explode('.', $file);
+if($ext[1]=='html' || $ext[1]=='Html' ){
+
+
+    $send=['er'=>0,'filename'=>$file];
+
+}
+
+
+                 //   echo "filename:" . $ext[1] . "<br>";
+                }
+                closedir($dh);
+            }
+        }
+
+return $send;
+}
 public function unzip($filename,$path,$exercise,$hashid){
     if (!file_exists('mcq/'.$exercise.'/'.$hashid)) {
         mkdir('mcq/'.$exercise.'/'.$hashid, 0777, true);

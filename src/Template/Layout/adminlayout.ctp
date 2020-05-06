@@ -100,7 +100,7 @@
               <span>Add Chapters</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "profile" ]); ?>">
+            <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "index" ]); ?>">
             <i class="fa fa-file" aria-hidden="true"></i>
             <span>Upload Study Material</span></a>
         </li>

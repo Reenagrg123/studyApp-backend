@@ -20,7 +20,7 @@
           <?= $this->Flash->render(); ?>
 
           <!--<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
-          <div class="col-sm-6">
+          <div class="col-sm-12">
             <div class="p-5">
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">ADMIN LOGIN!</h1>
@@ -35,10 +35,7 @@
                   <label for="exampleInputPassword1">Password</label>
                   <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                 </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>

@@ -47,16 +47,54 @@ public function view(){
 
 }
 
+public function test(){
+
+
+}
+public function materials(){
+
+
+
+}
+
+
 public function getdata(){
 
     if($this->request->is("post")) {
 
         $data = $this->request->data;
         $date = date("Y-m-d");
-$type=$data['type'];
+          $type=$data['type'];
 
+          if($type=='subject'){
+              $clas=$data['class'];
+              $class=$this->Subject->find("all")->where(['c_id'=>$clas])->toArray();
+              $name='subject_name';
+
+          }
+
+          if($type=='excersise'){
+              $clas=$data['class'];
+              $sub=$data['subject'];
+              $class=$this->Exercise->find("all")->where(['c_id'=>$clas,'s_id'=>$sub])->toArray();
+              $name='title';
+
+          }
+
+          $dt='';
+foreach ($class as $d){
+
+$id=$d['id'];
+$dt.='<option value="'.$id.'">'.$d[$name].'</option>';
+
+   // array_push($datalist,$d);
+
+}
+
+echo $dt;
+exit;
     }
-
+return;
     }
 
     public function index(){

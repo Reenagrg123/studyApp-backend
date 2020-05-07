@@ -70,6 +70,8 @@ $routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
 
 $routes->connect('/getdata', ['controller' => 'Docupload', 'action' => 'getdata']);
 $routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index']);
+$routes->connect('/materials', ['controller' => 'Docupload', 'action' => 'materials']);
+$routes->connect('/generatetest', ['controller' => 'Docupload', 'action' => 'test']);
 $routes->connect('/', ['controller' => 'Main', 'action' => 'login']);
 
 

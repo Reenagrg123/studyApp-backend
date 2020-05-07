@@ -51,6 +51,17 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Select Level</label>
+                    <select name="exercise" id="level" class="custom-select" required>
+
+                        <option>Easy</option>
+                        <option>Medium</option>
+                        <option>Hard</option>
+
+                    </select>
+                </div>
+
 
                 <div class="custom-file">
 
@@ -87,7 +98,8 @@
 
         <?php $url=$this->Url->build([  "controller" => "docupload", "action" => "getdata" ]); ?>
 <script>
-$("#class").click(function(){
+
+$("#class").change(function(){
     var c_id= $("#class").val();
     $.post('<?php echo $url; ?>',
         {
@@ -98,6 +110,21 @@ $("#class").click(function(){
             $("#subject").append(data);
         });
 });
+
+$("#subject").change(function(){
+    var c_id= $("#class").val();
+    var s_id= $("#subject").val();
+    $.post('<?php echo $url; ?>',
+        {
+            type: "excersise",
+            class: c_id,
+            subject: s_id
+        },
+        function(data, status){
+            $("#exercise").append(data);
+        });
+});
+
 
 
 

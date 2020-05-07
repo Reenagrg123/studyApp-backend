@@ -12,7 +12,7 @@ class ClasssTables extends Table{
         parent::initialize($config);
 
 
-        $this->setTable('Class');
+        $this->setTable('class');
         $this->setPrimaryKey('id');
         $this->setDisplayField('id');
 

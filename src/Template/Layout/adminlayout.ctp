@@ -100,15 +100,24 @@
               <span>Add Chapters</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "index" ]); ?>">
+            <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "materials" ]); ?>">
             <i class="fa fa-file" aria-hidden="true"></i>
             <span>Upload Study Material</span></a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "transaction" ]); ?>">
+          <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "index" ]); ?>">
+          <i class="fa fa-file" aria-hidden="true"></i>
+          <span>Upload Test Question</span></a>
+      </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "test" ]); ?>">
           <i class="fa fa-file" aria-hidden="true"></i>
           <span>Gererate Test</span></a>
+
+
+
       </li>
 
       <!-- Nav Item - Tables -->

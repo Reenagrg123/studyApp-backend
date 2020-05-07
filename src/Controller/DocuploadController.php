@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Controller\AppController;
 use App\Controller\Services\ExecuteService;
 use App\Controller\Services\McqService;
+use App\Model\Table\ClasssTables;
+use App\Model\Table\ExercisessTables;
+use App\Model\Table\SubjectsTables;
 use Cake\Datasource\ConnectionManager;
 use Cake\Routing\Router;
 
@@ -18,7 +21,22 @@ class DocuploadController extends AppController{
         $this->viewBuilder()->layout("adminlayout");
         $this->base_url = Router::url("/", true);
         $connection = ConnectionManager::get('default');
+        $this->Users=$this->loadModel("User");
+        $this->Class=$this->loadModel(ClasssTables::class);
+        $this->Subject=$this->loadModel(SubjectsTables::class);
+        $this->Exercise=$this->loadModel(ExercisessTables::class);
+        $session = $this->getRequest()->getSession();
+        $t= $session->read('user');
+        if( $t=="" || $t==null ){
 
+            $this->redirect(array("controller" => "Main",
+                "action" => "login"));
+
+            return;
+        }
+
+
+        $this->set("title","Dashboard");
 
     }
 
@@ -29,9 +47,21 @@ public function view(){
 
 }
 
+public function getdata(){
+
+    if($this->request->is("post")) {
+
+        $data = $this->request->data;
+        $date = date("Y-m-d");
+$type=$data['type'];
+
+    }
+
+    }
+
     public function index(){
 
-
+        $class=$this->Class->find("all")->toArray();
 
 
         if($this->request->is("post")) {
@@ -107,6 +137,9 @@ $mcqservice->fitertext();
             }
 
         }
+
+
+        $this->set("class",$class);
 
         //var_dump("sdfsadfdsaf");
     }

@@ -19,22 +19,37 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" > Post Your Idea </h3>
+            <h3 align="center" >Upload Mcq </h3>
             <form id="post" method="post" enctype="multipart/form-data">
 
 
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Select Exercise</label>
-                    <select name="exercise" class="custom-select" required>
+                    <label for="exampleInputPassword1">Select Class</label>
+                    <select name="class" id="class" class="custom-select" required>
                         <option>Select Category</option>
+                        <?php foreach($class as $c){ ?>
+                        <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
+                        <?php } ?>
 
-
-                        <option  value="1">1 </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Select Subject</label>
+                    <select name="subject" id="subject" class="custom-select" required>
+                        <option>Select Subject</option>
 
 
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Select Excersise</label>
+                    <select name="exercise" id="exercise" class="custom-select" required>
+                        <option>Select Exercise</option>
+
+
+                    </select>
+                </div>
 
 
                 <div class="custom-file">
@@ -70,7 +85,20 @@
 
         <!-- End of Footer -->
 
+        <?php $url=$this->Url->build([  "controller" => "docupload", "action" => "getdata" ]); ?>
 <script>
+$("#class").click(function(){
+    var c_id= $("#class").val();
+    $.post('<?php echo $url; ?>',
+        {
+            type: "subject",
+            class: c_id
+        },
+        function(data, status){
+            $("#subject").append(data);
+        });
+});
+
 
 
 function validate(){

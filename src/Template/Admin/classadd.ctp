@@ -33,6 +33,52 @@
                 <button type="submit" class="btn btn-success mb-2">ADD</button>
             </form>
             <!--</form>-->
+        </br></br>
+    <h3 align="center" ><u>All Classes/Paper</u> </h3>
+</br></br>
+
+<table id="table_id" class="display">
+<thead>
+<tr>
+    <th>S.No</th>
+    <th>Class Name</th>
+    <th></th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+    <td>1</td>
+    <td>10th</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+<tr>
+    <td>2</td>
+    <td>11th</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+<tr>
+    <td>3</td>
+    <td>12th</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+<tr>
+    <td>4</td>
+    <td>Jee Mains</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+</tbody>
+</table>
+
 
         </div>
 
@@ -47,6 +93,9 @@
         <!-- End of Footer -->
 
 <script>
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
 
 
 function validate(){

@@ -68,6 +68,7 @@ $routes->connect('/api/getexcersice', ['controller' => 'Api', 'action' => 'getex
 
 $routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
 
+$routes->connect('/getdata', ['controller' => 'Docupload', 'action' => 'getdata']);
 $routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index']);
 $routes->connect('/', ['controller' => 'Main', 'action' => 'login']);
 

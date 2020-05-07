@@ -46,6 +46,65 @@
                 <button type="submit" class="btn btn-success">Submit</button>
 
             </form>
+
+        </br></br>
+    <h3 align="center" ><u>All Chapters</u> </h3>
+</br></br>
+<table id="table_id" class="display">
+<thead>
+<tr>
+    <th>S.No</th>
+    <th>Class Name</th>
+    <th>Subject Name</th>
+    <th>Chapter Name</th>
+    <th></th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+    <td>1</td>
+    <td>10th</td>
+    <td>Physics</td>
+    <td>Optics</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+<tr>
+    <td>1</td>
+    <td>11th</td>
+    <td>Physics</td>
+    <td>Optics</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+<tr>
+    <td>3</td>
+    <td>12th</td>
+    <td>Chemistry</td>
+    <td>Optics</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+<tr>
+    <td>4</td>
+    <td>Jee Mains</td>
+    <td>Physics</td>
+    <td>Optics</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+</tbody>
+</table>
+
+
+
+
         </div>
     </div>
 
@@ -60,7 +119,9 @@
         <!-- End of Footer -->
 
 <script>
-
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
 
 function validate(){
     var er=true;

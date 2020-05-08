@@ -23,7 +23,7 @@
             <form method="post">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select a class/paper</label>
-                    <select class="form-control" name="c_id" id="exampleFormControlSelect1">
+                    <select class="form-control" name="c_id" id="c_id">
                         <?php foreach($class as $c){ ?>
                         <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
                         <?php } ?>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select a subject</label>
-                    <select class="form-control" name="s_id" id="exampleFormControlSelect1">
+                    <select class="form-control" name="s_id" id="s_id">
                         <?php foreach($subject as $c){ ?>
                         <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
                         <?php } ?>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a chapter name</label>
-                    <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['title']; }?>">
                 </div>
                 <button type="submit" class="btn btn-success">Submit</button>
 
@@ -58,49 +58,35 @@
     <th>Subject Name</th>
     <th>Chapter Name</th>
     <th></th>
-    <th></th>
+
 </tr>
 </thead>
 <tbody>
 
+<?php foreach($exdata as $ex){
+        $id=$ex['id'];
+        ?>
+
 <tr>
-    <td>1</td>
-    <td>10th</td>
-    <td>Physics</td>
-    <td>Optics</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+    <td><?php echo $ex['id']; ?></td>
+    <td><?php echo $ex['Class']['class_name']; ?></td>
+    <td><?php echo $ex['Subject']['subject_name']; ?></td>
+    <td><?php echo $ex['title']; ?></td>
+    <td>
+        <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "excersise","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+
+        <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delexercise","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+
+    </a>
+
+
+    </td>
 
 </tr>
-<tr>
-    <td>1</td>
-    <td>11th</td>
-    <td>Physics</td>
-    <td>Optics</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
-<tr>
-    <td>3</td>
-    <td>12th</td>
-    <td>Chemistry</td>
-    <td>Optics</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
-<tr>
-    <td>4</td>
-    <td>Jee Mains</td>
-    <td>Physics</td>
-    <td>Optics</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
+<?php } ?>
 </tbody>
 </table>
+
 
 
 
@@ -117,6 +103,16 @@
         <!-- Footer -->
 
         <!-- End of Footer -->
+        <?php if(isset($edit)){
+                ?>
+
+<script>
+$("#c_id").parent().hide();
+$("#s_id").parent().hide();
+
+</script>
+        <?php
+                }?>
 
 <script>
 $(document).ready( function () {

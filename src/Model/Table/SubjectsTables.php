@@ -16,7 +16,7 @@ class SubjectsTables extends Table{
         $this->setPrimaryKey('id');
         $this->setDisplayField('id');
 
-
+        $this->hasOne('Class',['classname'=>'id'])->setForeignKey('id');
 
 
 

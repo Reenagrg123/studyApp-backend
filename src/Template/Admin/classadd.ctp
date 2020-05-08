@@ -26,15 +26,22 @@
 
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a class or paper name</label>
-                    <input type="text" name="class" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" name="class" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" >
                 </div>
                 <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->
                 <!--</div>-->
-                <button type="submit" class="btn btn-success mb-2">ADD</button>
+                <button type="submit" class="btn btn-success mb-2">
+                    <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+
+
+                </button>
+
+
             </form>
             <!--</form>-->
         </br></br>
-    <h3 align="center" ><u>All Classes/Paper</u> </h3>
+<hr/>
+
 </br></br>
 
 <table id="table_id" class="display">
@@ -43,39 +50,29 @@
     <th>S.No</th>
     <th>Class Name</th>
     <th></th>
-    <th></th>
+
 </tr>
 </thead>
 <tbody>
 
-<tr>
-    <td>1</td>
-    <td>10th</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+<?php foreach($class as $c){
+        $id=$c['id'];
+        ?>
+<a>
+
+    <td><?php echo $c['id']; ?></td>
+    <td><?php echo $c['class_name']; ?></td>
+<td>
+        <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+
+        <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+
+       </a>
+    </td>
+
 
 </tr>
-<tr>
-    <td>2</td>
-    <td>11th</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
-<tr>
-    <td>3</td>
-    <td>12th</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
-<tr>
-    <td>4</td>
-    <td>Jee Mains</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
+<?php } ?>
 </tbody>
 </table>
 

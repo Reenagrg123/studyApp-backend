@@ -19,74 +19,154 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" >Upload Mcq </h3>
-            <form id="post" method="post" enctype="multipart/form-data">
+            <h3 align="center"><u>Upload Question Bank</u>  </h3>
+            <form method="post">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select a class/paper</label>
+                <select class="form-control" name="c_id" id="exampleFormControlSelect1">
+                    <?php foreach($class as $c){ ?>
+                    <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
+                    <?php } ?>
 
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select a subject</label>
+                <select class="form-control" name="s_id" id="exampleFormControlSelect1">
+                    <?php foreach($subject as $c){ ?>
+                    <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
+                    <?php } ?>
 
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Select Class</label>
-                    <select name="class" id="class" class="custom-select" required>
-                        <option>Select Category</option>
-                        <?php foreach($class as $c){ ?>
-                        <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
-                        <?php } ?>
+                </select>
+            </div>
 
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Select Subject</label>
-                    <select name="subject" id="subject" class="custom-select" required>
-                        <option>Select Subject</option>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select a chapter</label>
+                <select class="form-control" name="s_id" id="exampleFormControlSelect1">
+                    <?php foreach($subject as $c){ ?>
+                    <option value="<?php echo $c['id']; ?>"><?php echo $c['chapter_name']; ?></option>
+                    <?php } ?>
 
+                </select>
+            </div>
 
-                    </select>
-                </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Enter a topic name</label>
+                <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+            </div>
 
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Select Excersise</label>
-                    <select name="exercise" id="exercise" class="custom-select" required>
-                        <option>Select Exercise</option>
-
-
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Select Level</label>
-                    <select name="exercise" id="level" class="custom-select" required>
-
-                        <option>Easy</option>
-                        <option>Medium</option>
-                        <option>Hard</option>
-
-                    </select>
-                </div>
-
-
-                <div class="custom-file">
-
-                    <input type="file" name="file" class="custom-file-input" id="customFile" required>
-                    <label class="custom-file-label" for="customFile">Choose zip</label>
-
-                </div>
-
-<!--
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Content</label>
-                    <textarea name="content" id="summernote" cols="30" rows="10" required>
-      <h3 style="text-align: center; "><a href="http://www.jquery2dotnet.com" style="background-color: rgb(255, 255, 255); line-height: 1.428571429;">jquery2dotnet</a></h3>
-   </textarea>
-                    <small id="emailHelp" class="form-text text-muted">Your Idea Should be greater than 100 characters.</small>
-                </div>
-
--->
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Select type of Questions</label></br>
+            <label class="radio-inline">
+                <input type="radio" name="optradio" checked>  MCQ Type
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio">  Integer Type
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio">  Paragraph Type
+            </label>
         </div>
-    </div>
 
-</div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Marks awarded for correct answer </label>
+            <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Marks deducted for wrong answer</label>
+            <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+        </div>
+
+        <label for="exampleFormControlInput1">Select a HTML file(.html)</label>
+
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+
+        <!--<div class="file-path-wrapper">-->
+        <!--     <input class="file-path validate" type="text" placeholder="Upload your file">-->
+        <!--    </div>-->
+        <!--    </div>-->
+    </br>
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+        </br></br>
+<h3 align="center"><u>Question Bank</u>  </h3>
+        </br></br>
+<table id="table_id" class="display">
+<thead>
+<tr>
+    <th>S.No</th>
+    <th>Class Name</th>
+    <th>Subject Name</th>
+    <th>Chapter Name</th>
+    <th>HTML File</th>
+    <th>Correct Answer Marks</th>
+    <th>Wrong Answer Marks</th>
+    <th></th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+    <td>1</td>
+    <td>10th</td>
+    <td>Physics</td>
+    <td>Optics</td>
+    <td>Optics</td>
+    <td>4</td>
+    <td>1</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+<tr>
+    <td>1</td>
+    <td>11th</td>
+    <td>Physics</td>
+    <td>Optics</td>
+    <td>Optics</td>
+    <td>4</td>
+    <td>1</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+<tr>
+    <td>3</td>
+    <td>12th</td>
+    <td>Chemistry</td>
+    <td>Optics</td>
+    <td>Optics</td>
+    <td>4</td>
+    <td>1</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+<tr>
+    <td>4</td>
+    <td>Jee Mains</td>
+    <td>Physics</td>
+    <td>Optics</td>
+    <td>Optics</td>
+    <td>4</td>
+    <td>1</td>
+    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+</tr>
+</tbody>
+</table>
+
+        </div>
+        </div>
+
+        </div>
         <!-- /.container-fluid -->
 
         </div>
@@ -96,37 +176,10 @@
 
         <!-- End of Footer -->
 
-        <?php $url=$this->Url->build([  "controller" => "docupload", "action" => "getdata" ]); ?>
 <script>
-
-$("#class").change(function(){
-    var c_id= $("#class").val();
-    $.post('<?php echo $url; ?>',
-        {
-            type: "subject",
-            class: c_id
-        },
-        function(data, status){
-            $("#subject").append(data);
-        });
-});
-
-$("#subject").change(function(){
-    var c_id= $("#class").val();
-    var s_id= $("#subject").val();
-    $.post('<?php echo $url; ?>',
-        {
-            type: "excersise",
-            class: c_id,
-            subject: s_id
-        },
-        function(data, status){
-            $("#exercise").append(data);
-        });
-});
-
-
-
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
 
 function validate(){
     var er=true;
@@ -164,11 +217,13 @@ $("#post").submit(function(e){
     e.preventDefault();
 });
 
-
-
-
 $( document ).ready(function() {
     $('#summernote').summernote({height: 300});
+});
+
+$(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
 </script>

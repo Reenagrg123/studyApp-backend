@@ -11,9 +11,7 @@ class AppritiatespostsTables extends Table{
 
         parent::initialize($config);
 
-        $this->belongsTo('user');
 
-        $this->belongsTo('post');
 
         $this->setTable('Appritiatepost');
         $this->setPrimaryKey('id');

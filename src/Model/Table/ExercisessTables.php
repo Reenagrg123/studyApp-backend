@@ -17,6 +17,10 @@ class ExercisessTables extends Table{
         $this->setDisplayField('id');
 
 
+        $this->hasOne('Class',['classname'=>'id'])->setForeignKey('id');
+        $this->hasOne('Subject',['classname'=>'id'])->setForeignKey('id');
+
+
 
 
 

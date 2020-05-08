@@ -47,6 +47,15 @@ return $c=strip_tags($c);
 
 }
 
+public function logout(){
+    $session = $this->getRequest()->getSession();
+
+    $session->destroy();
+    $this->redirect(array("controller" => "Main",
+        "action" => "login"));
+
+    return;
+}
 
 public function index(){
 
@@ -161,8 +170,6 @@ $allpost=[];
 
 
         array_push($allpost,$d);
-
-
 
     }
 

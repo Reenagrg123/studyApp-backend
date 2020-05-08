@@ -84,6 +84,11 @@ $routes->connect('/classadd', ['controller' => 'Admin', 'action' => 'classadd'])
 $routes->connect('/subject', ['controller' => 'Admin', 'action' => 'subject']);
 $routes->connect('/excersise', ['controller' => 'Admin', 'action' => 'excersise']);
 
+$routes->connect('/delclass', ['controller' => 'Admin', 'action' => 'delclass']);
+
+$routes->connect('/delsub', ['controller' => 'Admin', 'action' => 'delsub']);
+
+$routes->connect('/delexercise', ['controller' => 'Admin', 'action' => 'delexercise']);
 
 $routes->connect('/search/:param1', ['controller' => 'Appreciate', 'action' => 'search'],["pass"=>["param1"]]);
 $routes->connect('/register', ['controller' => 'Main', 'action' => 'register']);
@@ -95,6 +100,8 @@ $routes->connect('/post/:param1', ['controller' => 'Post', 'action' => 'post'],[
 $routes->connect('/giveappri', ['controller' => 'Post', 'action' => 'giveappri']);
 
 $routes->connect('/forgot', ['controller' => 'Main', 'action' => 'forgot']);
+
+$routes->connect('/logout', ['controller' => 'Main', 'action' => 'logout']);
 
 //$routes->connect('/:param1/:param2', ['controller' => 'Test', 'action' => 'Index', 'index'],["pass"=>["param1","param2"]]);
 

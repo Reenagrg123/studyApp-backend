@@ -14,7 +14,6 @@ class ClasssTables extends Table{
 
         $this->setTable('class');
         $this->setPrimaryKey('id');
-        $this->setDisplayField('id');
 
 
 

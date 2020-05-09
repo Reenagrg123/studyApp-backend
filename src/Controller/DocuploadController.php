@@ -45,6 +45,8 @@ class DocuploadController extends AppController{
     }
 
 public function view(){
+
+
     $id=$this->request->getQuery('id');
     $records=$this->Mcq->find("all")->where(['hash_id'=>$id])->toArray();
 

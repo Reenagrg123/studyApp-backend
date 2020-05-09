@@ -89,6 +89,7 @@ $routes->connect('/delclass', ['controller' => 'Admin', 'action' => 'delclass'])
 $routes->connect('/delsub', ['controller' => 'Admin', 'action' => 'delsub']);
 
 $routes->connect('/delexercise', ['controller' => 'Admin', 'action' => 'delexercise']);
+$routes->connect('/exam', ['controller' => 'Admin', 'action' => 'exam']);
 
 $routes->connect('/search/:param1', ['controller' => 'Appreciate', 'action' => 'search'],["pass"=>["param1"]]);
 $routes->connect('/register', ['controller' => 'Main', 'action' => 'register']);

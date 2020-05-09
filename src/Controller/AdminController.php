@@ -48,6 +48,10 @@ class AdminController extends AppController{
 
         $this->set("title","Dashboard");
     }
+    public function exam(){
+
+    }
+
     public function delexercise(){
         $id=$this->request->getQuery('id');
         $dataclass=$this->Exercise->findById($id)->first();
@@ -72,65 +76,65 @@ class AdminController extends AppController{
 
 
     }
-public function delsub(){
-    $id=$this->request->getQuery('id');
-    $dataclass=$this->Subject->findById($id)->first();
-    if($dataclass){
+    public function delsub(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Subject->findById($id)->first();
+        if($dataclass){
 
-        $this->Subject->delete($dataclass);
+            $this->Subject->delete($dataclass);
 
-        $exerciserecord=$this->Exercise->find('all')->where(['s_id'=>$id]);
-        foreach ($exerciserecord as $e)
-            $this->Exercise->delete($e);
-
-
-        $this->Flash->success('Data Deleted');
+            $exerciserecord=$this->Exercise->find('all')->where(['s_id'=>$id]);
+            foreach ($exerciserecord as $e)
+                $this->Exercise->delete($e);
 
 
+            $this->Flash->success('Data Deleted');
+
+
+            $this->redirect(array("controller" => "Admin",
+                "action" => "subject"));
+
+            return;
+        }
+        $this->Flash->error('Data Not Found');
         $this->redirect(array("controller" => "Admin",
             "action" => "subject"));
 
         return;
+
+
     }
-    $this->Flash->error('Data Not Found');
-    $this->redirect(array("controller" => "Admin",
-        "action" => "subject"));
+    public function delclass(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Class->findById($id)->first();
+        if($dataclass){
 
-    return;
+            $this->Class->delete($dataclass);
 
+            $subjectrec=$this->Subject->find('all')->where(['c_id'=>$id]);
+            foreach ($subjectrec as $s)
+                $this->Subject->delete($s);
 
-}
-public function delclass(){
-    $id=$this->request->getQuery('id');
-    $dataclass=$this->Class->findById($id)->first();
-if($dataclass){
-
-    $this->Class->delete($dataclass);
-
-    $subjectrec=$this->Subject->find('all')->where(['c_id'=>$id]);
-    foreach ($subjectrec as $s)
-        $this->Subject->delete($s);
-
-    $exerciserecord=$this->Exercise->find('all')->where(['c_id'=>$id]);
-    foreach ($exerciserecord as $e)
-        $this->Exercise->delete($e);
+            $exerciserecord=$this->Exercise->find('all')->where(['c_id'=>$id]);
+            foreach ($exerciserecord as $e)
+                $this->Exercise->delete($e);
 
 
-    $this->Flash->success('Data Deleted');
+            $this->Flash->success('Data Deleted');
 
 
-    $this->redirect(array("controller" => "Admin",
-        "action" => "classadd"));
+            $this->redirect(array("controller" => "Admin",
+                "action" => "classadd"));
 
-    return;
-}
-$this->Flash->error('Data Not Found');
-    $this->redirect(array("controller" => "Admin",
-        "action" => "classadd"));
+            return;
+        }
+        $this->Flash->error('Data Not Found');
+        $this->redirect(array("controller" => "Admin",
+            "action" => "classadd"));
 
-    return;
+        return;
 
-}
+    }
     public function classadd(){
 
         $data=$this->Class->find("all")->toArray();
@@ -139,25 +143,25 @@ $this->Flash->error('Data Not Found');
         if($this->request->is("post")) {
 
             $data = $this->request->data();
-$classname=$data['class'];
+            $classname=$data['class'];
 
             //   $data=$this->Users->get(2);
-if($id){
-    $dataclass=$this->Class->findById($id)->first();
-    $dataclass->class_name=$data['class'];
+            if($id){
+                $dataclass=$this->Class->findById($id)->first();
+                $dataclass->class_name=$data['class'];
 
-    $this->Class->save($dataclass);
+                $this->Class->save($dataclass);
 
-    $this->Flash->success('Data Updated');
-
-
-    $this->redirect(array("controller" => "Admin",
-        "action" => "classadd"));
-
-    return;
+                $this->Flash->success('Data Updated');
 
 
-}
+                $this->redirect(array("controller" => "Admin",
+                    "action" => "classadd"));
+
+                return;
+
+
+            }
 
             $classobj=$this->Class->newEntity();
 
@@ -166,29 +170,29 @@ if($id){
 
             $classobj->create_date = date("Y-m-d H:i:s");
 
-                $this->Class->save($classobj);
+            $this->Class->save($classobj);
 
-           // $this->Flash->set(' Class Added.', [
-           //     'element' => 'Success'
-           // ]);
+            // $this->Flash->set(' Class Added.', [
+            //     'element' => 'Success'
+            // ]);
             $this->Flash->success('Class Added');
 
             $this->redirect(array("controller" => "Admin",
                 "action" => "classadd"));
 
 
-return;
+            return;
 
         }
-if($id){
-    $dataclass=$this->Class->findById($id)->first()->toArray();
-    if($data){
-        $this->set("edit",1);
-        $this->set("editdata",$dataclass);
+        if($id){
+            $dataclass=$this->Class->findById($id)->first()->toArray();
+            if($data){
+                $this->set("edit",1);
+                $this->set("editdata",$dataclass);
 
-    }
-   // var_dump("asfasfasf");exit;
-}
+            }
+            // var_dump("asfasfasf");exit;
+        }
 
         $this->set("class",$data);
 
@@ -205,7 +209,7 @@ if($id){
             $sub_name=$data['sub_name'];
             $c_id=$data['c_id'];
 
-             //   $data=$this->Users->get(2);
+            //   $data=$this->Users->get(2);
             if($id){
                 $datasub=$this->Subject->findById($id)->first();
 
@@ -266,7 +270,7 @@ if($id){
             $c_id=$data['c_id'];
             $ex=$data['exercise'];
 
-          //  $data=$this->Subject->find("all")->where(["c_id"=>$c_id,"subject_name"=>$sub_name])->toArray();
+            //  $data=$this->Subject->find("all")->where(["c_id"=>$c_id,"subject_name"=>$sub_name])->toArray();
             //   $data=$this->Users->get(2);
             if($id){
                 $datasub=$this->Exercise->findById($id)->first();
@@ -340,7 +344,7 @@ if($id){
             return false;
 
         }
-return true;
+        return true;
 
     }
 
@@ -349,7 +353,7 @@ return true;
         $trafficost=$this->Setting->find('all')->where(["context"=>"traffic","name"=>"per_traffic_cost"])->toArray()[0]['value'];
         $postcost=$this->Setting->find('all')->where(["context"=>"post","name"=>"post_per_cost"])->toArray()[0]['value'];
         $appricost=$this->Setting->find('all')->where(["context"=>"appritiatecost","name"=>"per_appritiate_cost"])->toArray()[0]['value'];
-$postearning=0;
+        $postearning=0;
         $session = $this->getRequest()->getSession();
         $email=$session->read('user');
         $this->Users=$this->loadModel("User");
@@ -357,7 +361,7 @@ $postearning=0;
         $userid=$dataobj[0]['id'];
 
 
-            $data=$this->Wallet->find('all')->where(["user_id"=>$userid])->toArray();
+        $data=$this->Wallet->find('all')->where(["user_id"=>$userid])->toArray();
         foreach ($data as $d){
             if($d['type']==1){
                 $postearning=$postearning+$d['cost'];
@@ -367,7 +371,7 @@ $postearning=0;
 
         }
 //var_dump($postearning);exit;
-$totaltraf=0;
+        $totaltraf=0;
         $totalappri=0;
 
         $post=$this->Posts->findAllByUserId($userid)->toArray();
@@ -383,20 +387,20 @@ $totaltraf=0;
 
 
         }
-$totalearning=$postearning+$totaltraf+$totalappri;
+        $totalearning=$postearning+$totaltraf+$totalappri;
 
-$tran=$this->Transaction->find('all')->where(['user_id'=>$userid,'status'=>1])->toArray();
-$redemmedamount=0;
-foreach ($tran as $t){
-    $redemmedamount=$redemmedamount+$t['cost'];
+        $tran=$this->Transaction->find('all')->where(['user_id'=>$userid,'status'=>1])->toArray();
+        $redemmedamount=0;
+        foreach ($tran as $t){
+            $redemmedamount=$redemmedamount+$t['cost'];
 
-}
+        }
 
-$redemlimit=$totalearning-$redemmedamount;
+        $redemlimit=$totalearning-$redemmedamount;
 
 
 
-    //    $redeemearn=
+        //    $redeemearn=
 
         return ['postearn'=>$postearning,'trafficearn'=>$totaltraf,'appritiateearn'=>$totalappri,'totalearn'=>$totalearning,'redemlimit'=>$redemlimit];
 
@@ -417,14 +421,14 @@ $redemlimit=$totalearning-$redemmedamount;
         $userid=$dataobj[0]['id'];
         $transaction=$this->Transaction->findByUserId($userid)->order(['id'=>'DESC'])->toArray();
         $st=0;
-      //  var_dump($transaction[0]['status']);exit;
+        //  var_dump($transaction[0]['status']);exit;
 
         $this->set("st",$st);
         $this->set("data",$transaction);
 
         if($this->request->is("post")) {
 
-$data=$this->request->data();
+            $data=$this->request->data();
             if($transaction[0]['status']==0){
                 $this->Flash->set('Your Last Payment Is pending', [
                     'element' => 'success'
@@ -434,34 +438,34 @@ $data=$this->request->data();
 
             $thresholdprice=100;
 
-          if($data['money']<$thresholdprice){
+            if($data['money']<$thresholdprice){
 
-              $this->redirect(array("controller" => "Admin",
-                  "action" => "transaction"));
+                $this->redirect(array("controller" => "Admin",
+                    "action" => "transaction"));
 
 
-              $this->Flash->set('Minimum 100 Can be transfer', [
-                  'element' => 'success'
-              ]);
-              return ;
-          }
-$totalprice=$this->getcost()['redemlimit'];;
-if($data['money']>$totalprice){
-    $this->Flash->set('You can transfer '.$totalprice, [
-        'element' => 'success'
-    ]);
-    return ;
+                $this->Flash->set('Minimum 100 Can be transfer', [
+                    'element' => 'success'
+                ]);
+                return ;
+            }
+            $totalprice=$this->getcost()['redemlimit'];;
+            if($data['money']>$totalprice){
+                $this->Flash->set('You can transfer '.$totalprice, [
+                    'element' => 'success'
+                ]);
+                return ;
 
-}
+            }
             $date=date("Y-m-d");
 
             $tr=$this->Transaction->newEntity();
-$tr->user_id=$userid;
-$tr->cost=$data['money'];
-$tr->transaction_id=rand(1000,2000);
-$tr->date=$date;
-$tr->status=0;
-$this->Transaction->save($tr);
+            $tr->user_id=$userid;
+            $tr->cost=$data['money'];
+            $tr->transaction_id=rand(1000,2000);
+            $tr->date=$date;
+            $tr->status=0;
+            $this->Transaction->save($tr);
 
 
 
@@ -471,136 +475,136 @@ $this->Transaction->save($tr);
             return ;
 
 
-          //     var_dump($data);exit;
+            //     var_dump($data);exit;
 
 
         }
 
 
 
-        }
+    }
 
-public function profile(){
+    public function profile(){
         $this->authorize();
-    $session = $this->getRequest()->getSession();
-    $email=$session->read('user');
-    $this->Users=$this->loadModel("User");
-    $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
-    $userid=$dataobj[0]['id'];
+        $session = $this->getRequest()->getSession();
+        $email=$session->read('user');
+        $this->Users=$this->loadModel("User");
+        $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
+        $userid=$dataobj[0]['id'];
 
-
-    $pdata=$this->Profile->findByUserId($userid)->toArray();
-
-  //$uid=$pdata[0]['user_id'];
-
-
-if(!$pdata==null) {
-    $pimage=$pdata[0]['image'];
-    $pcompany=$pdata[0]['company'];
-    $phobby=$pdata[0]['hobbies'];
-    $this->set("image", $pimage);
-    $this->set("hobby", $phobby);
-    $this->set("company", $pcompany);
-    $this->set("image", $pimage);
-    $this->set("phone",$pdata[0]['phone']);
-}else{
-    $this->set("image", "");
-    $this->set("hobby", "");
-    $this->set("company", "");
-    $this->set("image", "");
-    $this->set("phone", "");
-}
-
-  $this->set("name",$dataobj[0]['f_name']);
-  $this->set("email",$dataobj[0]['email']);
-  $this->set("userid",$userid);
-
-
-    if($this->request->is("post")) {
-
-
-
-
-        $date=date("Y-m-d");
-
-
-
-
-
-
-        $data = $this->request->data;
-$upload=0;
-        if(! $_FILES['file']['name']=='' && ! $_FILES['file']['tmp_name']==''){
-$upload=1;
-           // var_dump("asdadasd");exit;
-        }
-
-//var_dump($data);exit;
-
-if($upload==1){
-
-    $fileName =rand(1,20000).".jpg";
-
-    $path = $_FILES['file']['name'];
-    $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
-
-
-
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif" ) {
-
-        $this->Flash->set('Select Only Image Format.', [
-            'element' => 'error'
-        ]);
-
-        return;
-
-    }
-
-    if (!file_exists('upload/'.$userid.'/profile')) {
-        mkdir('upload/'.$userid.'/profile', 0777, true);
-    }
-
-    $uploadPath ='upload/'.$userid.'/profile/';
-    $uploadFile = $uploadPath.$fileName;
-
-
-    move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile);
-
-
-}else{
-    $fileName='defaultprofile.jpg';
-}
 
         $pdata=$this->Profile->findByUserId($userid)->toArray();
 
-if($pdata==null){
+        //$uid=$pdata[0]['user_id'];
 
-    $pobj2=$this->Profile->newEntity();
 
-}else{
+        if(!$pdata==null) {
+            $pimage=$pdata[0]['image'];
+            $pcompany=$pdata[0]['company'];
+            $phobby=$pdata[0]['hobbies'];
+            $this->set("image", $pimage);
+            $this->set("hobby", $phobby);
+            $this->set("company", $pcompany);
+            $this->set("image", $pimage);
+            $this->set("phone",$pdata[0]['phone']);
+        }else{
+            $this->set("image", "");
+            $this->set("hobby", "");
+            $this->set("company", "");
+            $this->set("image", "");
+            $this->set("phone", "");
+        }
 
-    $pobj2=$this->Profile->findByUserId($userid)->first();
+        $this->set("name",$dataobj[0]['f_name']);
+        $this->set("email",$dataobj[0]['email']);
+        $this->set("userid",$userid);
 
-}
+
+        if($this->request->is("post")) {
+
+
+
+
+            $date=date("Y-m-d");
+
+
+
+
+
+
+            $data = $this->request->data;
+            $upload=0;
+            if(! $_FILES['file']['name']=='' && ! $_FILES['file']['tmp_name']==''){
+                $upload=1;
+                // var_dump("asdadasd");exit;
+            }
+
+//var_dump($data);exit;
+
+            if($upload==1){
+
+                $fileName =rand(1,20000).".jpg";
+
+                $path = $_FILES['file']['name'];
+                $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+
+
+
+                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif" ) {
+
+                    $this->Flash->set('Select Only Image Format.', [
+                        'element' => 'error'
+                    ]);
+
+                    return;
+
+                }
+
+                if (!file_exists('upload/'.$userid.'/profile')) {
+                    mkdir('upload/'.$userid.'/profile', 0777, true);
+                }
+
+                $uploadPath ='upload/'.$userid.'/profile/';
+                $uploadFile = $uploadPath.$fileName;
+
+
+                move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile);
+
+
+            }else{
+                $fileName='defaultprofile.jpg';
+            }
+
+            $pdata=$this->Profile->findByUserId($userid)->toArray();
+
+            if($pdata==null){
+
+                $pobj2=$this->Profile->newEntity();
+
+            }else{
+
+                $pobj2=$this->Profile->findByUserId($userid)->first();
+
+            }
 //var_dump($pobj2);exit;
 
 
-        $pobj2->gender = $data['gender'];
-        $pobj2->company = $data['company'];
-        $pobj2->date = date("Y-m-d H:i:s");
-        $pobj2->user_id=$userid;
+            $pobj2->gender = $data['gender'];
+            $pobj2->company = $data['company'];
+            $pobj2->date = date("Y-m-d H:i:s");
+            $pobj2->user_id=$userid;
 
-        $pobj2->hobbies=$data['hobby'];
+            $pobj2->hobbies=$data['hobby'];
 
-        $pobj2->image=$fileName;
-        $pobj2->phone=$data['phone'];
-        //var_dump($userid);exit;
+            $pobj2->image=$fileName;
+            $pobj2->phone=$data['phone'];
+            //var_dump($userid);exit;
 
-        if ($this->Profile->save($pobj2)) {
+            if ($this->Profile->save($pobj2)) {
 
-            $this->redirect(array("controller" => "Admin",
-                "action" => "profile"));
+                $this->redirect(array("controller" => "Admin",
+                    "action" => "profile"));
 
 
                 $this->Flash->set('Data Updated', [
@@ -608,11 +612,11 @@ if($pdata==null){
                 ]);
 
             }else{
-            $this->redirect(array("controller" => "Admin",
-                "action" => "profile"));
+                $this->redirect(array("controller" => "Admin",
+                    "action" => "profile"));
 
 
-            $this->Flash->set('Please Try Again After Sometime.', [
+                $this->Flash->set('Please Try Again After Sometime.', [
                     'element' => 'error'
                 ]);
             }
@@ -624,19 +628,19 @@ if($pdata==null){
 
 
 
+        }
+
+
+
+
+
+
+        $this->set("baseurl",$this->base_url);
+
+
+
+
     }
-
-
-
-
-
-
-    $this->set("baseurl",$this->base_url);
-
-
-
-
-}
 
     public function index(){
 
@@ -661,108 +665,9 @@ if($pdata==null){
 
 
 
-public function wallet($param = null){
-   $paraid=$this->request->query('id');
-    $this->set("title","demo title");
-
-    $session = $this->getRequest()->getSession();
-    $email=$session->read('user');
-    $this->Users=$this->loadModel("User");
-    $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
-    $userid=$dataobj[0]['id'];
-
-if(!$paraid==null){
-    $data=$this->Wallet->find('all')->where(["post_id"=>$paraid])->order(['id'=>'DESC'])->toArray();
-}else{
-    $data=$this->Wallet->find('all')->where(["user_id"=>$userid])->order(['id'=>'DESC'])->toArray();
-}
-
-
-$ardata=array(
-    "data"=>$data
-);
-
-    $this->set("baseurl",$this->base_url);
-    $this->set("data",$ardata);
-
-
-
-}
-
-function viewpost(){
-       // var_dump($this->Posts);
-    $this->authorize();
-    $session = $this->getRequest()->getSession();
-    $email=$session->read('user');
-    $this->Users=$this->loadModel("User");
-    $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
-    $userid=$dataobj[0]['id'];
-    $data=$this->Posts->find('all')->where(["user_id"=>$userid])->contain(['category'])->toArray();
-
-//var_dump($data);exit;
-
-    $this->set("baseurl",$this->base_url);
-    $this->set("data",$data);
-
-
-}
-
-function post(){
-
-$this->authorize();
-    $this->set("title","demo title");
-    $this->set("baseurl",$this->base_url);
-$cat=$this->Categories->find('all')->toArray();
-    $this->set("cat",$cat);
-
-    if($this->request->is("post")) {
-
-
-
-        $setting=$this->Setting->find('all')->where(["context"=>"post","name"=>"post_upload_limit"])->toArray();
-
-        $postcost=$this->Setting->find('all')->where(["context"=>"post","name"=>"post_per_cost"])->toArray()[0]['value'];
-
-
-        $date=date("Y-m-d");
-
-
-        $post=$this->Posts->findAllByCreateDate($date)->toArray();
-
-      $todayspost=sizeof($post);
-
-      if($todayspost > $setting[0]['value']){
-
-          $this->Flash->set('Today Post Limit Has Finish, You can post tomorrow.', [
-              'element' => 'error'
-          ]);
-
-          return;
-
-        }
-
-
-
-        $data = $this->request->data;
-
-        $fileName =  strip_tags(substr(preg_replace("/ /", '_',$data['title']).rand(1,20),0,10)).".jpg";
-
-        $path = $_FILES['file']['name'];
-        $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
-
-
-
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif" ) {
-
-            $this->Flash->set('Select Only Image Format.', [
-                'element' => 'error'
-            ]);
-
-            return;
-
-        }
-
+    public function wallet($param = null){
+        $paraid=$this->request->query('id');
+        $this->set("title","demo title");
 
         $session = $this->getRequest()->getSession();
         $email=$session->read('user');
@@ -770,15 +675,114 @@ $cat=$this->Categories->find('all')->toArray();
         $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
         $userid=$dataobj[0]['id'];
 
-
-
-
-        if (!file_exists('upload/'.$userid)) {
-            mkdir('upload/'.$userid, 0777, true);
+        if(!$paraid==null){
+            $data=$this->Wallet->find('all')->where(["post_id"=>$paraid])->order(['id'=>'DESC'])->toArray();
+        }else{
+            $data=$this->Wallet->find('all')->where(["user_id"=>$userid])->order(['id'=>'DESC'])->toArray();
         }
 
-        $uploadPath ='upload/'.$userid.'/';
-        $uploadFile = $uploadPath.$fileName;
+
+        $ardata=array(
+            "data"=>$data
+        );
+
+        $this->set("baseurl",$this->base_url);
+        $this->set("data",$ardata);
+
+
+
+    }
+
+    function viewpost(){
+        // var_dump($this->Posts);
+        $this->authorize();
+        $session = $this->getRequest()->getSession();
+        $email=$session->read('user');
+        $this->Users=$this->loadModel("User");
+        $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
+        $userid=$dataobj[0]['id'];
+        $data=$this->Posts->find('all')->where(["user_id"=>$userid])->contain(['category'])->toArray();
+
+//var_dump($data);exit;
+
+        $this->set("baseurl",$this->base_url);
+        $this->set("data",$data);
+
+
+    }
+
+    function post(){
+
+        $this->authorize();
+        $this->set("title","demo title");
+        $this->set("baseurl",$this->base_url);
+        $cat=$this->Categories->find('all')->toArray();
+        $this->set("cat",$cat);
+
+        if($this->request->is("post")) {
+
+
+
+            $setting=$this->Setting->find('all')->where(["context"=>"post","name"=>"post_upload_limit"])->toArray();
+
+            $postcost=$this->Setting->find('all')->where(["context"=>"post","name"=>"post_per_cost"])->toArray()[0]['value'];
+
+
+            $date=date("Y-m-d");
+
+
+            $post=$this->Posts->findAllByCreateDate($date)->toArray();
+
+            $todayspost=sizeof($post);
+
+            if($todayspost > $setting[0]['value']){
+
+                $this->Flash->set('Today Post Limit Has Finish, You can post tomorrow.', [
+                    'element' => 'error'
+                ]);
+
+                return;
+
+            }
+
+
+
+            $data = $this->request->data;
+
+            $fileName =  strip_tags(substr(preg_replace("/ /", '_',$data['title']).rand(1,20),0,10)).".jpg";
+
+            $path = $_FILES['file']['name'];
+            $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+
+
+
+            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif" ) {
+
+                $this->Flash->set('Select Only Image Format.', [
+                    'element' => 'error'
+                ]);
+
+                return;
+
+            }
+
+
+            $session = $this->getRequest()->getSession();
+            $email=$session->read('user');
+            $this->Users=$this->loadModel("User");
+            $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
+            $userid=$dataobj[0]['id'];
+
+
+
+
+            if (!file_exists('upload/'.$userid)) {
+                mkdir('upload/'.$userid, 0777, true);
+            }
+
+            $uploadPath ='upload/'.$userid.'/';
+            $uploadFile = $uploadPath.$fileName;
 
 
             if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)){
@@ -787,7 +791,7 @@ $cat=$this->Categories->find('all')->toArray();
 
                 $uploadData->title = $data['title'];
                 $uploadData->meta_des = $data['metades'];
-               $uploadData->create_date = date("Y-m-d H:i:s");
+                $uploadData->create_date = date("Y-m-d H:i:s");
                 $uploadData->modify_date = date("Y-m-d H:i:s");
                 $uploadData->content=htmlentities($data['content']);
                 $uploadData->blacklist=0;
@@ -836,210 +840,210 @@ $cat=$this->Categories->find('all')->toArray();
 
 
 
+        }
+
+
     }
 
-
-}
-
-public function editpost(){
-    $paraid=$this->request->query('id');
-    if($paraid==null || $paraid==''){
-        $this->redirect(array("controller" => "Admin",
-            "action" => "viewpost"));
-
-        return;
-    }
-
-    $data=$this->Posts->findById($paraid)->toArray();
-
-    $this->set("title","demo title");
-    $this->set("baseurl",$this->base_url);
-    $this->set("data",$data);
-    $cat=$this->Categories->find('all')->toArray();
-    $this->set("cat",$cat);
-
-    if($this->request->is("post")) {
-
-/*
-
-        $setting=$this->Setting->find('all')->where(["context"=>"post","name"=>"post_upload_limit"])->toArray();
-
-        $postcost=$this->Setting->find('all')->where(["context"=>"post","name"=>"post_per_cost"])->toArray()[0]['value'];
-
-
-        $date=date("Y-m-d");
-
-
-        $post=$this->Posts->findAllByCreateDate($date)->toArray();
-
-        $todayspost=sizeof($post);
-
-        if($todayspost > $setting[0]['value']){
-
-            $this->Flash->set('Today Post Limit Has Finish, You can post tomorrow.', [
-                'element' => 'error'
-            ]);
+    public function editpost(){
+        $paraid=$this->request->query('id');
+        if($paraid==null || $paraid==''){
+            $this->redirect(array("controller" => "Admin",
+                "action" => "viewpost"));
 
             return;
+        }
+
+        $data=$this->Posts->findById($paraid)->toArray();
+
+        $this->set("title","demo title");
+        $this->set("baseurl",$this->base_url);
+        $this->set("data",$data);
+        $cat=$this->Categories->find('all')->toArray();
+        $this->set("cat",$cat);
+
+        if($this->request->is("post")) {
+
+            /*
+
+                    $setting=$this->Setting->find('all')->where(["context"=>"post","name"=>"post_upload_limit"])->toArray();
+
+                    $postcost=$this->Setting->find('all')->where(["context"=>"post","name"=>"post_per_cost"])->toArray()[0]['value'];
+
+
+                    $date=date("Y-m-d");
+
+
+                    $post=$this->Posts->findAllByCreateDate($date)->toArray();
+
+                    $todayspost=sizeof($post);
+
+                    if($todayspost > $setting[0]['value']){
+
+                        $this->Flash->set('Today Post Limit Has Finish, You can post tomorrow.', [
+                            'element' => 'error'
+                        ]);
+
+                        return;
+
+                    }
+
+
+            */
+
+
+            $data = $this->request->data;
+
+            $fileName = preg_replace("/ /", '_',$data['title']).rand(1,200).".jpg";
+
+            $path = $_FILES['file']['name'];
+            $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+
+
+
+            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif" ) {
+
+                $this->Flash->set('Select Only Image Format.', [
+                    'element' => 'error'
+                ]);
+
+                return;
+
+            }
+
+
+            $session = $this->getRequest()->getSession();
+            $email=$session->read('user');
+            $this->Users=$this->loadModel("User");
+            $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
+            $userid=$dataobj[0]['id'];
+
+
+
+
+            if (!file_exists('upload/'.$userid)) {
+                mkdir('upload/'.$userid, 0777, true);
+            }
+
+            $uploadPath ='upload/'.$userid.'/';
+            $uploadFile = $uploadPath.$fileName;
+
+
+            if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)){
+                $uploadData = $this->Posts->findById($paraid)->first();
+
+
+                $uploadData->title = $data['title'];
+                $uploadData->meta_des = $data['metades'];
+                // $uploadData->create_date = date("Y-m-d H:i:s");
+                $uploadData->modify_date = date("Y-m-d H:i:s");
+                $uploadData->content=htmlentities($data['content']);
+                // $uploadData->blacklist=0;
+                $uploadData->category_id=$data['category'];
+                $uploadData->user_id=$userid;
+                //$uploadData->seen=0;
+                $uploadData->thumbnail=$fileName;
+                // $uploadData->price=$postcost;
+                if ($this->Posts->save($uploadData)) {
+                    /*
+                                    $wallet = $this->Wallet->newEntity();
+                                    $wallet->type=1;
+                                    $wallet->user_id=$userid;
+                                    $wallet->post_id=$uploadData->id;
+                                    $wallet->content="Post Credit ";
+                                    $wallet->cost=$postcost;
+                                    $wallet->date=$date;
+                                    $this->Wallet->save($wallet);
+                    */
+
+
+
+
+                    $this->Flash->set('Post Updated .', [
+                        'element' => 'success'
+                    ]);
+
+                    $this->redirect(array("controller" => "Admin",
+                        "action" => "viewpost"));
+
+                    return;
+
+                }else{
+                    $this->Flash->set('Please Try Again After Sometime.', [
+                        'element' => 'error'
+                    ]);
+                }
+
+            }else{
+                $this->Flash->set('Unable to Upload Status.', [
+                    'element' => 'error'
+                ]);
+
+                return;
+
+
+            }
+
+
+
+
+
 
         }
 
 
-*/
 
 
-        $data = $this->request->data;
+    }
 
-        $fileName = preg_replace("/ /", '_',$data['title']).rand(1,200).".jpg";
-
-        $path = $_FILES['file']['name'];
-        $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
-
-
-
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif" ) {
-
-            $this->Flash->set('Select Only Image Format.', [
-                'element' => 'error'
-            ]);
-
-            return;
-
-        }
-
-
+    public function details(){
+        $paraid=$this->request->query('id');
+        $this->set("title","demo title");
+        $this->set("baseurl",$this->base_url);
         $session = $this->getRequest()->getSession();
         $email=$session->read('user');
         $this->Users=$this->loadModel("User");
         $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
         $userid=$dataobj[0]['id'];
+        $data=$this->Appritiate->findAllByPostId($paraid)->contain(['User','post'])->group(['date'])->toArray();
+        $settingtrafficcost=$this->Setting->findByName('per_traffic_cost')->toArray();
+        $appritiatecost=$this->Setting->findByName('per_appritiate_cost')->toArray();
+        $trcost=$settingtrafficcost[0]['value'];
+        $apcost=$appritiatecost[0]['value'];
 
+        $records=[];
 
+        foreach ($data as $d){
 
-
-        if (!file_exists('upload/'.$userid)) {
-            mkdir('upload/'.$userid, 0777, true);
-        }
-
-        $uploadPath ='upload/'.$userid.'/';
-        $uploadFile = $uploadPath.$fileName;
-
-
-        if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)){
-            $uploadData = $this->Posts->findById($paraid)->first();
-
-
-            $uploadData->title = $data['title'];
-            $uploadData->meta_des = $data['metades'];
-           // $uploadData->create_date = date("Y-m-d H:i:s");
-            $uploadData->modify_date = date("Y-m-d H:i:s");
-            $uploadData->content=htmlentities($data['content']);
-           // $uploadData->blacklist=0;
-            $uploadData->category_id=$data['category'];
-            $uploadData->user_id=$userid;
-            //$uploadData->seen=0;
-            $uploadData->thumbnail=$fileName;
-           // $uploadData->price=$postcost;
-            if ($this->Posts->save($uploadData)) {
-/*
-                $wallet = $this->Wallet->newEntity();
-                $wallet->type=1;
-                $wallet->user_id=$userid;
-                $wallet->post_id=$uploadData->id;
-                $wallet->content="Post Credit ";
-                $wallet->cost=$postcost;
-                $wallet->date=$date;
-                $this->Wallet->save($wallet);
-*/
-
-
-
-
-                $this->Flash->set('Post Updated .', [
-                    'element' => 'success'
-                ]);
-
-                $this->redirect(array("controller" => "Admin",
-                    "action" => "viewpost"));
-
-                return;
-
+            $dateup=date_format($d['date'],"Y-m-d");
+            $total = $this->Appritiate->find()->where(['user_id' => $d['user_id'],'post_id'=>$d['post_id'],'date'=>$dateup])->count();
+            $traffic = $this->Traffic->find()->where(['post_id'=>$d['post_id'],'date'=>$dateup])->toArray();
+            if($traffic==null){
+                $traffic=0;
             }else{
-                $this->Flash->set('Please Try Again After Sometime.', [
-                    'element' => 'error'
-                ]);
+                $traffic=$traffic[0]['count'];
             }
 
-        }else{
-            $this->Flash->set('Unable to Upload Status.', [
-                'element' => 'error'
-            ]);
+            $t=["data"=>"","count"=>0];
+            $t["data"]=$d;
+            $t["count"]=$total;
+            $t["traffic"]=$traffic;
+            $p=$traffic*$trcost+$total*$apcost;
 
-            return;
+            $t['profit']=$p;
+
+            array_push($records,$t);
+            //  var_dump($total);exit;
+
 
 
         }
-
-
-
-
-
-
-    }
-
-
-
-
-}
-
-public function details(){
-    $paraid=$this->request->query('id');
-    $this->set("title","demo title");
-    $this->set("baseurl",$this->base_url);
-    $session = $this->getRequest()->getSession();
-    $email=$session->read('user');
-    $this->Users=$this->loadModel("User");
-    $dataobj=$this->Users->find("all")->where(["email"=>$email])->toList();
-    $userid=$dataobj[0]['id'];
-    $data=$this->Appritiate->findAllByPostId($paraid)->contain(['User','post'])->group(['date'])->toArray();
-    $settingtrafficcost=$this->Setting->findByName('per_traffic_cost')->toArray();
-    $appritiatecost=$this->Setting->findByName('per_appritiate_cost')->toArray();
-    $trcost=$settingtrafficcost[0]['value'];
-    $apcost=$appritiatecost[0]['value'];
-
-    $records=[];
-
-foreach ($data as $d){
-
-    $dateup=date_format($d['date'],"Y-m-d");
-    $total = $this->Appritiate->find()->where(['user_id' => $d['user_id'],'post_id'=>$d['post_id'],'date'=>$dateup])->count();
-    $traffic = $this->Traffic->find()->where(['post_id'=>$d['post_id'],'date'=>$dateup])->toArray();
-    if($traffic==null){
-        $traffic=0;
-    }else{
-        $traffic=$traffic[0]['count'];
-    }
-
-    $t=["data"=>"","count"=>0];
-$t["data"]=$d;
-$t["count"]=$total;
-$t["traffic"]=$traffic;
-$p=$traffic*$trcost+$total*$apcost;
-
-$t['profit']=$p;
-
-array_push($records,$t);
-  //  var_dump($total);exit;
-
-
-
-}
 
 //var_dump($records);exit;
 
-      $this->set("data",$records);
+        $this->set("data",$records);
 
-}
+    }
 
 }?>

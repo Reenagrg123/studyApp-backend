@@ -1,16 +1,25 @@
 
+<style>
+    .block{
+        width: 100%;
+        height: auto;
+        background: white;
+        margin: 5px;
+        padding: 13px;
+
+    }
+.inner{
+    width: 100%;
+    background: white;
+    padding: 10px;
+    margin: 4px;
+}
+
+</style>
 <!-- End of Topbar -->
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
-    <!-- Page Heading -->
-
-
-    <!-- Content Row -->
-
-    <!-- Content Row -->
-
 
 
     <!-- Content Row -->
@@ -19,44 +28,33 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" > Post Your Idea </h3>
-            <form id="post" method="post" enctype="multipart/form-data">
+            <h3 align="center" > Questions List </h3>
 
 
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Select Exercise</label>
-                    <select name="exercise" class="custom-select" required>
-                        <option>Select Category</option>
+            <?php  $i=0;
+                    foreach($data as $d){
 
+                    $data=json_decode($d['data']);
+                    ?>
 
-                        <option  value="1">1 </option>
+            <div class="block" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?> </div>
 
-
-                    </select>
-                </div>
+            <div class="inner" style="display:none;">
 
 
 
-                <div class="custom-file">
+      <?php  echo json_decode($d['data'])->question; ?>
 
-                    <input type="file" name="file" class="custom-file-input" id="customFile" required>
-                    <label class="custom-file-label" for="customFile">Choose zip</label>
 
-                </div>
 
-                <!--
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Content</label>
-                                    <textarea name="content" id="summernote" cols="30" rows="10" required>
-                      <h3 style="text-align: center; "><a href="http://www.jquery2dotnet.com" style="background-color: rgb(255, 255, 255); line-height: 1.428571429;">jquery2dotnet</a></h3>
-                   </textarea>
-                                    <small id="emailHelp" class="form-text text-muted">Your Idea Should be greater than 100 characters.</small>
-                                </div>
+            </div>
 
-                -->
 
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+
+
+
+            <?php $i++;
+                    } ?>
         </div>
     </div>
 

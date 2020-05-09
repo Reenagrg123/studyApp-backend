@@ -14,9 +14,13 @@ class SubjectsTables extends Table{
 
         $this->setTable('subject');
         $this->setPrimaryKey('id');
-        $this->setDisplayField('id');
+        $this->setDisplayField('c_id');
+        $this->addBehavior('Timestamp');
 
-        $this->hasOne('Class',['classname'=>'id'])->setForeignKey('id');
+
+        $this->hasOne('Class',['classname'=>'class_id'])->setForeignKey('id')->setBindingKey([
+            'c_id'
+        ]);
 
 
 

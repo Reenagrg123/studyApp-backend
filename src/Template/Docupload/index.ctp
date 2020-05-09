@@ -20,10 +20,10 @@
 
         <div class="container">
             <h3 align="center"><u>Upload Question Bank</u>  </h3>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Select a class/paper</label>
-                <select class="form-control" name="c_id" id="exampleFormControlSelect1">
+                <select class="form-control" name="c_id" id="class">
                     <?php foreach($class as $c){ ?>
                     <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
                     <?php } ?>
@@ -32,56 +32,51 @@
             </div>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Select a subject</label>
-                <select class="form-control" name="s_id" id="exampleFormControlSelect1">
-                    <?php foreach($subject as $c){ ?>
-                    <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
-                    <?php } ?>
+                <select class="form-control" name="s_id" id="subject">
+
 
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Select a chapter</label>
-                <select class="form-control" name="s_id" id="exampleFormControlSelect1">
-                    <?php foreach($subject as $c){ ?>
-                    <option value="<?php echo $c['id']; ?>"><?php echo $c['chapter_name']; ?></option>
-                    <?php } ?>
+                <select class="form-control" name="ex_id" id="exercise">
 
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="exampleFormControlInput1">Enter a topic name</label>
-                <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+                <input type="text" name="title" class="form-control" id="">
             </div>
 
+
             <div class="form-group">
-                <label for="exampleFormControlInput1">Select type of Questions</label></br>
-            <label class="radio-inline">
-                <input type="radio" name="optradio" checked>  MCQ Type
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="optradio">  Integer Type
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="optradio">  Paragraph Type
-            </label>
-        </div>
+                <label for="exampleFormControlSelect1">Select type of Questions</label>
+                <select class="form-control" name="q_type" >
+                    <option value="mcq" >Mcq</option>
+                    <option value="integer" >integer</option>
+                    <option value="paragraph" >Paragraph</option>
+                </select>
+            </div>
+
+
+
 
         <div class="form-group">
             <label for="exampleFormControlInput1">Marks awarded for correct answer </label>
-            <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+            <input type="text" name="correct" class="form-control" id="">
         </div>
 
         <div class="form-group">
             <label for="exampleFormControlInput1">Marks deducted for wrong answer</label>
-            <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+            <input type="text" name="wrong" class="form-control" id="">
         </div>
 
-        <label for="exampleFormControlInput1">Select a HTML file(.html)</label>
+        <label for="exampleFormControlInput1">Select file(ZIP)</label>
 
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile">
+            <input type="file" name="file" class="custom-file-input" id="customFile">
             <label class="custom-file-label" for="customFile">Choose file</label>
         </div>
 
@@ -99,67 +94,42 @@
 <table id="table_id" class="display">
 <thead>
 <tr>
-    <th>S.No</th>
+    <th>Id</th>
     <th>Class Name</th>
     <th>Subject Name</th>
     <th>Chapter Name</th>
-    <th>HTML File</th>
+
     <th>Correct Answer Marks</th>
+
     <th>Wrong Answer Marks</th>
     <th></th>
-    <th></th>
+
 </tr>
 </thead>
 <tbody>
-
+<?php foreach($record as $r){
+        $id=$r['id'];
+        $has=$r['hashid'];
+        ?>
 <tr>
-    <td>1</td>
-    <td>10th</td>
-    <td>Physics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td>4</td>
-    <td>1</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
+
+    <td><?php echo $id; ?></td>
+    <td><?php echo $r['Class']['class_name']; ?></td>
+    <td><?php echo $r['Subject']['subject_name']; ?></td>
+    <td><?php echo $r['Exercises']['title']; ?></td>
+    <td><?php echo $r['correct_mark']; ?></td>
+
+    <td><?php echo $r['wrong_mark']; ?></td>
+    <td>
+
+        <a href='<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "view","id"=>$has ]); ?>'> <i class="fa fa-eye" aria-hidden="true"></i></a>
+
+    </td>
+
 
 </tr>
-<tr>
-    <td>1</td>
-    <td>11th</td>
-    <td>Physics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td>4</td>
-    <td>1</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
 
-</tr>
-<tr>
-    <td>3</td>
-    <td>12th</td>
-    <td>Chemistry</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td>4</td>
-    <td>1</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
-<tr>
-    <td>4</td>
-    <td>Jee Mains</td>
-    <td>Physics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td>4</td>
-    <td>1</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
+        <?php } ?>
 </tbody>
 </table>
 
@@ -175,8 +145,39 @@
         <!-- Footer -->
 
         <!-- End of Footer -->
+        <?php $url=$this->Url->build([  "controller" => "docupload", "action" => "getdata" ]); ?>
+
 
 <script>
+
+$("#class").change(function(){
+    var c_id= $("#class").val();
+    $.post('<?php echo $url; ?>',
+        {
+            type: "subject",
+            class: c_id
+        },
+        function(data, status){
+            $("#subject").html(data);
+        });
+});
+
+
+
+$("#subject").change(function(){
+    var c_id= $("#class").val();
+    var s_id= $("#subject").val();
+    $.post('<?php echo $url; ?>',
+        {
+            type: "excersise",
+            class: c_id,
+            subject: s_id
+        },
+        function(data, status){
+            $("#exercise").html(data);
+        });
+});
+
 $(document).ready( function () {
     $('#table_id').DataTable();
 } );

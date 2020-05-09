@@ -7,7 +7,9 @@ use App\Controller\Services\ExecuteService;
 use App\Controller\Services\McqService;
 use App\Model\Table\ClasssTables;
 use App\Model\Table\ExercisessTables;
+use App\Model\Table\McqsTables;
 use App\Model\Table\SubjectsTables;
+use App\Model\Table\UploadfilesTables;
 use Cake\Datasource\ConnectionManager;
 use Cake\Routing\Router;
 
@@ -25,6 +27,8 @@ class DocuploadController extends AppController{
         $this->Class=$this->loadModel(ClasssTables::class);
         $this->Subject=$this->loadModel(SubjectsTables::class);
         $this->Exercise=$this->loadModel(ExercisessTables::class);
+        $this->Uploadfiles=$this->loadModel(UploadfilesTables::class);
+        $this->Mcq=$this->loadModel(McqsTables::class);
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -41,9 +45,14 @@ class DocuploadController extends AppController{
     }
 
 public function view(){
+    $id=$this->request->getQuery('id');
+    $records=$this->Mcq->find("all")->where(['hash_id'=>$id])->toArray();
 
 
+    $this->set('data',$records);
 
+
+    $this->set("title","Dashboard");
 
 }
 
@@ -74,14 +83,16 @@ public function getdata(){
           }
 
           if($type=='excersise'){
+
               $clas=$data['class'];
               $sub=$data['subject'];
+            //  var_dump($clas.$sub);exit;
               $class=$this->Exercise->find("all")->where(['c_id'=>$clas,'s_id'=>$sub])->toArray();
               $name='title';
 
           }
 
-          $dt='';
+          $dt='<option>Select Option</option>';
 foreach ($class as $d){
 
 $id=$d['id'];
@@ -101,6 +112,7 @@ return;
 
         $class=$this->Class->find("all")->toArray();
 
+        $records=$this->Uploadfiles->find("all")->contain(['class','subject','exercises'])->toArray();
 
         if($this->request->is("post")) {
 
@@ -108,7 +120,7 @@ return;
 
 
             $data = $this->request->data;
-            $exercise=$data['exercise'];
+            $exercise=$data['ex_id'];
             $hashid=rand(200,500);
             $filename=$_FILES['file']['name'];
             $path = $hashid.$_FILES['file']['name'];
@@ -141,34 +153,57 @@ return;
 
 $filename=$this->getfilename('mcq/'.$exercise.'/'.$hashid.'/');
 if($filename['filename']=='' && $filename['er']==1){
-    var_dump("asdasadsd");exit;
-   // echo $filename['filename'];
+
+    $this->Flash->error('File Format Not Correct ');
+return;
+    // echo $filename['filename'];
 }
 
 $textfile=$this->createtextfile($filename['filename'],'mcq/'.$exercise.'/'.$hashid.'/');
 if($textfile['textfile']==''){
 
-    var_dump("dfgdgdg");exit;
+    $this->Flash->error('File Format Not Correct , HTML File not found');
+    return;
+
 }
 
+
 $mcqservice=new McqService('mcq/'.$exercise.'/'.$hashid.'/'.$textfile['textfile'],$exercise,$hashid);
-$mcqservice->fitertext();
+$upload=$mcqservice->fitertext();
+
+                $uploadfiles=$this->Uploadfiles->newEntity();
+
+                $uploadfiles->c_id=$data['c_id'];
+                $uploadfiles->s_id=$data['s_id'];
+                $uploadfiles->ex_id=$data['ex_id'];
+                $uploadfiles->hashid=$hashid;
+                $uploadfiles->question_type=$data['q_type'];
+                $uploadfiles->title=$data['title'];
+                $uploadfiles->correct_mark=$data['correct'];
+                $uploadfiles->wrong_mark=$data['wrong'];
+                $uploadfiles->create_date = date("Y-m-d H:i:s");
+                $this->Uploadfiles->save($uploadfiles);
 
 
+                foreach ($upload as $d){
+                    $mcq=$this->Mcq->newEntity();
+                    $mcq->data=json_encode($d);
+                    $mcq->hash_id=$hashid;
+                    $mcq->type=$d['type'];
+                    $mcq->create_date = date("Y-m-d H:i:s");
+                    $this->Mcq->save($mcq);
+
+                }
+
+
+                $this->Flash->error('Questions Saved');
                 $this->redirect(array("controller" => "Docupload",
-                    "action" => "view"));
+                    "action" => "index"));
 
                 return;
 
-                 var_dump($textfile);
-
-                 var_dump("upload");exit;
-
-
             }else{
-                $this->Flash->set('Unable to Upload Status.', [
-                    'element' => 'error'
-                ]);
+                $this->Flash->error('Unable to upload');
 
                 return;
 
@@ -178,7 +213,7 @@ $mcqservice->fitertext();
 
 
         $this->set("class",$class);
-
+        $this->set("record",$records);
         //var_dump("sdfsadfdsaf");
     }
 

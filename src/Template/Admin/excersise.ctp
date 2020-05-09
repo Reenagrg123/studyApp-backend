@@ -66,7 +66,6 @@
 <?php foreach($exdata as $ex){
         $id=$ex['id'];
         ?>
-
 <tr>
     <td><?php echo $ex['id']; ?></td>
     <td><?php echo $ex['Class']['class_name']; ?></td>

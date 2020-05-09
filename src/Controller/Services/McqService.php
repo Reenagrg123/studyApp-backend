@@ -31,8 +31,8 @@ class McqService extends AppController{
     public function extractquestion($file){
 
         $questionarry=[];
-        $question= explode('Q.',$file);
-        $checkquestionpattern=['Ans','Sol'];
+        $question= explode('[Q]',$file);
+        $checkquestionpattern=['[Ans]','[Sol]'];
 $i=0;
 
         foreach ($question as $q){
@@ -107,7 +107,7 @@ $this->filterquestion();
             //  var_dump($data[$i]['type']);
             if( $data[$i]['type']=="mcq" ){
                 // var_dump("dsfsdfs");
-                $exans= explode('(A)',$d['question']);
+                $exans= explode('[A]',$d['question']);
 
 
                 $data[$i]['question']=$exans[0];
@@ -115,7 +115,7 @@ $this->filterquestion();
             }
             if($data[$i]['type']=="integer"){
 
-                $exans= explode('Sol',$d['question']);
+                $exans= explode('[Sol]',$d['question']);
                 $data[$i]['question']=$exans[0];
             }
 
@@ -128,18 +128,18 @@ $this->filterquestion();
 public function innerquestionfetch($q){
 $data=[];
    // $question= explode('[q]',$q);
-    $checkpara=["(B)","(C)","(D)"];
-    $checkquestionpattern=['Ans','Sol'];
+    $checkpara=["[B]","[C]","[D]"];
+    $checkquestionpattern=['[Ans]','[Sol]'];
 $i=0;
 foreach ($q as $qu){
     $temp=[];
     if($i>0){
 
         if($this->checkpresence($qu,$checkquestionpattern)){
-             $question= explode('(A)',$qu);
+             $question= explode('[A]',$qu);
              $temp['id']=$i;
 $temp['question']=$question[0];
-            $option= explode('Ans',$question[1]);
+            $option= explode('[Ans]',$question[1]);
             if(! $option==null){
                 $optionline=$this->replace($option[0],$checkpara);
 
@@ -150,11 +150,11 @@ $temp['option']='';
                 $temp['type']='integer';
             }
 
-            $answer= explode('Ans',$qu);
-            $answersol=explode('Sol',$answer[1]);
+            $answer= explode('[Ans]',$qu);
+            $answersol=explode('[Sol]',$answer[1]);
             $temp['answer']=explode(',',$answersol[0]);
 
-            $soution= explode('Sol',$qu);
+            $soution= explode('[Sol]',$qu);
            $t=0;
            $sol=[];
             foreach ($soution as $s){
@@ -229,14 +229,14 @@ $this->data=$data;
 
     public function getsolution(){
         $data=$this->data;
-        $checkpara=["(B)","(C)","(D)"];
+        $checkpara=["[B]","[C]","[D]"];
         $i=0;
 
         foreach($data as $d){
           //  var_dump($data[$i]['type']);
             if( $data[$i]['type']=="mcq" || $data[$i]['type']=="integer" ){
                // var_dump("dsfsdfs");
-                $exans= explode('Sol',$d['question']);
+                $exans= explode('[Sol]',$d['question']);
 
                 $j=0;
                 $sol=[];
@@ -267,14 +267,14 @@ $this->data=$data;
     public function getoption(){
 
         $data=$this->data;
-$checkpara=["(B)","(C)","(D)"];
+$checkpara=["[B]","[C]","[D]"];
         $i=0;
         foreach($data as $d){
             if(! $data[$i]['type']=='paragraph'){
-                $exans= explode('(A)',$d['question']);
+                $exans= explode('[A]',$d['question']);
             if(array_key_exists(1,$exans) && $this->checkpresence($exans[1],$checkpara)){
 
-                $sol=explode('Ans',$exans[1]);
+                $sol=explode('[Ans]',$exans[1]);
                 $getans=$sol[0];
                 $getans=$this->replace($getans,$checkpara);
                 $data[$i]['option']=explode(',',trim($getans));
@@ -301,9 +301,9 @@ public function extractanswer(){
     $i=0;
     foreach($data as $d){
         if(! $data[$i]['type']=='paragraph'){
-            $exans= explode('Ans',$d['question']);
+            $exans= explode('[Ans]',$d['question']);
 
-            $sol=explode('Sol',$exans[1]);
+            $sol=explode('[Sol]',$exans[1]);
             $getans=$sol[0];
             $data[$i]['answer']=explode(',',trim($getans));
         }

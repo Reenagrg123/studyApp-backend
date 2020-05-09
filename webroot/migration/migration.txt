@@ -15,3 +15,11 @@ CREATE TABLE `appretiate`.`testmcq` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id`
 
 
 ALTER TABLE `user` ADD `type` VARCHAR(200) NULL AFTER `update_date`;
+
+
+CREATE TABLE `appretiate`.`uploadfile` ( `id` INT NOT NULL AUTO_INCREMENT ,  `hashid` VARCHAR(200) NOT NULL ,  `question_type` VARCHAR(200) NOT NULL ,  `title` VARCHAR(200) NOT NULL ,  `correct_mark` VARCHAR(200) NOT NULL ,  `wrong_mark` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE `uploadfile` ADD `c_id` VARCHAR(200) NOT NULL AFTER `id`, ADD `s_id` VARCHAR(200) NOT NULL AFTER `c_id`, ADD `ex_id` VARCHAR(200) NOT NULL AFTER `s_id`;
+
+
+CREATE TABLE `appretiate`.`mcq` ( `id` INT NOT NULL AUTO_INCREMENT ,  `hash_id` VARCHAR(200) NOT NULL ,  `data` LONGTEXT NOT NULL ,  `type` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;

@@ -58,50 +58,15 @@ class ApiController extends AppController{
     }
 
 
-public function getclass(){
+    public function getclass(){
 
-    $classobj = $this->Class->find('all')->toArray();
-
-$data=[];
-        foreach($classobj as $c){
-$tm=[];
-$tm['id']=$c['id'];
-$tm['name']=$c['class_name'];
-
-array_push($data,$tm);
-
-        }
-        $send['error'] = 0;
-        $send['data'] = $data;
-        //  $send['id'] = $userobj->id;
-
-        echo json_encode($send);
-        exit;
-
-}
-
-public function getsubject(){
-    if ($this->request->is("post")) {
-
-
-        $date = date("Y-m-d");
-        $data = $this->request->data;
-
-        if ($data['c_id'] == '' ) {
-            $send['error']=1;
-            $send['msg']="Parameters should not empty";
-
-            echo json_encode($send);
-            exit;
-        }
-
-        $classobj = $this->Subject->find()->where(['c_id'=>$data['c_id']])->toArray();
+        $classobj = $this->Class->find('all')->toArray();
 
         $data=[];
         foreach($classobj as $c){
             $tm=[];
             $tm['id']=$c['id'];
-            $tm['name']=$c['subject_name'];
+            $tm['name']=$c['class_name'];
 
             array_push($data,$tm);
 
@@ -113,96 +78,134 @@ public function getsubject(){
         echo json_encode($send);
         exit;
 
-
-
     }
-}
 
-public function getexcersice()
-{
-
-    if ($this->request->is("post")) {
+    public function getsubject(){
+        if ($this->request->is("post")) {
 
 
-        $date = date("Y-m-d");
-        $data = $this->request->data;
+            $date = date("Y-m-d");
+            $data = $this->request->data;
 
-        if ($data['c_id'] == '' || $data['s_id'] == '' ) {
-            $send['error']=1;
-            $send['msg']="Parameters should not empty";
+            if ($data['c_id'] == '' ) {
+                $send['error']=1;
+                $send['msg']="Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+
+            $classobj = $this->Subject->find()->where(['c_id'=>$data['c_id']])->toArray();
+
+            $data=[];
+            foreach($classobj as $c){
+                $tm=[];
+                $tm['id']=$c['id'];
+                $tm['name']=$c['subject_name'];
+
+                array_push($data,$tm);
+
+            }
+            $send['error'] = 0;
+            $send['data'] = $data;
+            //  $send['id'] = $userobj->id;
 
             echo json_encode($send);
             exit;
-        }
-        $classobj = $this->Exercise->find()->where(['c_id'=>$data['c_id'],'s_id'=>$data['s_id']])->toArray();
 
-        $data=[];
-        foreach($classobj as $c){
-            $tm=[];
-            $tm['id']=$c['id'];
-            $tm['name']=$c['title'];
 
-            array_push($data,$tm);
 
         }
-        $send['error'] = 0;
-        $send['data'] = $data;
-        //  $send['id'] = $userobj->id;
-
-        echo json_encode($send);
-        exit;
-
-
-
     }
-}
 
-public function profile(){
+    public function getexcersice()
+    {
 
-    if($this->request->is("post")) {
+        if ($this->request->is("post")) {
 
 
-        $date = date("Y-m-d");
-        $data = $this->request->data;
+            $date = date("Y-m-d");
+            $data = $this->request->data;
 
-        if($data['gender']==''  || $data['class']=='' || $data['dob']=='' || $data['userid']==''){
+            if ($data['c_id'] == '' || $data['s_id'] == '' ) {
+                $send['error']=1;
+                $send['msg']="Parameters should not empty";
 
-            $send['error']=1;
-            $send['msg']="Parameters should not empty";
+                echo json_encode($send);
+                exit;
+            }
+            $classobj = $this->Exercise->find()->where(['c_id'=>$data['c_id'],'s_id'=>$data['s_id']])->toArray();
+
+            $data=[];
+            foreach($classobj as $c){
+                $tm=[];
+                $tm['id']=$c['id'];
+                $tm['name']=$c['title'];
+
+                array_push($data,$tm);
+
+            }
+            $send['error'] = 0;
+            $send['data'] = $data;
+            //  $send['id'] = $userobj->id;
 
             echo json_encode($send);
             exit;
+
+
+
         }
+    }
 
-        $userobj = $this->Users->findById($data['userid'])->first();
+    public function profile(){
 
-        if($userobj==null){
-            $send['error'] = 1;
-            $send['msg'] = "User not exist ";
-          //  $send['id'] = $userobj->id;
-
-            echo json_encode($send);
-            exit;
-        }
-
-       // $userobj=$this->Users->newEntity();
-
-        $userobj->gender=$data['gender'];
-        $userobj->class = $data['class'];
-        $userobj->dob = $data['dob'];
-
-        // $encryptpass = Security::encrypt($data['password'], $this->key);
+        if($this->request->is("post")) {
 
 
-        // $resultr = Security::decrypt($result, $this->key);
+            $date = date("Y-m-d");
+            $data = $this->request->data;
 
-        $userobj->update_date = date("Y-m-d H:i:s");
+
+
+            $userobj = $this->Users->findById($data['userid'])->first();
+
+            if($userobj==null){
+                $send['error'] = 1;
+                $send['msg'] = "User not exist ";
+                //  $send['id'] = $userobj->id;
+
+                echo json_encode($send);
+                exit;
+            }
+
+            // $userobj=$this->Users->newEntity();
+
+            $userobj->gender=$data['gender'];
+            $userobj->class = $data['class'];
+            $userobj->dob = $data['dob'];
+            $userobj->f_name = $data['name'];
+            $userobj->email = $data['email'];
+            $userobj->mobile = $data['mobile'];
+            // $encryptpass = Security::encrypt($data['password'], $this->key);
+
+
+            // $resultr = Security::decrypt($result, $this->key);
+
+            $userobj->update_date = date("Y-m-d H:i:s");
 
             if ($this->Users->save($userobj)) {
 
                 $send['error'] = 0;
                 $send['msg'] = "Updated successfully ";
-                //$send['id'] = $userobj->id;
+                $send['id'] = $userobj->id;
+                $send['name']=$userobj->f_name;
+                $send['mobile']=$userobj->mobile;
+                $send['email']=$userobj->email;
+                $send['class']=$userobj->class;
+                $send['gender']=$userobj->gender;
+                $send['dob']=$userobj->dob;
+
+
 
                 echo json_encode($send);
                 exit;
@@ -215,14 +218,14 @@ public function profile(){
 
 
 
+        }
+
+
+
+        //    var_dump("fsdfsdfsd");exit;
+
+
     }
-
-
-
-    //    var_dump("fsdfsdfsd");exit;
-
-
-}
 
 
     public function index(){
@@ -254,13 +257,13 @@ public function profile(){
 
             $datausercheck=$this->Users->find()->where(["mobile"=>$data['mobile'] ])->toList();
 
-if(!$datausercheck==null){
-    $send['error']=1;
-    $send['msg']="User Already Exist";
+            if(!$datausercheck==null){
+                $send['error']=1;
+                $send['msg']="User Already Exist";
 
-    echo json_encode($send);
-    exit;
-}
+                echo json_encode($send);
+                exit;
+            }
 
 
             $userobj=$this->Users->newEntity();
@@ -333,7 +336,7 @@ if(!$datausercheck==null){
 
             $data = $this->request->data;
 
-            if($data['phone']==''  || $data['password']==''){
+            if($data['mobile']==''  || $data['password']==''){
 
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
@@ -342,7 +345,7 @@ if(!$datausercheck==null){
                 exit;
             }
 
-            $dataphone=$this->Users->find()->where(["mobile"=>$data['phone']])->first();
+            $dataphone=$this->Users->find()->where(["mobile"=>$data['mobile']])->first();
 
             if($dataphone==null){
                 $send['error']=1;
@@ -354,7 +357,7 @@ if(!$datausercheck==null){
             }
 
 
-            $datauser=$this->Users->find()->where(["mobile"=>$data['phone'],"password"=>md5($data['password'])])->first();
+            $datauser=$this->Users->find()->where(["mobile"=>$data['mobile'],"password"=>md5($data['password'])])->first();
 
             //   var_dump($datauser);exit;
             //   $data=$this->Users->get(2);
@@ -369,7 +372,7 @@ if(!$datausercheck==null){
                 $send['email']=$datauser->toArray()['email'];
                 $send['class']=$datauser->toArray()['class'];
                 $send['gender']=$datauser->toArray()['gender'];
-
+                $send['dob']=$datauser->toArray()['dob'];
                 echo json_encode($send);
                 exit;
 

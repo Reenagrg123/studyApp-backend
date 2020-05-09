@@ -198,12 +198,9 @@ if($id){
     public function subject(){
 
         $datacl=$this->Class->find("all")->toArray();
-
         $subd=$this->Subject->find("all")->contain(['class'])->toArray();
-
         $id=$this->request->getQuery('id');
         if($this->request->is("post")) {
-
             $data = $this->request->data();
             $sub_name=$data['sub_name'];
             $c_id=$data['c_id'];
@@ -213,14 +210,10 @@ if($id){
                 $datasub=$this->Subject->findById($id)->first();
 
                 $datasub->subject_name=$sub_name;
-
                 $this->Subject->save($datasub);
-
-
                 $this->Flash->success('Subject Updated');
                 $this->redirect(array("controller" => "Admin",
                     "action" => "subject"));
-
 
                 return;
 
@@ -257,8 +250,6 @@ if($id){
         $this->set("data",$subd);
         $this->set("class",$datacl);
 
-
-
     }
 
     public function excersise(){
@@ -284,30 +275,23 @@ if($id){
 
                 $this->Exercise->save($datasub);
 
-
                 $this->Flash->success('Class Updated');
                 $this->redirect(array("controller" => "Admin",
                     "action" => "excersise"));
-
 
                 return;
 
             }
 
             $classobj=$this->Exercise->newEntity();
-
             $classobj->c_id=$c_id;
             $classobj->s_id=$sub_name;
             $classobj->title=$ex;
             // $encryptpass = Security::encrypt($data['password'], $this->key);
 
-
             // $resultr = Security::decrypt($result, $this->key);
 
             $classobj->create_date = date("Y-m-d H:i:s");
-
-
-
 
 
             $this->Exercise->save($classobj);
@@ -332,15 +316,12 @@ if($id){
 
 
         }
+
         $this->set("class",$datac);
-
-
         $this->set("subject",$subject);
-
         $this->set("exdata",$exdata);
 
     }
-
 
 
 

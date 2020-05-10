@@ -4,7 +4,7 @@
 
         <!-- End of Topbar -->
 
-<!-- Begin Page Content -->
+        <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
@@ -36,7 +36,7 @@
                 </div>
 
 
-<input type="hidden" name="c_id" id="c_id" />
+                <input type="hidden" name="c_id" id="c_id" />
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter Exam Name</label>
                     <input type="text" name="name" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['exam_name']; }?>">
@@ -53,7 +53,7 @@
             </form>
             <!--</form>-->
         </br></br>
-<hr/>
+    <hr/>
 
 </br></br>
 
@@ -68,34 +68,34 @@
 </thead>
 <tbody>
 
-<?php foreach($class as $c){
+<?php foreach($exam as $c){
         $id=$c['id'];
         ?>
 <a>
 
     <td><?php echo $c['id']; ?></td>
     <td><?php echo $c['exam_name']; ?></td>
-<td>
-        <a href='<?php echo $this->Url->build([  "controller" => "Exam", "action" => "examadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+    <td>
+    <a href='<?php echo $this->Url->build([  "controller" => "Exam", "action" => "examadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 
-        <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Exam", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+    <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Exam", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
 
-       </a>
-    </td>
+</a>
+</td>
 
 
 </tr>
-<?php } ?>
-</tbody>
-</table>
+        <?php } ?>
+        </tbody>
+        </table>
 
 
         </div>
 
-    </div>
-    <!-- /.container-fluid -->
+        </div>
+        <!-- /.container-fluid -->
 
-</div>
+        </div>
         <!-- End of Main Content -->
 
         <!-- Footer -->
@@ -121,10 +121,10 @@ $(document).ready(function() {
             var d='';
             var selected = [];
             $(brands).each(function(index, brand){
-               // console.log($(this).val());
+                // console.log($(this).val());
                 d+=d+$(this).val()+',';
-             //   var fieldID = $(this).prev().attr("id");
-             //   $('#' + fieldID).val("hello world");
+                //   var fieldID = $(this).prev().attr("id");
+                //   $('#' + fieldID).val("hello world");
                 //selected.push([$(this).val()]);
             });
             $("#c_id").val(d);

@@ -143,7 +143,8 @@ class ExamController extends AppController{
     }
     public function examadd(){
 
-        $data=$this->Exam->find("all")->toArray();
+        $data=$this->Class->find("all")->toArray();
+        $dataexam=$this->Exam->find("all")->toArray();
         $id=$this->request->getQuery('id');
 
         if($this->request->is("post")) {
@@ -199,8 +200,8 @@ class ExamController extends AppController{
             // ]);
             $this->Flash->success('Exam Added');
 
-            $this->redirect(array("controller" => "Admin",
-                "action" => "classadd"));
+            $this->redirect(array("controller" => "Exam",
+                "action" => "examadd"));
 
 
             return;
@@ -217,6 +218,7 @@ class ExamController extends AppController{
         }
 
         $this->set("class",$data);
+        $this->set("exam",$dataexam);
 
 
     }

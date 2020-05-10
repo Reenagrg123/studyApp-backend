@@ -249,8 +249,6 @@ class McqService extends AppController{
                 $data[$i]['solution']=$sol;
 
 
-
-
             }
 
 
@@ -272,19 +270,21 @@ class McqService extends AppController{
         foreach($data as $d){
             if(! $data[$i]['type']=='paragraph'){
                 $exans= explode('[A]',$d['question']);
-                if(array_key_exists(1,$exans) && $this->checkpresence($exans[1],$checkpara)){
+                if(array_key_exists(1,$exans) && $this->checkpresence($exans[1],$checkpara)) {
 
-                    $sol=explode('[Ans]',$exans[1]);
-                    $getans=$sol[0];
-                    $getans=$this->replace($getans,$checkpara);
-                    $data[$i]['option']=explode(',',trim($getans));
-                    $data[$i]['type']='mcq';
+                    $sol = explode('[Ans]', $exans[1]);
+                    $getans = $sol[0];
+                    $getans = $this->replace($getans, $checkpara);
+                    $data[$i]['option'] = explode(',', trim($getans));
+                    $data[$i]['type'] = 'mcq';
 
                 }
+
+
                 if($data[$i]['option']==''){
-
+if(! $data[$i]['type']=='paragraph'){
                     $data[$i]['type']='integer';
-                }
+                }  }
 
             }
             $i++;

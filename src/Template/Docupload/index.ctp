@@ -63,16 +63,6 @@
 
 
 
-        <div class="form-group">
-            <label for="exampleFormControlInput1">Marks awarded for correct answer </label>
-            <input type="text" name="correct" class="form-control" id="">
-        </div>
-
-        <div class="form-group">
-            <label for="exampleFormControlInput1">Marks deducted for wrong answer</label>
-            <input type="text" name="wrong" class="form-control" id="">
-        </div>
-
         <label for="exampleFormControlInput1">Select file(ZIP)</label>
 
         <div class="custom-file">
@@ -99,9 +89,7 @@
     <th>Subject Name</th>
     <th>Chapter Name</th>
 
-    <th>Correct Answer Marks</th>
 
-    <th>Wrong Answer Marks</th>
     <th></th>
 
 </tr>
@@ -117,9 +105,7 @@
     <td><?php echo $r['Class']['class_name']; ?></td>
     <td><?php echo $r['Subject']['subject_name']; ?></td>
     <td><?php echo $r['Exercises']['title']; ?></td>
-    <td><?php echo $r['correct_mark']; ?></td>
 
-    <td><?php echo $r['wrong_mark']; ?></td>
     <td>
 
         <a href='<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "view","id"=>$has ]); ?>'> <i class="fa fa-eye" aria-hidden="true"></i></a>

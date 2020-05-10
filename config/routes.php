@@ -84,6 +84,10 @@ $routes->connect('/classadd', ['controller' => 'Admin', 'action' => 'classadd'])
 $routes->connect('/subject', ['controller' => 'Admin', 'action' => 'subject']);
 $routes->connect('/excersise', ['controller' => 'Admin', 'action' => 'excersise']);
 
+$routes->connect('/exam/examadd', ['controller' => 'Exam', 'action' => 'examadd']);
+$routes->connect('/exam/subject', ['controller' => 'Exam', 'action' => 'subject']);
+$routes->connect('/exam/excersise', ['controller' => 'Exam', 'action' => 'excersise']);
+
 $routes->connect('/delclass', ['controller' => 'Admin', 'action' => 'delclass']);
 
 $routes->connect('/delsub', ['controller' => 'Admin', 'action' => 'delsub']);

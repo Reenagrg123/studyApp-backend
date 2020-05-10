@@ -23,3 +23,16 @@ ALTER TABLE `uploadfile` ADD `c_id` VARCHAR(200) NOT NULL AFTER `id`, ADD `s_id`
 
 
 CREATE TABLE `appretiate`.`mcq` ( `id` INT NOT NULL AUTO_INCREMENT ,  `hash_id` VARCHAR(200) NOT NULL ,  `data` LONGTEXT NOT NULL ,  `type` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+
+
+
+
+CREATE TABLE `appretiate`.`classexammap` ( `id` INT NOT NULL AUTO_INCREMENT ,  `exam_id` VARCHAR(200) NOT NULL ,  `c_id` VARCHAR(200) NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `appretiate`.`exam` ( `id` INT NOT NULL AUTO_INCREMENT ,  `exam_name` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `appretiate`.`examsubject` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` VARCHAR(200) NOT NULL ,  `subject_name` VARCHAR(200) NOT NULL ,  `create_date` INT NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;

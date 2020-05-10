@@ -201,9 +201,11 @@ class ApiController extends AppController{
                 $send['name']=$userobj->f_name;
                 $send['mobile']=$userobj->mobile;
                 $send['email']=$userobj->email;
-                $send['class']=$userobj->class;
+                $send['class_id']=$userobj->class;
                 $send['gender']=$userobj->gender;
                 $send['dob']=$userobj->dob;
+                $claaobj = $this->Class->findById($userobj->id)->first()->toArray();
+                $send['class_name']=$claaobj['class_name'];
 
 
 
@@ -240,13 +242,10 @@ class ApiController extends AppController{
 
         if($this->request->is("post")) {
 
-
-
-
             $date=date("Y-m-d");
             $data = $this->request->data;
 
-            if($data['f_name']==''  || $data['mobile']=='' || $data['password']==''){
+            if($data['f_name']==''  || $data['mobile']=='' || $data['password']=='' || $data['class']==''){
 
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
@@ -271,7 +270,7 @@ class ApiController extends AppController{
             $userobj->mobile=$data['mobile'];
             $userobj->f_name = $data['f_name'];
             $userobj->email = $data['email'];
-
+            $userobj->class = $data['class'];
             // $encryptpass = Security::encrypt($data['password'], $this->key);
 
 
@@ -295,7 +294,7 @@ class ApiController extends AppController{
                     $send['email']=$datauser['email'];
                     $send['class']=$datauser['class'];
                     $send['gender']=$datauser['gender'];
-
+                    $send['class']=$datauser['class'];
 
 
 

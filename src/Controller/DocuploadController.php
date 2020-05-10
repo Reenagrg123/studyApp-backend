@@ -181,8 +181,7 @@ $upload=$mcqservice->fitertext();
                 $uploadfiles->hashid=$hashid;
                 $uploadfiles->question_type=$data['q_type'];
                 $uploadfiles->title=$data['title'];
-                $uploadfiles->correct_mark=$data['correct'];
-                $uploadfiles->wrong_mark=$data['wrong'];
+
                 $uploadfiles->create_date = date("Y-m-d H:i:s");
                 $this->Uploadfiles->save($uploadfiles);
 

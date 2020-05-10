@@ -37,21 +37,102 @@
                     $data=json_decode($d['data']);
                     ?>
 
-            <div class="block" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?> </div>
-
+            <div id="<?php echo $i; ?>" class="block" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?></div>
             <div class="inner" style="display:none;">
+<?php if($d['type']=='mcq'){ ?>
+                <form >
+
+
+       Q.  <?php  echo $data->question; ?>
+
+
+                    <?php foreach ($data->option as $o){
+                            ?>
+
+         <?php  echo $o; ?>
+                    <?php } ?>
+
+                    <p>Answer</p>
+                    <?php foreach ($data->answer as $a){
+                            ?>
+ <?php  echo $a." "; ?>
 
 
 
-      <?php  echo json_decode($d['data'])->question; ?>
+                    <?php } ?>
 
 
+
+                  Sol.  <?php foreach ($data->solution as $s){
+                            ?>
+
+         <?php  echo $s; ?>
+
+
+                    <?php } ?>
+
+                </form>
+                <?php } if($d['type']=='integer'){ ?>
+
+                <form >
+
+
+                    Q.  <?php  echo $data->question; ?>
+
+
+
+                    <p>Answer</p>
+                    <?php foreach ($data->answer as $a){
+                            ?>
+                    <?php  echo $a." "; ?>
+
+
+                    <?php } ?>
+
+                    Sol.  <?php foreach ($data->solution as $st){
+                        ?>
+
+                    <?php  echo $st; ?>
+
+
+                    <?php } ?>
+
+                </form>
+
+
+
+                      <?php  } if($d['type']=="paragraph"){ ?>
+
+<form>
+    Q.  <?php  echo $data->question; ?>
+
+    <?php foreach ($data->innerquestion as $in){
+            echo $in->question."<br/>";
+
+            foreach($in->option as $op){
+            echo $op;
+            }
+
+            foreach($in->answer as $op){
+            echo $op;
+            }
+
+            foreach($in->solution as $op){
+            echo $op;
+            }
+            ?>
+
+
+
+
+    <?php } ?>
+
+
+</form>
+
+<?php } ?>
 
             </div>
-
-
-
-
 
             <?php $i++;
                     } ?>
@@ -61,7 +142,7 @@
 </div>
         <!-- /.container-fluid -->
 
-        </div>
+
         <!-- End of Main Content -->
 
         <!-- Footer -->
@@ -69,6 +150,9 @@
         <!-- End of Footer -->
 
 <script>
+$(document).ready(function() {
+    $('.summernote').summernote();
+});
 $(document).ready( function () {
     $('#table_id').DataTable();
 } );

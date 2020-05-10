@@ -6,7 +6,11 @@ use App\Controller\AppController;
 use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
 use App\Model\Table\CategorysTables;
+use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
+use App\Model\Table\ExamexercisessTables;
+use App\Model\Table\ExamsTables;
+use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
@@ -22,7 +26,7 @@ use Cake\Datasource\EntityInterface;
 
 
 
-class AdminController extends AppController{
+class ExamController extends AppController{
     public $base_url;
 
     public function initialize(){
@@ -33,8 +37,10 @@ class AdminController extends AppController{
         // $this->table=TableRegistry::get("user");
         $this->Users=$this->loadModel("User");
         $this->Class=$this->loadModel(ClasssTables::class);
-        $this->Subject=$this->loadModel(SubjectsTables::class);
-        $this->Exercise=$this->loadModel(ExercisessTables::class);
+        $this->Subject=$this->loadModel(Examsubjects::class);
+        $this->Exercise=$this->loadModel(ExamexercisessTables::class);
+        $this->Exam=$this->loadModel(ExamsTables::class);
+        $this->ClassMap=$this->loadModel(ClassexammapsTables::class);
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -106,10 +112,10 @@ class AdminController extends AppController{
     }
     public function delclass(){
         $id=$this->request->getQuery('id');
-        $dataclass=$this->Class->findById($id)->first();
+        $dataclass=$this->Exam->findById($id)->first();
         if($dataclass){
 
-            $this->Class->delete($dataclass);
+            $this->Exam->delete($dataclass);
 
             $subjectrec=$this->Subject->find('all')->where(['c_id'=>$id]);
             foreach ($subjectrec as $s)
@@ -135,47 +141,63 @@ class AdminController extends AppController{
         return;
 
     }
-    public function classadd(){
+    public function examadd(){
 
-        $data=$this->Class->find("all")->toArray();
+        $data=$this->Exam->find("all")->toArray();
         $id=$this->request->getQuery('id');
 
         if($this->request->is("post")) {
 
             $data = $this->request->data();
-            $classname=$data['class'];
+            $classid=$data['c_id'];
+            $carray=array_unique(explode(',',$classid));
+            //var_dump(array_unique($carray));exit;
+
+
 
             //   $data=$this->Users->get(2);
             if($id){
-                $dataclass=$this->Class->findById($id)->first();
-                $dataclass->class_name=$data['class'];
+                $dataclass=$this->Exam->findById($id)->first();
+                $dataclass->exam_name=$data['name'];
 
-                $this->Class->save($dataclass);
+                $this->Exam->save($dataclass);
 
                 $this->Flash->success('Data Updated');
 
 
-                $this->redirect(array("controller" => "Admin",
-                    "action" => "classadd"));
+                $this->redirect(array("controller" => "Exam",
+                    "action" => "examadd"));
 
                 return;
 
 
             }
 
-            $classobj=$this->Class->newEntity();
+            $classobj=$this->Exam->newEntity();
 
-            $classobj->class_name=$data['class'];
-
-
+            $classobj->exam_name=$data['name'];
             $classobj->create_date = date("Y-m-d H:i:s");
 
-            $this->Class->save($classobj);
+            $this->Exam->save($classobj);
+
+
+            foreach ($carray as $ids){
+                if($ids){
+                    $map=$this->ClassMap->newEntity();
+                    $map->c_id=$ids;
+                    $map->exam_id=$classobj->id;
+                    $this->ClassMap->save($map);
+
+                }
+
+
+            }
+
 
             // $this->Flash->set(' Class Added.', [
             //     'element' => 'Success'
             // ]);
-            $this->Flash->success('Class Added');
+            $this->Flash->success('Exam Added');
 
             $this->redirect(array("controller" => "Admin",
                 "action" => "classadd"));
@@ -185,7 +207,7 @@ class AdminController extends AppController{
 
         }
         if($id){
-            $dataclass=$this->Class->findById($id)->first()->toArray();
+            $dataclass=$this->Exam->findById($id)->first()->toArray();
             if($data){
                 $this->set("edit",1);
                 $this->set("editdata",$dataclass);
@@ -201,8 +223,8 @@ class AdminController extends AppController{
 
     public function subject(){
 
-        $datacl=$this->Class->find("all")->toArray();
-        $subd=$this->Subject->find("all")->contain(['class'])->toArray();
+        $datacl=$this->Exam->find("all")->toArray();
+        $subd=$this->Subject->find("all")->contain(['exam'])->toArray();
         $id=$this->request->getQuery('id');
         if($this->request->is("post")) {
             $data = $this->request->data();
@@ -216,7 +238,7 @@ class AdminController extends AppController{
                 $datasub->subject_name=$sub_name;
                 $this->Subject->save($datasub);
                 $this->Flash->success('Subject Updated');
-                $this->redirect(array("controller" => "Admin",
+                $this->redirect(array("controller" => "Exam",
                     "action" => "subject"));
 
                 return;
@@ -235,7 +257,7 @@ class AdminController extends AppController{
             $this->Subject->save($classobj);
             $this->Flash->success('Subject Added');
 
-            $this->redirect(array("controller" => "Admin",
+            $this->redirect(array("controller" => "Exam",
                 "action" => "subject"));
 
             return;
@@ -258,8 +280,8 @@ class AdminController extends AppController{
 
     public function excersise(){
 
-        $datac=$this->Class->find("all")->toArray();
-        $exdata=$this->Exercise->find("all")->contain(['class','subject'])->toArray();
+        $datac=$this->Exam->find("all")->toArray();
+        $exdata=$this->Exercise->find("all")->contain(['exam','examsubject'])->toArray();
         $id=$this->request->getQuery('id');
 
         $subject=$this->Subject->find("all")->toArray();
@@ -279,8 +301,8 @@ class AdminController extends AppController{
 
                 $this->Exercise->save($datasub);
 
-                $this->Flash->success('Class Updated');
-                $this->redirect(array("controller" => "Admin",
+                $this->Flash->success('data Updated');
+                $this->redirect(array("controller" => "Exam",
                     "action" => "excersise"));
 
                 return;
@@ -302,7 +324,7 @@ class AdminController extends AppController{
             $this->Flash->success('Exercise Added');
 
 
-            $this->redirect(array("controller" => "Admin",
+            $this->redirect(array("controller" => "Exam",
                 "action" => "excersise"));
 
             return;

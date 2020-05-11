@@ -7,13 +7,17 @@ use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
 use App\Model\Table\CategorysTables;
 use App\Model\Table\ClasssTables;
+use App\Model\Table\ExamquestionsTables;
 use App\Model\Table\ExercisessTables;
+use App\Model\Table\GenerateexamsTables;
+use App\Model\Table\McqsTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
 use App\Model\Table\SubjectsTables;
 use App\Model\Table\TrafficsTables;
 use App\Model\Table\TransactionsTables;
+use App\Model\Table\UploadfilesTables;
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
 use Cake\Mailer;
@@ -44,6 +48,11 @@ class ApiController extends AppController{
         $this->Subject=$this->loadModel(SubjectsTables::class);
 
         $this->Exercise=$this->loadModel(ExercisessTables::class);
+        $this->Uploadfiles=$this->loadModel(UploadfilesTables::class);
+        $this->GenerateExam=$this->loadModel(GenerateexamsTables::class);
+        $this->ExamQuestion=$this->loadModel(ExamquestionsTables::class);
+
+        $this->Mcq=$this->loadModel(McqsTables::class);
 
         $session = $this->getRequest()->getSession();
         // $this->authorize();
@@ -56,6 +65,89 @@ class ApiController extends AppController{
 
         $this->set("title","Dashboard");
     }
+
+public function getexamdata(){
+        $send=[];
+    if ($this->request->is("post")) {
+        $date = date("Y-m-d");
+        $data = $this->request->data;
+        $id=$data['id'];
+$data=[];
+$tmpdata=[];
+        $generatedata=$this->GenerateExam->find("all")->where(['id'=>$id])->first()->toArray();
+if($generatedata){
+$tmp=[];
+$tmp['exam_type']=$generatedata['exam_type'];
+$tmp['correct_mark']=$generatedata['correct_mark'];
+$tmp['wrong_mark']=$generatedata['wrong_mark'];
+$tmp['total_time']=$generatedata['total_time'];
+
+$data['otherinfo']=$tmp;
+
+
+    $hashid=$generatedata['id'];
+
+    $examquestion=$this->ExamQuestion->find("all")->where(['generateexam_id'=>$id])->toArray();
+foreach ($examquestion as $ex){
+    $q_id=$ex['q_id'];
+    $mcq=$this->Mcq->find("all")->where(['id'=>$q_id])->first()->toArray();
+$temp=[];
+$temp['question_id']=$mcq['id'];
+$temp['question']=$mcq['data'];
+$temp['type']=$mcq['type'];
+
+array_push($tmpdata,$temp);
+
+}
+$data['questiondata']=$tmpdata;
+    $send['error'] = 0;
+    $send['data'] = $data;
+    //  $send['id'] = $userobj->id;
+
+    echo json_encode($send);
+    exit;
+
+
+
+}
+        $send['error'] = 1;
+        $send['msg'] = "No Exam Added";
+        //  $send['id'] = $userobj->id;
+
+        echo json_encode($send);
+        exit;
+
+
+    }
+
+
+}
+
+    public function generatedtest(){
+        if ($this->request->is("post")) {
+                $date = date("Y-m-d");
+            $data = $this->request->data;
+$c_id=$data['c_id'];
+$s_id=$data['s_id'];
+$ch_id=$data['ch_id'];
+            $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id])->toArray();
+$data=[];
+
+foreach ($generatedata as $d){
+$temp=[];
+$temp['name']=$d['name'];
+$temp['id']=$d['id'];
+array_push($data,$temp);
+}
+echo json_encode($data);
+exit;
+
+        }
+
+
+
+
+        }
 
 
     public function getclass(){

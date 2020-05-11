@@ -59,7 +59,8 @@ $routes->connect('/api', ['controller' => 'Api', 'action' => 'index']);
 $routes->connect('/api/signup', ['controller' => 'Api', 'action' => 'signup']);
 
 $routes->connect('/api/login', ['controller' => 'Api', 'action' => 'login']);
-
+$routes->connect('/api/generatedtest', ['controller' => 'Api', 'action' => 'generatedtest']);
+$routes->connect('/api/getexamdata', ['controller' => 'Api', 'action' => 'getexamdata']);
 $routes->connect('/api/profile', ['controller' => 'Api', 'action' => 'profile']);
 
 $routes->connect('/api/getclass', ['controller' => 'Api', 'action' => 'getclass']);
@@ -71,7 +72,9 @@ $routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
 $routes->connect('/getdata', ['controller' => 'Docupload', 'action' => 'getdata']);
 $routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index']);
 $routes->connect('/materials', ['controller' => 'Docupload', 'action' => 'materials']);
-$routes->connect('/generatetest', ['controller' => 'Docupload', 'action' => 'test']);
+$routes->connect('/generatetest', ['controller' => 'Generate', 'action' => 'index']);
+$routes->connect('/generatetest/add', ['controller' => 'Generate', 'action' => 'add']);
+
 $routes->connect('/', ['controller' => 'Main', 'action' => 'login']);
 
 

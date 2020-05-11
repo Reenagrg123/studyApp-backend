@@ -172,7 +172,7 @@
 
 
 
-        <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "exam" ]); ?>">
+        <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Generate", "action" => "index" ]); ?>">
         <i class="fa fa-user-circle" aria-hidden="true"></i>
         <span>Practice Exam</span></a>
 

@@ -36,3 +36,11 @@ CREATE TABLE `appretiate`.`exam` ( `id` INT NOT NULL AUTO_INCREMENT ,  `exam_nam
 
 
 CREATE TABLE `appretiate`.`examsubject` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` VARCHAR(200) NOT NULL ,  `subject_name` VARCHAR(200) NOT NULL ,  `create_date` INT NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+
+
+
+CREATE TABLE `appretiate`.`generateexam` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` INT(200) NOT NULL ,  `s_id` INT(200) NOT NULL ,  `ex_id` INT(200) NOT NULL ,  `exam_type` INT(200) NOT NULL ,  `name` VARCHAR(200) NOT NULL ,  `correct_mark` INT(200) NOT NULL ,  `wrong_mark` INT(200) NOT NULL ,  `total_time` INT(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `appretiate`.`examquestion` ( `id` INT NOT NULL AUTO_INCREMENT ,  `generateexam_id` INT(200) NOT NULL ,  `q_id` INT(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;

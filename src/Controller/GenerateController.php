@@ -97,63 +97,63 @@ class GenerateController extends AppController{
         return;
     }
 
-public function addquestion(){
+    public function addquestion(){
         $send=[];
-    if($this->request->is("post")) {
-        $data = $this->request->data;
-$id=$data['id'];
-$qid=$data['qid'];
+        if($this->request->is("post")) {
+            $data = $this->request->data;
+            $id=$data['id'];
+            $qid=$data['qid'];
 
-        $records=$this->ExamQuestion->find("all")->where(['generateexam_id'=>$id,'q_id'=>$qid])->toArray();
+            $records=$this->ExamQuestion->find("all")->where(['generateexam_id'=>$id,'q_id'=>$qid])->toArray();
 
-if(! $records){
+            if(! $records){
 
-    $examq=$this->ExamQuestion->newEntity();
+                $examq=$this->ExamQuestion->newEntity();
 
-    $examq->generateexam_id=$id;
-    $examq->q_id=$qid;
-    $examq->create_date=date("Y-m-d H:i:s");
-    $this->ExamQuestion->save($examq);
-    $send['err']=0;
-    $send['msg']='Added';
-echo json_encode($send);
-exit;
+                $examq->generateexam_id=$id;
+                $examq->q_id=$qid;
+                $examq->create_date=date("Y-m-d H:i:s");
+                $this->ExamQuestion->save($examq);
+                $send['err']=0;
+                $send['msg']='Added';
+                echo json_encode($send);
+                exit;
 
-}
+            }
 
-        $send['err']=1;
-        $send['msg']='Already Added';
-        echo json_encode($send);
-        exit;
-
-
-    }
+            $send['err']=1;
+            $send['msg']='Already Added';
+            echo json_encode($send);
+            exit;
 
 
-}
-
-
-public function add(){
-    $classdata=$this->Class->find("all")->toArray();
-    $id=$this->request->getQuery('id');
-
-    if($this->request->is("post")) {
-        $data = $this->request->data;
-$has=$data['up_id'];
-        $records=$this->Mcq->find("all")->where(['hash_id'=>$has])->toArray();
-
-
-        $this->set('id',$id);
-        $this->set('data',$records);
-        return;
+        }
 
 
     }
-    $this->set("class",$classdata);
+
+
+    public function add(){
+        $classdata=$this->Class->find("all")->toArray();
+        $id=$this->request->getQuery('id');
+
+        if($this->request->is("post")) {
+            $data = $this->request->data;
+            $has=$data['up_id'];
+            $records=$this->Mcq->find("all")->where(['hash_id'=>$has])->toArray();
+
+
+            $this->set('id',$id);
+            $this->set('data',$records);
+            return;
+
+
+        }
+        $this->set("class",$classdata);
 
 
 
-}
+    }
     public function index(){
 
         $classdata=$this->Class->find("all")->toArray();
@@ -169,6 +169,7 @@ $has=$data['up_id'];
             $generate->ex_id=$data['ex_id'];
             $generate->c_id=$data['c_id'];
             $generate->name=$data['name'];
+            $generate->exam_type=$data['exam_type'];
             $generate->correct_mark=$data['correct_mark'];
             $generate->wrong_mark=$data['wrong_mark'];
             $generate->total_time=$data['total_time'];
@@ -188,7 +189,7 @@ $has=$data['up_id'];
 
 
         $this->set("class",$classdata);
-$this->set("generatedata",$generatedata);
+        $this->set("generatedata",$generatedata);
 
 
 

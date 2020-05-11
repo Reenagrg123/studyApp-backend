@@ -269,7 +269,8 @@ var id=$("#generateid").val();
 
         },
         function(data, status){
-        alert(JSON.stringify(data.msg));
+
+       // alert(JSON.stringify(data.msg));
            // $("#up_id").html(data);
         });
 

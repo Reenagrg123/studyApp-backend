@@ -21,7 +21,7 @@
         <div class="container">
             <h3 align="center" >
 
-                <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?> Class/Paper </h3>
+                <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?> Class </h3>
             <!--<form id="post" method="post" enctype="multipart/form-data">-->
 
             <form method="post">

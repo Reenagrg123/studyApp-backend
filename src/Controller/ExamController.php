@@ -89,7 +89,7 @@ class ExamController extends AppController{
             return;
         }
         $this->Flash->error('Data Not Found');
-        $this->redirect(array("controller" => "Admin",
+        $this->redirect(array("controller" => "Exam",
             "action" => "excersise"));
 
         return;
@@ -111,7 +111,7 @@ class ExamController extends AppController{
             $this->Flash->success('Data Deleted');
 
 
-            $this->redirect(array("controller" => "Admin",
+            $this->redirect(array("controller" => "Exam",
                 "action" => "subject"));
 
             return;
@@ -146,8 +146,8 @@ class ExamController extends AppController{
             $this->Flash->success('Data Deleted');
 
 
-            $this->redirect(array("controller" => "Admin",
-                "action" => "classadd"));
+            $this->redirect(array("controller" => "Exam",
+                "action" => "examadd"));
 
             return;
         }

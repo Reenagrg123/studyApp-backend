@@ -177,7 +177,7 @@
 
     <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
     <i class="fa fa-book" aria-hidden="true"></i>
-    <span>Min Exam</span></a>
+    <span>Main Exam</span></a>
 
 <!--
 <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "test" ]); ?>">

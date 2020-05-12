@@ -138,7 +138,7 @@
       <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo5" aria-expanded="true" aria-controls="collapseTwo">
               <i class="fa fa-fw fa-cog"></i>
-              <span>Upload</span>
+              <span>Upload Study Materials</span>
           </a>
           <div id="collapseTwoo5" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">

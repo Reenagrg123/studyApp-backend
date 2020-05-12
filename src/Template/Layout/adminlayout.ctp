@@ -104,6 +104,12 @@
                   <i class="fa fa-file" aria-hidden="true"></i>
                   <span>Add Chapters</span></a>
 
+
+
+                <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "excersise" ]); ?>">
+                <i class="fa fa-file" aria-hidden="true"></i>
+                <span>Upload Questions</span></a>
+
                     </div>
                   </div>
                 </li>
@@ -129,6 +135,11 @@
             <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "excersise" ]); ?>">
             <i class="fa fa-file" aria-hidden="true"></i>
             <span>Add Chapters</span></a>
+
+
+          <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "excersise" ]); ?>">
+          <i class="fa fa-file" aria-hidden="true"></i>
+          <span>Upload Questions</span></a>
 
         </div>
       </div>

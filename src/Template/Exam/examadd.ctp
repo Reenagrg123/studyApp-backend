@@ -1,4 +1,4 @@
-<?= $this->Html->css("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"); ?>
+
         <?= $this->Html->script("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"); ?>
 
 

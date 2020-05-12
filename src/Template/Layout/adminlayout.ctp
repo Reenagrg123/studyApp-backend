@@ -165,7 +165,7 @@
 <li class="nav-item">
 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo6" aria-expanded="true" aria-controls="collapseTwo">
     <i class="fa fa-fw fa-cog"></i>
-    <span>Generate Exam</span>
+    <span>Generate Test</span>
 </a>
 <div id="collapseTwoo6" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
     <div class="bg-white py-2 collapse-inner rounded">
@@ -173,7 +173,7 @@
 
         <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Generate", "action" => "index" ]); ?>">
         <i class="fa fa-user-circle" aria-hidden="true"></i>
-        <span>Generate Test</span></a>
+        <span>Generate Exam</span></a>
 
     <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
     <i class="fa fa-book" aria-hidden="true"></i>

@@ -119,7 +119,7 @@
 
                 <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "examadd" ]); ?>">
                 <i class="fa fa-user-circle" aria-hidden="true"></i>
-                <span>Add Class/Paper</span></a>
+                <span>Add Exam/Paper</span></a>
 
               <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "subject" ]); ?>">
               <i class="fa fa-book" aria-hidden="true"></i>

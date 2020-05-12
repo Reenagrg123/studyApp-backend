@@ -27,7 +27,7 @@
             <form method="post">
 
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Enter a class or paper name</label>
+                    <label for="exampleFormControlInput1">Enter a class </label>
                     <input type="text" name="class" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
                 </div>
                 <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->

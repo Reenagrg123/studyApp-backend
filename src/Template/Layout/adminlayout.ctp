@@ -171,19 +171,19 @@
     <div class="bg-white py-2 collapse-inner rounded">
 
 
-
         <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Generate", "action" => "index" ]); ?>">
         <i class="fa fa-user-circle" aria-hidden="true"></i>
-        <span>Practice Exam</span></a>
+        <span>Generate Test</span></a>
 
     <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
     <i class="fa fa-book" aria-hidden="true"></i>
-    <span>Online Exam</span></a>
+    <span>Min Exam</span></a>
 
-
+<!--
 <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "test" ]); ?>">
 <i class="fa fa-file" aria-hidden="true"></i>
 <span>Exam</span></a>
+-->
 
         </div>
         </div>

@@ -332,7 +332,7 @@ class AdminController extends AppController{
 
                 $this->Exercise->save($datasub);
 
-                $this->Flash->success('Class Updated');
+                $this->Flash->success('Chapter Updated');
                 $this->redirect(array("controller" => "Admin",
                     "action" => "excersise"));
 

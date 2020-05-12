@@ -19,14 +19,16 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" > Add Class/Paper </h3>
+            <h3 align="center" >
+
+                <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?> Class/Paper </h3>
             <!--<form id="post" method="post" enctype="multipart/form-data">-->
 
             <form method="post">
 
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a class or paper name</label>
-                    <input type="text" name="class" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" >
+                    <input type="text" name="class" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
                 </div>
                 <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->
                 <!--</div>-->
@@ -47,7 +49,7 @@
 <table id="table_id" class="display">
 <thead>
 <tr>
-    <th>S.No</th>
+    <th>Id</th>
     <th>Class Name</th>
     <th></th>
 

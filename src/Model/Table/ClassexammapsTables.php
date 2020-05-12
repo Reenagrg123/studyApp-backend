@@ -15,6 +15,7 @@ class ClassexammapsTables extends Table{
         $this->setTable('classexammap');
         $this->setPrimaryKey('id');
 
+        $this->hasOne('Class',['classname'=>'id'])->setForeignKey('id')->setBindingKey(['c_id']);
 
 
 

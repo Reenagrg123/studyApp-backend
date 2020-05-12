@@ -22,13 +22,14 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" > Add Exam </h3>
+            <h3 align="center" >  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+                Exam </h3>
             <!--<form id="post" method="post" enctype="multipart/form-data">-->
 
             <form method="post">
                 <div>
                     <label for="exampleFormControlInput1">Select Class</label>
-                    <select  id="multiselect" multiple="multiple">
+                    <select  id="multiselect" multiple="multiple" required>
                         <?php foreach($class as $c){ ?>
                         <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
                         <?php } ?>
@@ -39,7 +40,7 @@
                 <input type="hidden" name="c_id" id="c_id" />
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter Exam Name</label>
-                    <input type="text" name="name" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['exam_name']; }?>">
+                    <input type="text" name="name" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['exam_name']; }?>" required>
                 </div>
                 <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->
                 <!--</div>-->
@@ -61,7 +62,8 @@
 <thead>
 <tr>
     <th>S.No</th>
-    <th>Class Name</th>
+    <th>Exam Name</th>
+    <th>Added Class Name</th>
     <th></th>
 
 </tr>
@@ -75,6 +77,7 @@
 
     <td><?php echo $c['id']; ?></td>
     <td><?php echo $c['exam_name']; ?></td>
+    <td><?php echo $c['classlist']; ?></td>
     <td>
     <a href='<?php echo $this->Url->build([  "controller" => "Exam", "action" => "examadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 
@@ -105,6 +108,7 @@
                 ?>
 
 <script>
+$("#multiselect").removeAttr("required");
 $("#multiselect").parent().hide();
 </script>
         <?php

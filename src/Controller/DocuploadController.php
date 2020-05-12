@@ -44,6 +44,7 @@ class DocuploadController extends AppController{
 
     }
 
+
 public function view(){
 
 
@@ -94,7 +95,7 @@ public function getdata(){
 
           }
 
-          $dt='<option>Select Option</option>';
+          $dt='<option value="">Select Option</option>';
 foreach ($class as $d){
 
 $id=$d['id'];

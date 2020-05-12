@@ -19,11 +19,13 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" > Add chapters </h3>
+            <h3 align="center" >   <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+                chapters </h3>
             <form method="post">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select a class/paper</label>
-                    <select class="form-control" name="c_id" id="c_id">
+                    <select class="form-control" name="c_id" id="c_id" required>
+                        <option value="">Select Option</option>
                         <?php foreach($class as $c){ ?>
                         <option value="<?php echo $c['id']; ?>"><?php echo $c['exam_name']; ?></option>
                         <?php } ?>
@@ -32,18 +34,17 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select a subject</label>
-                    <select class="form-control" name="s_id" id="s_id">
-                        <?php foreach($subject as $c){ ?>
-                        <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
-                        <?php } ?>
+                    <select class="form-control" name="s_id" id="s_id" required>
+
 
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a chapter name</label>
-                    <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['title']; }?>">
+                    <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['title']; }?>" required>
                 </div>
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success">  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+                </button>
 
             </form>
 
@@ -106,14 +107,35 @@
                 ?>
 
 <script>
+$("#c_id").removeAttr("required");
+$("#s_id").removeAttr("required");
+
 $("#c_id").parent().hide();
 $("#s_id").parent().hide();
 
 </script>
         <?php
                 }?>
+        <?php $url=$this->Url->build([  "controller" => "Exam", "action" => "getdata" ]); ?>
+
 
 <script>
+
+
+$("#c_id").change(function(){
+    var c_id= $("#c_id").val();
+    $.post('<?php echo $url; ?>',
+        {
+            type: "subject",
+            class: c_id
+        },
+        function(data, status){
+            $("#s_id").html(data);
+        });
+});
+
+
+
 $(document).ready( function () {
     $('#table_id').DataTable();
 } );

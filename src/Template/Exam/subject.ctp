@@ -19,12 +19,14 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" > Add Subject </h3>
+            <h3 align="center" >  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+
+                Subject </h3>
             <form method="post">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select a Exam/paper</label>
-                    <select class="form-control" name="c_id" id="c_id">
-                        <option></option>
+                    <label for="exampleFormControlSelect1">Select a Exam</label>
+                    <select class="form-control" name="c_id" id="c_id" required>
+                        <option value="">Select Option</option>
                        <?php foreach($class as $c){ ?>
                         <option value="<?php echo $c['id']; ?>"><?php echo $c['exam_name']; ?></option>
                         <?php } ?>
@@ -33,9 +35,11 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a subject name</label>
-                    <input type="text" name="sub_name" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['subject_name']; }?>">
+                    <input type="text" name="sub_name" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['subject_name']; }?>" required>
                 </div>
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success"> <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+
+                </button>
 
             </form>
 
@@ -96,6 +100,7 @@
                 ?>
 
              <script>
+             $("#c_id").removeAttr("required");
              $("#c_id").parent().hide();
              </script>
                 <?php

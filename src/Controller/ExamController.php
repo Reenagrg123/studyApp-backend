@@ -9,15 +9,19 @@ use App\Model\Table\CategorysTables;
 use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
 use App\Model\Table\ExamexercisessTables;
+use App\Model\Table\ExamquestionsTables;
 use App\Model\Table\ExamsTables;
 use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
+use App\Model\Table\GenerateexamsTables;
+use App\Model\Table\McqsTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
 use App\Model\Table\SubjectsTables;
 use App\Model\Table\TrafficsTables;
 use App\Model\Table\TransactionsTables;
+use App\Model\Table\UploadfilesTables;
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
 use Cake\Mailer;
@@ -41,6 +45,16 @@ class ExamController extends AppController{
         $this->Exercise=$this->loadModel(ExamexercisessTables::class);
         $this->Exam=$this->loadModel(ExamsTables::class);
         $this->ClassMap=$this->loadModel(ClassexammapsTables::class);
+
+
+
+
+        $this->Uploadfiles=$this->loadModel(UploadfilesTables::class);
+        $this->GenerateExam=$this->loadModel(GenerateexamsTables::class);
+        $this->ExamQuestion=$this->loadModel(ExamquestionsTables::class);
+
+        $this->Mcq=$this->loadModel(McqsTables::class);
+
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -117,6 +131,8 @@ class ExamController extends AppController{
 
             $this->Exam->delete($dataclass);
 
+
+
             $subjectrec=$this->Subject->find('all')->where(['c_id'=>$id]);
             foreach ($subjectrec as $s)
                 $this->Subject->delete($s);
@@ -124,6 +140,7 @@ class ExamController extends AppController{
             $exerciserecord=$this->Exercise->find('all')->where(['c_id'=>$id]);
             foreach ($exerciserecord as $e)
                 $this->Exercise->delete($e);
+
 
 
             $this->Flash->success('Data Deleted');
@@ -143,7 +160,7 @@ class ExamController extends AppController{
     }
     public function examadd(){
 
-        $data=$this->Class->find("all")->toArray();
+        $datac=$this->Class->find("all")->toArray();
         $dataexam=$this->Exam->find("all")->toArray();
         $id=$this->request->getQuery('id');
 
@@ -209,7 +226,7 @@ class ExamController extends AppController{
         }
         if($id){
             $dataclass=$this->Exam->findById($id)->first()->toArray();
-            if($data){
+            if($dataclass){
                 $this->set("edit",1);
                 $this->set("editdata",$dataclass);
 
@@ -217,8 +234,24 @@ class ExamController extends AppController{
             // var_dump("asfasfasf");exit;
         }
 
-        $this->set("class",$data);
-        $this->set("exam",$dataexam);
+        $examd=[];
+
+        foreach ($dataexam as $d){
+            $tmp=[];
+            $tmp['id']=$d['id'];
+            $tmp['exam_name']=$d['exam_name'];
+            $map=$this->ClassMap->find("all")->where(['exam_id'=>$d['id']])->contain(['class'])->toArray();
+            $classlist='';
+            foreach ($map as $m){
+    $classlist.=$m['Class']['class_name'].",";
+            }
+         $tmp['classlist']=$classlist;
+            array_push($examd,$tmp);
+        }
+
+
+        $this->set("class",$datac);
+        $this->set("exam",$examd);
 
 
     }
@@ -280,6 +313,35 @@ class ExamController extends AppController{
 
     }
 
+    public function getdata(){
+
+        if($this->request->is("post")) {
+
+            $data = $this->request->data;
+            $date = date("Y-m-d");
+            $type=$data['type'];
+
+            if($type=='subject'){
+                $clas=$data['class'];
+                $class=$this->Subject->find("all")->where(['c_id'=>$clas])->toArray();
+                $name='subject_name';
+
+            }
+
+            $dt='<option value="">Select Option</option>';
+
+            foreach ($class as $d){
+                $id=$d['id'];
+                $dt.='<option value="'.$id.'">'.$d[$name].'</option>';
+
+                // array_push($datalist,$d);
+            }
+
+            echo $dt;
+            exit;
+        }
+        return;
+    }
     public function excersise(){
 
         $datac=$this->Exam->find("all")->toArray();
@@ -290,8 +352,7 @@ class ExamController extends AppController{
         if($this->request->is("post")) {
 
             $data = $this->request->data();
-            $sub_name=$data['s_id'];
-            $c_id=$data['c_id'];
+
             $ex=$data['exercise'];
 
             //  $data=$this->Subject->find("all")->where(["c_id"=>$c_id,"subject_name"=>$sub_name])->toArray();
@@ -310,7 +371,8 @@ class ExamController extends AppController{
                 return;
 
             }
-
+            $sub_name=$data['s_id'];
+            $c_id=$data['c_id'];
             $classobj=$this->Exercise->newEntity();
             $classobj->c_id=$c_id;
             $classobj->s_id=$sub_name;

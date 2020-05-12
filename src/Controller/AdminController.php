@@ -6,14 +6,18 @@ use App\Controller\AppController;
 use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
 use App\Model\Table\CategorysTables;
+use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
 use App\Model\Table\ExercisessTables;
+use App\Model\Table\GenerateexamsTables;
+use App\Model\Table\McqsTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
 use App\Model\Table\SubjectsTables;
 use App\Model\Table\TrafficsTables;
 use App\Model\Table\TransactionsTables;
+use App\Model\Table\UploadfilesTables;
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
 use Cake\Mailer;
@@ -35,6 +39,10 @@ class AdminController extends AppController{
         $this->Class=$this->loadModel(ClasssTables::class);
         $this->Subject=$this->loadModel(SubjectsTables::class);
         $this->Exercise=$this->loadModel(ExercisessTables::class);
+        $this->Uploadfiles=$this->loadModel(UploadfilesTables::class);
+        $this->ClassMap=$this->loadModel(ClassexammapsTables::class);
+        $this->GenerateExam=$this->loadModel(GenerateexamsTables::class);
+        $this->Mcq=$this->loadModel(McqsTables::class);
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -48,9 +56,6 @@ class AdminController extends AppController{
 
         $this->set("title","Dashboard");
     }
-    public function exam(){
-
-    }
 
     public function delexercise(){
         $id=$this->request->getQuery('id');
@@ -59,6 +64,21 @@ class AdminController extends AppController{
 
             $this->Exercise->delete($dataclass);
 
+
+              $exerciserecord=$this->Uploadfiles->find('all')->where(['ex_id'=>$id]);
+            foreach ($exerciserecord as $e){
+                $hasid=$e['hashid'];
+                $exerciserecord=$this->Mcq->find('all')->where(['hash_id'=>$hasid]);
+                foreach ($exerciserecord as $t)
+                    $this->Mcq->delete($t);
+
+                $this->Uploadfiles->delete($e);
+            }
+
+
+            $exerciserecord=$this->GenerateExam->find('all')->where(['ex_id'=>$id]);
+            foreach ($exerciserecord as $e)
+                $this->GenerateExam->delete($e);
 
             $this->Flash->success('Data Deleted');
 
@@ -83,9 +103,24 @@ class AdminController extends AppController{
 
             $this->Subject->delete($dataclass);
 
+
             $exerciserecord=$this->Exercise->find('all')->where(['s_id'=>$id]);
             foreach ($exerciserecord as $e)
                 $this->Exercise->delete($e);
+
+            $exerciserecord=$this->Uploadfiles->find('all')->where(['s_id'=>$id]);
+            foreach ($exerciserecord as $e){
+                $hasid=$e['hashid'];
+                $exerciserecord=$this->Mcq->find('all')->where(['hash_id'=>$hasid]);
+                foreach ($exerciserecord as $t)
+                    $this->Mcq->delete($t);
+
+                $this->Uploadfiles->delete($e);
+            }
+
+            $exerciserecord=$this->GenerateExam->find('all')->where(['s_id'=>$id]);
+            foreach ($exerciserecord as $e)
+                $this->GenerateExam->delete($e);
 
 
             $this->Flash->success('Data Deleted');
@@ -119,9 +154,28 @@ class AdminController extends AppController{
             foreach ($exerciserecord as $e)
                 $this->Exercise->delete($e);
 
+            $exerciserecord=$this->Uploadfiles->find('all')->where(['c_id'=>$id]);
+            foreach ($exerciserecord as $e){
+                $hasid=$e['hashid'];
+                $exerciserecord=$this->Mcq->find('all')->where(['hash_id'=>$hasid]);
+                foreach ($exerciserecord as $t)
+                    $this->Mcq->delete($t);
+
+                $this->Uploadfiles->delete($e);
+            }
+
+
+            $exerciserecord=$this->ClassMap->find('all')->where(['c_id'=>$id]);
+            foreach ($exerciserecord as $e)
+                $this->ClassMap->delete($e);
+
+            $exerciserecord=$this->GenerateExam->find('all')->where(['c_id'=>$id]);
+            foreach ($exerciserecord as $e)
+                $this->GenerateExam->delete($e);
+
+
 
             $this->Flash->success('Data Deleted');
-
 
             $this->redirect(array("controller" => "Admin",
                 "action" => "classadd"));
@@ -266,8 +320,7 @@ class AdminController extends AppController{
         if($this->request->is("post")) {
 
             $data = $this->request->data();
-            $sub_name=$data['s_id'];
-            $c_id=$data['c_id'];
+
             $ex=$data['exercise'];
 
             //  $data=$this->Subject->find("all")->where(["c_id"=>$c_id,"subject_name"=>$sub_name])->toArray();
@@ -286,7 +339,8 @@ class AdminController extends AppController{
                 return;
 
             }
-
+            $sub_name=$data['s_id'];
+            $c_id=$data['c_id'];
             $classobj=$this->Exercise->newEntity();
             $classobj->c_id=$c_id;
             $classobj->s_id=$sub_name;

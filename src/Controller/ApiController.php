@@ -140,7 +140,7 @@ class ApiController extends AppController{
         if ($this->request->is("post")) {
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ($data['c_id'] == '' || $data['user_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == '' || $data['type']=='' || $data['level']=='') {
+            if ($data['c_id'] == '' || $data['user_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == ''    ) {
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
 
@@ -181,6 +181,7 @@ class ApiController extends AppController{
 
                 array_push($data,$temp);
             }
+
             echo json_encode($data);
             exit;
 

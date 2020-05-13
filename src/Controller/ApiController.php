@@ -118,7 +118,7 @@ class ApiController extends AppController{
                 $send['data'] = $data;
                 //  $send['id'] = $userobj->id;
 
-              return $data;
+                return $data;
 
 
             }
@@ -140,7 +140,7 @@ class ApiController extends AppController{
         if ($this->request->is("post")) {
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ($data['c_id'] == '' || $data['user_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == '') {
+            if ($data['c_id'] == '' || $data['user_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == '' || $data['type']=='' || $data['level']=='') {
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
 
@@ -152,27 +152,27 @@ class ApiController extends AppController{
             $s_id=$data['s_id'];
             $ch_id=$data['ch_id'];
             $type=$data['type'];
-
-           if($type==0){
-               $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>0])->toArray();
-
-
-           }
-           if($type==1){
-               $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>1])->toArray();
+            $level=$data['level'];
+            if($type==0){
+                $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>0,'level'=>$level])->toArray();
 
 
-           }
-           if($type==2){
-               $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>2])->toArray();
+            }
+            if($type==1){
+                $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>1,'level'=>$level])->toArray();
 
 
-           }
+            }
+            if($type==2){
+                $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>2,'level'=>$level])->toArray();
+
+
+            }
 
             $data=[];
 
             foreach ($generatedata as $d){
-               $dataquestion=$this->getexamdata($d['id']);
+                $dataquestion=$this->getexamdata($d['id']);
 
                 $temp=[];
                 $temp['exam_name']=$d['name'];
@@ -340,7 +340,7 @@ class ApiController extends AppController{
                     $send['class_id']=$userobj->class;
                     $send['gender']=$userobj->gender;
                     $send['dob']=$userobj->dob;
-                    $claaobj = $this->Class->findById($data['class_id'])->first()->toArray();
+                    $claaobj = $this->Class->findById($data['c_id'])->first()->toArray();
                     $send['class_name']=$claaobj['class_name'];
 
 
@@ -388,7 +388,7 @@ class ApiController extends AppController{
             $date=date("Y-m-d");
             $data = $this->request->data;
 
-            if($data['f_name']==''  || $data['mobile']=='' || $data['password']=='' || $data['class_id']==''){
+            if($data['f_name']==''  || $data['mobile']=='' || $data['password']=='' || $data['c_id']==''){
 
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
@@ -418,8 +418,6 @@ class ApiController extends AppController{
 
             }
 
-
-
             $userobj->class = $data['c_id'];
             // $encryptpass = Security::encrypt($data['password'], $this->key);
 
@@ -444,10 +442,8 @@ class ApiController extends AppController{
                     $send['email']=$datauser['email'];
                     $send['class_id']=$datauser['class'];
                     $send['gender']=$datauser['gender'];
-                    $claaobj = $this->Class->findById($data['class_id'])->first()->toArray();
+                    $claaobj = $this->Class->findById($data['c_id'])->first()->toArray();
                     $send['class_name']=$claaobj['class_name'];
-
-
                     echo json_encode($send);
                     exit;
                 }

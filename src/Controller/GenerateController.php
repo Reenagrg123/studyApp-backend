@@ -174,6 +174,7 @@ class GenerateController extends AppController{
             $generate->ex_id=$data['ex_id'];
             $generate->c_id=$data['c_id'];
             $generate->name=$data['name'];
+            $generate->level=$data['level'];
             $generate->exam_type=$data['exam_type'];
             $generate->total_time=$data['total_time'];
             $generate->create_date=date("Y-m-d H:i:s");

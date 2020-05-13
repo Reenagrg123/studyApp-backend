@@ -33,7 +33,7 @@
                 </div>
 
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a class</label>
+                <label for="exampleFormControlSelect1">Select  class</label>
                 <select class="form-control" name="c_id" id="class" required>
                     <option value="">Select Option</option>
                     <?php foreach($class as $c){ ?>
@@ -43,7 +43,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a subject</label>
+                <label for="exampleFormControlSelect1">Select  subject</label>
                 <select class="form-control" name="s_id" id="subject" required>
 
 
@@ -51,14 +51,14 @@
             </div>
 
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a chapter</label>
+                <label for="exampleFormControlSelect1">Select  chapter</label>
                 <select class="form-control" name="ex_id" id="exercise" required>
 
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="exampleFormControlInput1">Enter a topic name</label>
+                <label for="exampleFormControlInput1">Enter  topic name</label>
                 <input type="text" name="title" class="form-control" id="" required>
             </div>
 

@@ -22,7 +22,7 @@
             <h3 align="center"><u>Generate Test</u>  </h3>
             <form method="post">
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a Exam Type</label>
+                <label for="exampleFormControlSelect1">Select  Exam Type</label>
                 <select class="form-control" name="exam_type" id="exampleFormControlSelect1" required>
                     <option value="">Select Option</option>
                    <option value="0">Practice Test</option>
@@ -31,8 +31,19 @@
                 </select>
             </div>
 
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select Level</label>
+                    <select class="form-control" name="level" id="exampleFormControlSelect1" required>
+                        <option value="">Select Option</option>
+                        <option value="0">Easy </option>
+                        <option value="1">Medium </option>
+                        <option value="2">Hard</option>
+                    </select>
+                </div>
+
+
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a Class</label>
+                <label for="exampleFormControlSelect1">Select  Class</label>
                 <select class="form-control" name="c_id" id="c_id" required>
                     <option value="">Select option</option>
                     <?php foreach($class as $c){ ?>
@@ -43,7 +54,7 @@
             </div>
 
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a Subject</label>
+                <label for="exampleFormControlSelect1">Select  Subject</label>
                 <select class="form-control" name="s_id" id="s_id" required>
 
 
@@ -51,7 +62,7 @@
             </div>
 
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Select Capters</label>
+                <label for="exampleFormControlSelect1">Select Chapters</label>
                 <select class="form-control" name="ex_id" id="ex_id" required>
 
                 </select>
@@ -61,7 +72,7 @@
 
 
             <div class="form-group">
-                <label for="exampleFormControlInput1">Enter a Exam name</label>
+                <label for="exampleFormControlInput1">Enter  Exam name</label>
                 <input type="text" name="name" class="form-control" id="" required>
             </div>
 

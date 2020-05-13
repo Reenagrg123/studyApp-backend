@@ -115,14 +115,19 @@ class GenerateController extends AppController{
                 $examq->create_date=date("Y-m-d H:i:s");
                 $this->ExamQuestion->save($examq);
                 $send['err']=0;
+                $send['add']=1;
                 $send['msg']='Added';
                 echo json_encode($send);
                 exit;
 
             }
+            $recordsdel=$this->ExamQuestion->find("all")->where(['generateexam_id'=>$id,'q_id'=>$qid])->first();
+
+         $this->ExamQuestion->delete($recordsdel);
 
             $send['err']=1;
-            $send['msg']='Already Added';
+            $send['add']=0;
+            $send['msg']='Deleted';
             echo json_encode($send);
             exit;
 
@@ -170,8 +175,6 @@ class GenerateController extends AppController{
             $generate->c_id=$data['c_id'];
             $generate->name=$data['name'];
             $generate->exam_type=$data['exam_type'];
-            $generate->correct_mark=$data['correct_mark'];
-            $generate->wrong_mark=$data['wrong_mark'];
             $generate->total_time=$data['total_time'];
             $generate->create_date=date("Y-m-d H:i:s");
             $this->GenerateExam->save($generate);

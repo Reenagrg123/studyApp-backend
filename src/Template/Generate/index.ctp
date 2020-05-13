@@ -19,21 +19,22 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center"><u>Generate Exam</u>  </h3>
+            <h3 align="center"><u>Generate Test</u>  </h3>
             <form method="post">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Select a Exam Type</label>
-                <select class="form-control" name="exam_type" id="exampleFormControlSelect1">
+                <select class="form-control" name="exam_type" id="exampleFormControlSelect1" required>
+                    <option value="">Select Option</option>
                    <option value="0">Practice Test</option>
                     <option value="1">Online Test</option>
-                    <option value="2">Exam Test</option>
+
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Select a Class</label>
-                <select class="form-control" name="c_id" id="c_id">
-                    <option> </option>
+                <select class="form-control" name="c_id" id="c_id" required>
+                    <option value="">Select option</option>
                     <?php foreach($class as $c){ ?>
                     <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
                     <?php } ?>
@@ -43,7 +44,7 @@
 
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Select a Subject</label>
-                <select class="form-control" name="s_id" id="s_id">
+                <select class="form-control" name="s_id" id="s_id" required>
 
 
                 </select>
@@ -51,7 +52,7 @@
 
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Select Capters</label>
-                <select class="form-control" name="ex_id" id="ex_id">
+                <select class="form-control" name="ex_id" id="ex_id" required>
 
                 </select>
             </div>
@@ -61,24 +62,15 @@
 
             <div class="form-group">
                 <label for="exampleFormControlInput1">Enter a Exam name</label>
-                <input type="text" name="name" class="form-control" id="">
+                <input type="text" name="name" class="form-control" id="" required>
             </div>
 
 
 
-        <div class="form-group">
-            <label for="exampleFormControlInput1">Enter Correct Answer Marks</label>
-            <input type="text" name="correct_mark" class="form-control" id="exampleFormControlInput1">
-        </div>
-
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Enter Wrong Answer Marks</label>
-                    <input type="text" name="wrong_mark" class="form-control" id="exampleFormControlInput1">
-                </div>
 
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter Total Timing (In Min)</label>
-                    <input type="text" name="total_time" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" name="total_time" class="form-control" id="exampleFormControlInput1" required>
                 </div>
 
 

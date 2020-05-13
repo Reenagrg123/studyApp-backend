@@ -36,14 +36,14 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center"><u>Generate Exam</u>  </h3>
+            <h3 align="center"><u>Add Questions</u>  </h3>
             <form method="post">
 
 
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select a Class</label>
-                    <select class="form-control" name="c_id" id="c_id">
-                        <option> </option>
+                    <select class="form-control" name="c_id" id="c_id" required>
+                        <option value="">Select Option</option>
                         <?php foreach($class as $c){ ?>
                         <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
                         <?php } ?>
@@ -53,7 +53,7 @@
 
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select a Subject</label>
-                    <select class="form-control" name="s_id" id="s_id">
+                    <select class="form-control" name="s_id" id="s_id" required>
 
 
                     </select>
@@ -61,7 +61,7 @@
 
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select Capters</label>
-                    <select class="form-control" name="ex_id" id="ex_id">
+                    <select class="form-control" name="ex_id" id="ex_id" required>
 
                     </select>
                 </div>
@@ -69,14 +69,14 @@
 
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select Upload Files</label>
-                    <select class="form-control" name="up_id" id="up_id">
+                    <select class="form-control" name="up_id" id="up_id" required>
 
                     </select>
                 </div>
 
 
             </br>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success">View</button>
         </form>
 
 
@@ -84,16 +84,17 @@
 
     </br></br>
 
-<input id="generateid" type="hidden" value="<?php echo $id; ?>" />
+<input id="generateid" type="hidden" value="<?php  if(isset($id)){ echo $id; } ?>" />
 
 <?php if(isset($data)){ ?>
+<h3 align="center"><u> Questions List</u>  </h3>
         <?php  $i=0;
                 foreach($data as $d){
 $qid=$d['id'];
                 $data=json_decode($d['data']);
                 ?>
 
-<div id="<?php echo $i; ?>" class="block" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?>  <button onclick="add('<?php echo $qid ?>')" class="btn btn-primary"> Add</button></div>
+<div id="<?php echo $i; ?>" class="block" style="display:flex;" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?>  <div style="width:90%;"><button style="float:right;" onclick="add('<?php echo $qid ?>',this)" class="btn btn-primary"> Add</button></div> </div>
 <div class="inner" style="display:none;">
 <?php if($d['type']=='mcq'){ ?>
 <form >
@@ -260,7 +261,7 @@ $("#ex_id").change(function(){
         });
 });
 
-function add(qid){
+function add(qid,e){
 var id=$("#generateid").val();
     $.post('<?php echo $add; ?>',
         {
@@ -270,7 +271,13 @@ var id=$("#generateid").val();
         },
         function(data, status){
 
-       // alert(JSON.stringify(data.msg));
+
+        if(JSON.parse(data).add=='1'){
+            $(e).text("Delete");
+        }else{
+            $(e).text("Add");
+        }
+
            // $("#up_id").html(data);
         });
 

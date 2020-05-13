@@ -184,11 +184,11 @@
 
         <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Generate", "action" => "index" ]); ?>">
         <i class="fa fa-user-circle" aria-hidden="true"></i>
-        <span>Generate Exam</span></a>
+        <span>Create Test</span></a>
 
     <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
     <i class="fa fa-book" aria-hidden="true"></i>
-    <span>Main Exam</span></a>
+    <span>Create Exam</span></a>
 
 <!--
 <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "test" ]); ?>">

@@ -59,7 +59,7 @@ $routes->connect('/api', ['controller' => 'Api', 'action' => 'index']);
 $routes->connect('/api/signup', ['controller' => 'Api', 'action' => 'signup']);
 
 $routes->connect('/api/login', ['controller' => 'Api', 'action' => 'login']);
-$routes->connect('/api/generatedtest', ['controller' => 'Api', 'action' => 'generatedtest']);
+$routes->connect('/api/gettest', ['controller' => 'Api', 'action' => 'gettest']);
 $routes->connect('/api/getexamdata', ['controller' => 'Api', 'action' => 'getexamdata']);
 $routes->connect('/api/profile', ['controller' => 'Api', 'action' => 'profile']);
 

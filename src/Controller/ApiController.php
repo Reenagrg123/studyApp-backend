@@ -66,39 +66,49 @@ class ApiController extends AppController{
         $this->set("title","Dashboard");
     }
 
-    public function getexamdata(){
+    public function auth($user_id){
+
+        $data=$this->Users->find()->where(["id"=>$user_id])->first();
+
+        if($data==null){
+            $send['error']=1;
+            $send['msg']="User Not exist";
+
+            echo json_encode($send);
+            exit;
+
+        }
+
+    }
+
+
+    public function getexamdata($id){
         $send=[];
         if ($this->request->is("post")) {
+
+
             $date = date("Y-m-d");
             $data = $this->request->data;
-            $id=$data['exam_id'];
+
+
             $data=[];
             $tmpdata=[];
             $generatedata=$this->GenerateExam->find("all")->where(['id'=>$id])->first()->toArray();
             if($generatedata){
-                $tmp=[];
-                $tmp['exam_type']=$generatedata['exam_type'];
-                $tmp['correct_mark']=$generatedata['correct_mark'];
-                $tmp['wrong_mark']=$generatedata['wrong_mark'];
-                $tmp['total_time']=$generatedata['total_time'];
-
-                $data['otherinfo']=$tmp;
-
-
-                $hashid=$generatedata['id'];
-
+                $data['totaltime']=$generatedata['total_time'];
                 $examquestion=$this->ExamQuestion->find("all")->where(['generateexam_id'=>$id])->toArray();
                 foreach ($examquestion as $ex){
                     $q_id=$ex['q_id'];
                     $mcq=$this->Mcq->find("all")->where(['id'=>$q_id])->first()->toArray();
+                    $has=$mcq['hash_id'];
+                    $getmarks=$this->Uploadfiles->find('all')->where(['hashid'=>$has])->first()->toArray();
+
                     $temp=[];
                     $temp['question_id']=$mcq['id'];
                     $temp['question']=$mcq['data'];
                     $temp['type']=$mcq['type'];
-                    $temp['correctmarks']=1;
-                    $temp['wrongmarks']=2;
-
-
+                    $temp['correctmark']=$getmarks['correct_mark'];
+                    $temp['wrongmark']=$getmarks['wrong_mark'];
 
                     array_push($tmpdata,$temp);
 
@@ -108,9 +118,7 @@ class ApiController extends AppController{
                 $send['data'] = $data;
                 //  $send['id'] = $userobj->id;
 
-                echo json_encode($send);
-                exit;
-
+              return $data;
 
 
             }
@@ -127,29 +135,56 @@ class ApiController extends AppController{
 
     }
 
-    public function generatedtest(){
+    public function gettest(){
+
         if ($this->request->is("post")) {
             $date = date("Y-m-d");
             $data = $this->request->data;
+            if ($data['c_id'] == '' || $data['user_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == '') {
+                $send['error']=1;
+                $send['msg']="Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
             $c_id=$data['c_id'];
             $s_id=$data['s_id'];
             $ch_id=$data['ch_id'];
-            $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id])->toArray();
+            $type=$data['type'];
+
+           if($type==0){
+               $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>0])->toArray();
+
+
+           }
+           if($type==1){
+               $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>1])->toArray();
+
+
+           }
+           if($type==2){
+               $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>2])->toArray();
+
+
+           }
+
             $data=[];
 
             foreach ($generatedata as $d){
+               $dataquestion=$this->getexamdata($d['id']);
+
                 $temp=[];
-                $temp['name']=$d['name'];
-                $temp['id']=$d['id'];
+                $temp['exam_name']=$d['name'];
+                $temp['exam_id']=$d['id'];
+                $temp['exam_data']=$dataquestion;
+
                 array_push($data,$temp);
             }
             echo json_encode($data);
             exit;
 
         }
-
-
-
 
     }
 
@@ -183,13 +218,14 @@ class ApiController extends AppController{
             $date = date("Y-m-d");
             $data = $this->request->data;
 
-            if ($data['c_id'] == '' ) {
+            if ($data['c_id'] == '' || $data['user_id'] == '' ) {
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
 
                 echo json_encode($send);
                 exit;
             }
+            $this->auth($data['user_id']);
 
             $classobj = $this->Subject->find()->where(['c_id'=>$data['c_id']])->toArray();
 
@@ -214,7 +250,7 @@ class ApiController extends AppController{
         }
     }
 
-    public function getexcersice()
+    public function getexercise()
     {
 
         if ($this->request->is("post")) {
@@ -223,13 +259,15 @@ class ApiController extends AppController{
             $date = date("Y-m-d");
             $data = $this->request->data;
 
-            if ($data['c_id'] == '' || $data['s_id'] == '' ) {
+            if ($data['c_id'] == '' || $data['s_id'] == '' || $data['user_id']=='' ) {
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
 
                 echo json_encode($send);
                 exit;
             }
+            $this->auth($data['user_id']);
+
             $classobj = $this->Exercise->find()->where(['c_id'=>$data['c_id'],'s_id'=>$data['s_id']])->toArray();
 
             $data=[];
@@ -249,7 +287,6 @@ class ApiController extends AppController{
             exit;
 
 
-
         }
     }
 
@@ -263,7 +300,7 @@ class ApiController extends AppController{
 
 
 
-            $userobj = $this->Users->findById($data['userid'])->first();
+            $userobj = $this->Users->findById($data['user_id'])->first();
 
             if($userobj==null){
                 $send['error'] = 1;
@@ -277,7 +314,7 @@ class ApiController extends AppController{
             // $userobj=$this->Users->newEntity();
 
             $userobj->gender=$data['gender'];
-            $userobj->class = $data['class_id'];
+            $userobj->class = $data['c_id'];
             $userobj->dob = $data['dob'];
             $userobj->f_name = $data['name'];
             $userobj->email = $data['email'];
@@ -383,7 +420,7 @@ class ApiController extends AppController{
 
 
 
-            $userobj->class = $data['class_id'];
+            $userobj->class = $data['c_id'];
             // $encryptpass = Security::encrypt($data['password'], $this->key);
 
 
@@ -445,6 +482,7 @@ class ApiController extends AppController{
         if($this->request->is("post")) {
 
             $data = $this->request->data;
+
 
             if($data['mobile']==''  || $data['password']==''){
 

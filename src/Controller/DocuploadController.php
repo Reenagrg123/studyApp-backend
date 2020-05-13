@@ -146,7 +146,7 @@ return;
             $uploadPath ='tempzip/'.$exercise.'/';
             $uploadFile = $uploadPath.$path;
 
-
+try{
             if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)){
 
 
@@ -171,8 +171,8 @@ if($textfile['textfile']==''){
 }
 
 
-$mcqservice=new McqService('mcq/'.$exercise.'/'.$hashid.'/'.$textfile['textfile'],$exercise,$hashid);
-$upload=$mcqservice->fitertext();
+       $mcqservice=new McqService('mcq/'.$exercise.'/'.$hashid.'/'.$textfile['textfile'],$exercise,$hashid);
+       $upload=$mcqservice->fitertext();
 
                 $uploadfiles=$this->Uploadfiles->newEntity();
 
@@ -181,6 +181,11 @@ $upload=$mcqservice->fitertext();
                 $uploadfiles->ex_id=$data['ex_id'];
                 $uploadfiles->hashid=$hashid;
                 $uploadfiles->question_type=$data['q_type'];
+                $uploadfiles->upload_for=$data['upload_for'];
+                $uploadfiles->correct_mark=$data['correct_mark'];
+                $uploadfiles->wrong_mark=$data['wrong_mark'];
+
+
                 $uploadfiles->title=$data['title'];
 
                 $uploadfiles->create_date = date("Y-m-d H:i:s");
@@ -198,7 +203,7 @@ $upload=$mcqservice->fitertext();
                 }
 
 
-                $this->Flash->error('Questions Saved');
+                $this->Flash->success('Questions Saved');
                 $this->redirect(array("controller" => "Docupload",
                     "action" => "index"));
 
@@ -210,6 +215,15 @@ $upload=$mcqservice->fitertext();
                 return;
 
             }
+
+
+        }catch(\Exception $e){
+    $this->Flash->error('Unable to upload');
+
+    return;
+
+
+}
 
         }
 

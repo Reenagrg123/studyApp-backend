@@ -27,9 +27,11 @@
             <!--<form id="post" method="post" enctype="multipart/form-data">-->
 
             <form method="post">
-                <div>
+
+                <div class="form-group">
                     <label for="exampleFormControlInput1">Select Class</label>
-                    <select  id="multiselect" multiple="multiple" required>
+                    <br/>
+                    <select class="form-control" id="multiselect" multiple="multiple" required>
                         <?php foreach($class as $c){ ?>
                         <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
                         <?php } ?>
@@ -119,7 +121,7 @@ $(document).ready(function() {
     $('#multiselect').multiselect({
         buttonWidth : '160px',
 
-        nonSelectedText: 'Select an Option',
+        nonSelectedText: 'Select Class',
         onChange: function(element, checked) {
             var brands = $('#multiselect option:selected');
             var d='';

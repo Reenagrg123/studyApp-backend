@@ -138,6 +138,40 @@ class GenerateController extends AppController{
     }
 
 
+
+    public function view(){
+        $classdata=$this->Class->find("all")->toArray();
+        $id=$this->request->getQuery('id');
+
+
+
+            $records=$this->ExamQuestion->find("all")->where(['generateexam_id'=>$id])->toArray();
+            $datarecords=[];
+            foreach ($records as $r){
+                $q_id=$r['q_id'];
+
+                $checkadd=$this->Mcq->find('all')->where(['id'=>$q_id])->first()->toArray();
+
+                if($checkadd){
+
+                    array_push($datarecords,$checkadd);
+                }
+
+            }
+            $this->set('id',$id);
+            $this->set('exam_id',$id);
+            $this->set("class",$classdata);
+            $this->set('data',$datarecords);
+
+
+
+
+
+
+    }
+
+
+
     public function add(){
         $classdata=$this->Class->find("all")->toArray();
         $id=$this->request->getQuery('id');
@@ -145,15 +179,30 @@ class GenerateController extends AppController{
         if($this->request->is("post")) {
             $data = $this->request->data;
             $has=$data['up_id'];
+            $examid=$data['exam_id'];
+
             $records=$this->Mcq->find("all")->where(['hash_id'=>$has])->toArray();
+$datarecords=[];
+foreach ($records as $r){
+    $q_id=$r['id'];
 
+    $checkadd=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$examid,'q_id'=>$q_id])->toArray();
 
+    if($checkadd==null){
+
+    array_push($datarecords,$r);
+}
+
+}
             $this->set('id',$id);
-            $this->set('data',$records);
+            $this->set('exam_id',$id);
+            $this->set("class",$classdata);
+            $this->set('data',$datarecords);
             return;
 
 
         }
+        $this->set('exam_id',$id);
         $this->set("class",$classdata);
 
 

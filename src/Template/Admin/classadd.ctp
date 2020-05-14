@@ -19,16 +19,16 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" >
+            <h2 align="center" ><u>
 
-                <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?> Class </h3>
+                <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?> Class </u></h2>
             <!--<form id="post" method="post" enctype="multipart/form-data">-->
 
             <form method="post">
 
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Enter a class </label>
-                    <input type="text" name="class" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
+                    <label for="exampleFormControlInput1">Enter a class name</label>
+                    <input type="text" name="class" class="form-control" id="exampleFormControlInput1" placeholder="10th" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
                 </div>
                 <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->
                 <!--</div>-->
@@ -42,14 +42,15 @@
             </form>
             <!--</form>-->
         </br></br>
-<hr/>
+    <hr/>
+    <h2><u>All Classes</u></h2>
 
 </br></br>
-
-<table id="table_id" class="display">
+<table id="table_id" class="cell-border compact stripe hover">
+<!--<table id="table_id" class="display">-->
 <thead>
 <tr>
-    <th>Id</th>
+    <th>class Id</th>
     <th>Class Name</th>
     <th></th>
 
@@ -64,36 +65,53 @@
 
     <td><?php echo $c['id']; ?></td>
     <td><?php echo $c['class_name']; ?></td>
-<td>
-        <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+    <td>
+    <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 
-        <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+    <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
 
-       </a>
-    </td>
+</a>
+</td>
 
 
 </tr>
-<?php } ?>
-</tbody>
-</table>
+        <?php } ?>
+        </tbody>
+        </table>
 
 
         </div>
 
-    </div>
-    <!-- /.container-fluid -->
+        </div>
+        <!-- /.container-fluid -->
 
-</div>
+        </div>
         <!-- End of Main Content -->
 
         <!-- Footer -->
 
         <!-- End of Footer -->
 
+<style>
+h2 {
+    font-family: serif;
+    font-weight:bold;
+    text-align:center;
+}
+</style>
+
 <script>
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#table_id').DataTable({
+        columnDefs: [
+            {
+                targets: -1,
+                className: 'dt-body-center',
+                className:'dt-head-center'
+
+            }
+        ]
+    })
 } );
 
 

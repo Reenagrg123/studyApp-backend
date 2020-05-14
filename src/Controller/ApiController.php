@@ -10,6 +10,7 @@ use App\Model\Table\ClasssTables;
 use App\Model\Table\ExamquestionsTables;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\GenerateexamsTables;
+use App\Model\Table\HistorysTables;
 use App\Model\Table\McqsTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
@@ -53,6 +54,7 @@ class ApiController extends AppController{
         $this->ExamQuestion=$this->loadModel(ExamquestionsTables::class);
 
         $this->Mcq=$this->loadModel(McqsTables::class);
+        $this->History=$this->loadModel(HistorysTables::class);
 
         $session = $this->getRequest()->getSession();
         // $this->authorize();
@@ -81,6 +83,82 @@ class ApiController extends AppController{
 
     }
 
+
+
+    public function setTestResult()
+    {
+
+        if ($this->request->is("post")) {
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ( $data['user_id'] == ''  ||  $data['exam_id'] == '' || $data['marks'] == '' || $data['correct_marks'] == '' || $data['wrong_marks'] == '' || $data['time_taken'] == '' || $data['accuracy'] == '' || $data['total_question'] == '' || $data['total_time'] == '') {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+            $exam_id=$data['exam_id'];
+            $generatedata=$this->GenerateExam->find("all")->where(['id'=>$exam_id])->toArray();
+            if($generatedata==null) {
+                $send['error'] = 1;
+                $send['msg'] = "Exam Not Found";
+
+                echo json_encode($send);
+                exit;
+
+            }
+                $history=$this->History->newEntity();
+            $history->exam_id=$data['exam_id'];
+            $history->user_id=$data['user_id'];
+            $history->no_correct_attempt=$data['marks'];
+            $history->no_wrong_attempt=$data['exam_id'];
+            $history->time_taken=$data['time_taken'];
+            $history->accuracy=$data['accuracy'];
+            $history->total_time=$data['total_time'];
+            $history->total_question=$data['total_question'];
+            $history->create_date=date("Y-m-d H:i:s");
+
+            $this->History->save($history);
+
+            $send['error'] = 0;
+            $send['msg'] = "Added";
+
+            echo json_encode($send);
+            exit;
+
+        }
+
+    }
+    public function getTestHistory()
+    {
+
+        if ($this->request->is("post")) {
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ( $data['user_id'] == ''  ||  $data['exam_id'] == '' ) {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+            $examid=$data['exam_id'];
+            $user_id=$data['user_id'];
+            $history=$this->History->find('all')->where(['exam_id'=>$examid,'user_id'=>$user_id])->first()->toArray();
+
+
+            $send['error'] = 0;
+            $send['data'] = $history;
+
+            echo json_encode($send);
+            exit;
+
+        }
+
+    }
 
     public function getexamdata($id){
         $send=[];

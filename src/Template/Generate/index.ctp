@@ -19,22 +19,22 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center"><u>Generate Test</u>  </h3>
+            <h2 align="center"><u>Generate Test</u>  </h2>
             <form method="post">
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select  Exam Type</label>
-                <select class="form-control" name="exam_type" id="exampleFormControlSelect1" required>
-                    <option value="">Select Option</option>
-                   <option value="0">Practice Test</option>
-                    <option value="1">Online Test</option>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select test type</label>
+                    <select class="form-control" name="exam_type" id="exampleFormControlSelect1" required>
+                        <option value="">--Select Option--</option>
+                        <option value="0">Practice Test</option>
+                        <option value="1">Online Test</option>
 
-                </select>
-            </div>
+                    </select>
+                </div>
 
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select Level</label>
+                    <label for="exampleFormControlSelect1">Select level of test</label>
                     <select class="form-control" name="level" id="exampleFormControlSelect1" required>
-                        <option value="">Select Option</option>
+                        <option value="">--Select Option--</option>
                         <option value="0">Easy </option>
                         <option value="1">Medium </option>
                         <option value="2">Hard</option>
@@ -42,72 +42,69 @@
                 </div>
 
 
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select  Class</label>
-                <select class="form-control" name="c_id" id="c_id" required>
-                    <option value="">Select option</option>
-                    <?php foreach($class as $c){ ?>
-                    <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
-                    <?php } ?>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select a class name</label>
+                    <select class="form-control" name="c_id" id="c_id" required>
+                        <option value="">--Select option--</option>
+                        <?php foreach($class as $c){ ?>
+                        <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
+                        <?php } ?>
 
-                </select>
-            </div>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select  Subject</label>
-                <select class="form-control" name="s_id" id="s_id" required>
-
-
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select Chapters</label>
-                <select class="form-control" name="ex_id" id="ex_id" required>
-
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select a subject name</label>
+                    <select class="form-control" name="s_id" id="s_id" required>
 
 
+                    </select>
+                </div>
 
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select a chapter name</label>
+                    <select class="form-control" name="ex_id" id="ex_id" required>
 
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Enter  Exam name</label>
-                <input type="text" name="name" class="form-control" id="" required>
-            </div>
+                    </select>
+                </div>
 
 
 
 
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Enter Total Timing (In Min)</label>
-                    <input type="text" name="total_time" class="form-control" id="exampleFormControlInput1" required>
+                    <label for="exampleFormControlInput1">Enter test title </label>
+                    <input type="text" name="name" class="form-control" placeholder="Definite integration test" id="" required>
                 </div>
 
 
-        <!--<div class="file-path-wrapper">-->
-        <!--     <input class="file-path validate" type="text" placeholder="Upload your file">-->
-        <!--    </div>-->
-        <!--    </div>-->
-    </br>
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
 
 
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Enter duration of test (in minutes)</label>
+                    <input type="text" name="total_time" class="form-control" id="exampleFormControlInput1" placeholder="120" required>
+                </div>
 
 
+                <!--<div class="file-path-wrapper">-->
+                <!--     <input class="file-path validate" type="text" placeholder="Upload your file">-->
+                <!--    </div>-->
+                <!--    </div>-->
+            </br>
+            <button type="submit" class="btn btn-success">Generate</button>
+        </form>
+
+    </br></br>
+
+<h2 align="center"><u>All Generated Tests</u></h2>
         </br></br>
-
-<h3 align="center"><u>All material</u>  </h3>
-        </br></br>
-<table id="table_id" class="display">
+<table id="table_id" class="cell-border compact stripe hover">
 <thead>
 <tr>
-    <th>id.No</th>
+    <th>Test Id</th>
     <th>Class Name</th>
     <th>Subject Name</th>
-    <th>Capter Name</th>
-    <th>name</th>
+    <th>Chapter Name</th>
+    <th>Test Title</th>
 
     <th></th>
 </tr>
@@ -125,10 +122,11 @@
     <td><?php echo $g['name']; ?></td>
 
     <td>
-        <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "add","id"=>$id ]); ?>' ><i class="fa fa-eye" aria-hidden="true"></i></a>
 
 
+        <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "view","id"=>$id ]); ?>' ><i class="fa fa-eye" aria-hidden="true"></i></a>
 
+        <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "add","id"=>$id ]); ?>' ><i class="fa fa-plus" aria-hidden="true"></i></a>
 
 
     </td>
@@ -151,6 +149,14 @@
         <!-- Footer -->
 
         <!-- End of Footer -->
+
+<style>
+h2 {
+    font-family: serif;
+    font-weight:bold;
+    text-align:center;
+}
+</style>
         <?php $url=$this->Url->build([  "controller" => "Generate", "action" => "getdata" ]); ?>
 <script>
 
@@ -183,10 +189,17 @@ $("#s_id").change(function(){
         });
 });
 
-
-
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#table_id').DataTable({
+        columnDefs: [
+            {
+                targets: -1,
+                className: 'dt-body-center',
+                className:'dt-head-center'
+
+            }
+        ]
+    })
 } );
 
 function validate(){

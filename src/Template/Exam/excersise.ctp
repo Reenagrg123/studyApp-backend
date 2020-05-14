@@ -19,13 +19,13 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" >   <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
-                chapters </h3>
+            <h2 align="center" ><u><?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+                chapters</u> </h2>
             <form method="post">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select a class/paper</label>
+                    <label for="exampleFormControlSelect1">Select an exam name</label>
                     <select class="form-control" name="c_id" id="c_id" required>
-                        <option value="">Select Option</option>
+                        <option value="">---Select Option---</option>
                         <?php foreach($class as $c){ ?>
                         <option value="<?php echo $c['id']; ?>"><?php echo $c['exam_name']; ?></option>
                         <?php } ?>
@@ -33,7 +33,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select a subject</label>
+                    <label for="exampleFormControlSelect1">Select a subject name</label>
                     <select class="form-control" name="s_id" id="s_id" required>
 
 
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a chapter name</label>
-                    <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['title']; }?>" required>
+                    <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1" placeholder="Integration" value="<?php if(isset($edit)){ echo $editdata['title']; }?>" required>
                 </div>
                 <button type="submit" class="btn btn-success">  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
                 </button>
@@ -49,12 +49,12 @@
             </form>
 
         </br></br>
-    <h3 align="center" ><u>All Chapters</u> </h3>
+    <h2 ><u>All Chapters</u></h2>
 </br></br>
-<table id="table_id" class="display">
+<table id="table_id" class="cell-border compact stripe hover">
 <thead>
 <tr>
-    <th>S.No</th>
+    <th>Chapter Id</th>
     <th>Class Name</th>
     <th>Subject Name</th>
     <th>Chapter Name</th>
@@ -80,21 +80,21 @@
     </a>
 
 
-    </td>
+</td>
 
 </tr>
 <?php } ?>
 </tbody>
-</table>
+        </table>
 
 
 
 
 
         </div>
-    </div>
+        </div>
 
-</div>
+        </div>
         <!-- /.container-fluid -->
 
         </div>
@@ -103,6 +103,13 @@
         <!-- Footer -->
 
         <!-- End of Footer -->
+<style>
+h2 {
+    font-family: serif;
+    font-weight:bold;
+    text-align:center;
+}
+</style>
         <?php if(isset($edit)){
                 ?>
 
@@ -137,7 +144,16 @@ $("#c_id").change(function(){
 
 
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#table_id').DataTable({
+        columnDefs: [
+            {
+                targets: -1,
+                className: 'dt-body-center',
+                className:'dt-head-center'
+
+            }
+        ]
+    })
 } );
 
 function validate(){

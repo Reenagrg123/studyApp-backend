@@ -1,5 +1,5 @@
 
-        <?= $this->Html->script("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"); ?>
+<?= $this->Html->script("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"); ?>
 
 
         <!-- End of Topbar -->
@@ -22,14 +22,14 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" >  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
-                Exam </h3>
+            <h2 align="center" ><u>  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+                Exam </u></h3>
             <!--<form id="post" method="post" enctype="multipart/form-data">-->
 
             <form method="post">
 
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Select Class</label>
+                    <label for="exampleFormControlInput1">Select classes name</label>
                     <br/>
                     <select class="form-control" id="multiselect" multiple="multiple" required>
                         <?php foreach($class as $c){ ?>
@@ -41,8 +41,8 @@
 
                 <input type="hidden" name="c_id" id="c_id" />
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Enter Exam Name</label>
-                    <input type="text" name="name" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['exam_name']; }?>" required>
+                    <label for="exampleFormControlInput1">Enter an exam name</label>
+                    <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Jee Mains" value="<?php if(isset($edit)){ echo $editdata['exam_name']; }?>" required>
                 </div>
                 <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->
                 <!--</div>-->
@@ -57,13 +57,13 @@
             <!--</form>-->
         </br></br>
     <hr/>
-
+    <h2><u>All Exams</u></h2>
 </br></br>
 
-<table id="table_id" class="display">
+<table id="table_id" class="cell-border compact stripe hover">
 <thead>
 <tr>
-    <th>S.No</th>
+    <th>Exam Id</th>
     <th>Exam Name</th>
     <th>Added Class Name</th>
     <th></th>
@@ -106,6 +106,14 @@
         <!-- Footer -->
 
         <!-- End of Footer -->
+<style>
+h2 {
+    font-family: serif;
+    font-weight:bold;
+    text-align:center;
+}
+</style>
+
         <?php if(isset($edit)){
                 ?>
 
@@ -121,7 +129,7 @@ $(document).ready(function() {
     $('#multiselect').multiselect({
         buttonWidth : '160px',
 
-        nonSelectedText: 'Select Class',
+        nonSelectedText: 'Select Classes',
         onChange: function(element, checked) {
             var brands = $('#multiselect option:selected');
             var d='';
@@ -154,9 +162,17 @@ function getSelectedValues() {
     }
 }
 
-
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#table_id').DataTable({
+        columnDefs: [
+            {
+                targets: -1,
+                className: 'dt-body-center',
+                className:'dt-head-center'
+
+            }
+        ]
+    })
 } );
 
 

@@ -36,170 +36,127 @@
     <!-- Content Column -->
 
     <div class="container">
-        <h3 align="center"><u>Add Questions</u>  </h3>
-        <form method="post">
-
-
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a Class</label>
-                <select class="form-control" name="c_id" id="c_id" required>
-                    <option value="">Select Option</option>
-                    <?php foreach($class as $c){ ?>
-                    <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
-                    <?php } ?>
-
-                </select>
-            </div>
-
-            <input type="hidden" name="exam_id" value="<?php echo $exam_id; ?>" required>
-
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a Subject</label>
-                <select class="form-control" name="s_id" id="s_id" required>
-
-
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select Capters</label>
-                <select class="form-control" name="ex_id" id="ex_id" required>
-
-                </select>
-            </div>
-
-
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select Upload Files</label>
-                <select class="form-control" name="up_id" id="up_id" required>
-
-                </select>
-            </div>
-
-
-        </br>
-        <button type="submit" class="btn btn-success">View</button>
-    </form>
 
 
 
 
-</br></br>
+
+    </br></br>
 
 <input id="generateid" type="hidden" value="<?php  if(isset($id)){ echo $id; } ?>" />
 
-        <?php if(isset($data)){ ?>
+<?php if(isset($data)){  ?>
 <h3 align="center"><u> Questions List</u>  </h3>
-        <?php  $i=0;
-                foreach($data as $d){
-                $qid=$d['id'];
-                $data=json_decode($d['data']);
+<?php  $i=0;
+        foreach($data as $d){
+        $qid=$d['id'];
+        $data=json_decode($d['data']);
+        ?>
+
+<div id="<?php echo $i; ?>" class="block" style="display:flex;" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?>  <div style="width:90%;"><button style="float:right;" onclick="add('<?php echo $qid ?>',this)" class="btn btn-primary"> Delete</button></div> </div>
+<div class="inner" style="display:none;">
+    <?php if($d['type']=='mcq'){ ?>
+    <form >
+
+
+        Q.  <?php  echo $data->question; ?>
+
+
+        <?php foreach ($data->option as $o){
                 ?>
 
-<div id="<?php echo $i; ?>" class="block" style="display:flex;" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?>  <div style="width:90%;"><button style="float:right;" onclick="add('<?php echo $qid ?>',this)" class="btn btn-primary"> Add</button></div> </div>
-<div class="inner" style="display:none;">
-<?php if($d['type']=='mcq'){ ?>
-<form >
+        <?php  echo $o; ?>
+        <?php } ?>
 
+        <p>Answer</p>
+        <?php foreach ($data->answer as $a){
+                ?>
+        <?php  echo $a." "; ?>
 
-    Q.  <?php  echo $data->question; ?>
-
-
-    <?php foreach ($data->option as $o){
-            ?>
-
-    <?php  echo $o; ?>
-    <?php } ?>
-
-    <p>Answer</p>
-    <?php foreach ($data->answer as $a){
-            ?>
-    <?php  echo $a." "; ?>
-
-
-
-    <?php } ?>
-
-
-
-    Sol.  <?php foreach ($data->solution as $s){
-        ?>
-
-    <?php  echo $s; ?>
-
-
-    <?php } ?>
-
-</form>
-<?php } if($d['type']=='integer'){ ?>
-
-<form >
-
-
-    Q.  <?php  echo $data->question; ?>
-
-
-
-    <p>Answer</p>
-    <?php foreach ($data->answer as $a){
-            ?>
-    <?php  echo $a." "; ?>
-
-
-    <?php } ?>
-
-    Sol.  <?php foreach ($data->solution as $st){
-        ?>
-
-    <?php  echo $st; ?>
-
-
-    <?php } ?>
-
-</form>
-
-
-
-<?php  } if($d['type']=="paragraph"){ ?>
-
-<form>
-    Q.  <?php  echo $data->question; ?>
-
-    <?php foreach ($data->innerquestion as $in){
-            echo $in->question."<br/>";
-
-            foreach($in->option as $op){
-            echo $op;
-            }
-
-            foreach($in->answer as $op){
-            echo $op;
-            }
-
-            foreach($in->solution as $op){
-            echo $op;
-            }
-            ?>
-
-
-
-
-    <?php } ?>
-
-
-</form>
-
-<?php } ?>
-
-</div>
-
-        <?php $i++;
-                } ?>
 
 
         <?php } ?>
 
-        </div>
+
+
+        Sol.  <?php foreach ($data->solution as $s){
+            ?>
+
+        <?php  echo $s; ?>
+
+
+        <?php } ?>
+
+    </form>
+    <?php } if($d['type']=='integer'){ ?>
+
+    <form >
+
+
+        Q.  <?php  echo $data->question; ?>
+
+
+
+        <p>Answer</p>
+        <?php foreach ($data->answer as $a){
+                ?>
+        <?php  echo $a." "; ?>
+
+
+        <?php } ?>
+
+        Sol.  <?php foreach ($data->solution as $st){
+            ?>
+
+        <?php  echo $st; ?>
+
+
+        <?php } ?>
+
+    </form>
+
+
+
+    <?php  } if($d['type']=="paragraph"){ ?>
+
+    <form>
+        Q.  <?php  echo $data->question; ?>
+
+        <?php foreach ($data->innerquestion as $in){
+                echo $in->question."<br/>";
+
+                foreach($in->option as $op){
+                echo $op;
+                }
+
+                foreach($in->answer as $op){
+                echo $op;
+                }
+
+                foreach($in->solution as $op){
+                echo $op;
+                }
+                ?>
+
+
+
+
+        <?php } ?>
+
+
+    </form>
+
+    <?php } ?>
+
+
+
+</div>
+<?php $i++;
+        } ?>
+
+<?php } ?>
+
+</div>
 
         </div>
         <!-- /.container-fluid -->
@@ -277,6 +234,9 @@ function add(qid,e){
             if(JSON.parse(data).add=='1'){
                 $(e).text("Delete");
             }else{
+                $(e).parent().parent().next().remove();
+                $(e).parent().parent().remove();
+
                 $(e).text("Add");
             }
 

@@ -8,136 +8,136 @@
         padding: 13px;
 
     }
-.inner{
-    width: 100%;
-    background: white;
-    padding: 10px;
-    margin: 4px;
-}
+    .inner{
+        width: 100%;
+        background: white;
+        padding: 10px;
+        margin: 4px;
+    }
 
 </style>
-<!-- End of Topbar -->
+        <!-- End of Topbar -->
 
-<!-- Begin Page Content -->
+        <!-- Begin Page Content -->
 <div class="container-fluid">
 
 
-    <!-- Content Row -->
-    <div class="row">
+<!-- Content Row -->
+<div class="row">
 
-        <!-- Content Column -->
+    <!-- Content Column -->
 
-        <div class="container">
-            <h3 align="center" > Questions List </h3>
-
-
-            <?php  $i=0;
-                    foreach($data as $d){
-
-                    $data=json_decode($d['data']);
-                    ?>
-
-            <div id="<?php echo $i; ?>" class="block" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?></div>
-            <div class="inner" style="display:none;">
-<?php if($d['type']=='mcq'){ ?>
-                <form >
+    <div class="container">
+        <h3 align="center" > Questions List </h3>
 
 
-       Q.  <?php  echo $data->question; ?>
+        <?php  $i=0;
+                foreach($data as $d){
+
+                $data=json_decode($d['data']);
+                ?>
+
+        <div id="<?php echo $i; ?>" class="block" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?></div>
+        <div class="inner" style="display:none;">
+            <?php if($d['type']=='mcq'){ ?>
+            <form >
 
 
-                    <?php foreach ($data->option as $o){
-                            ?>
-
-         <?php  echo $o; ?>
-                    <?php } ?>
-
-                    <p>Answer</p>
-                    <?php foreach ($data->answer as $a){
-                            ?>
- <?php  echo $a." "; ?>
+                Q.  <?php  echo $data->question; ?>
 
 
-
-                    <?php } ?>
-
-
-
-                  Sol.  <?php foreach ($data->solution as $s){
-                            ?>
-
-         <?php  echo $s; ?>
-
-
-                    <?php } ?>
-
-                </form>
-                <?php } if($d['type']=='integer'){ ?>
-
-                <form >
-
-
-                    Q.  <?php  echo $data->question; ?>
-
-
-
-                    <p>Answer</p>
-                    <?php foreach ($data->answer as $a){
-                            ?>
-                    <?php  echo $a." "; ?>
-
-
-                    <?php } ?>
-
-                    Sol.  <?php foreach ($data->solution as $st){
+                <?php foreach ($data->option as $o){
                         ?>
 
-                    <?php  echo $st; ?>
+                <?php  echo $o; ?>
+                <?php } ?>
 
-
-                    <?php } ?>
-
-                </form>
-
-
-
-                      <?php  } if($d['type']=="paragraph"){ ?>
-
-<form>
-    Q.  <?php  echo $data->question; ?>
-
-    <?php foreach ($data->innerquestion as $in){
-            echo $in->question."<br/>";
-
-            foreach($in->option as $op){
-            echo $op;
-            }
-
-            foreach($in->answer as $op){
-            echo $op;
-            }
-
-            foreach($in->solution as $op){
-            echo $op;
-            }
-            ?>
+                <p>Answer</p>
+                <?php foreach ($data->answer as $a){
+                        ?>
+                <?php  echo $a." "; ?>
 
 
 
+                <?php } ?>
 
-    <?php } ?>
 
 
-</form>
+                Sol.  <?php foreach ($data->solution as $s){
+                    ?>
 
-<?php } ?>
+                <?php  echo $s; ?>
 
-            </div>
 
-            <?php $i++;
-                    } ?>
+                <?php } ?>
+
+            </form>
+            <?php } if($d['type']=='integer'){ ?>
+
+            <form >
+
+
+                Q.  <?php  echo $data->question; ?>
+
+
+
+                <p>Answer</p>
+                <?php foreach ($data->answer as $a){
+                        ?>
+                <?php  echo $a." "; ?>
+
+
+                <?php } ?>
+
+                Sol.  <?php foreach ($data->solution as $st){
+                    ?>
+
+                <?php  echo $st; ?>
+
+
+                <?php } ?>
+
+            </form>
+
+
+
+            <?php  } if($d['type']=="paragraph"){ ?>
+
+            <form>
+                Q.  <?php  echo $data->question; ?>
+
+                <?php foreach ($data->innerquestion as $in){
+                        echo $in->question."<br/>";
+
+                        foreach($in->option as $op){
+                        echo $op;
+                        }
+
+                        foreach($in->answer as $op){
+                        echo $op;
+                        }
+
+                        foreach($in->solution as $op){
+                        echo $op;
+                        }
+                        ?>
+
+
+
+
+                <?php } ?>
+
+
+            </form>
+
+            <?php } ?>
+
         </div>
+
+        <?php $i++;
+                } ?>
     </div>
+</div>
 
 </div>
         <!-- /.container-fluid -->

@@ -19,15 +19,15 @@
         <!-- Content Column -->
 
         <div class="container">
-            <h3 align="center" >  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+            <h2 align="center" ><u>  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
 
-                Subject </h3>
+                Subject </u></h2>
             <form method="post">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select a Exam</label>
+                    <label for="exampleFormControlSelect1">Select an exam name</label>
                     <select class="form-control" name="c_id" id="c_id" required>
-                        <option value="">Select Option</option>
-                       <?php foreach($class as $c){ ?>
+                        <option value="">--Select Option--</option>
+                        <?php foreach($class as $c){ ?>
                         <option value="<?php echo $c['id']; ?>"><?php echo $c['exam_name']; ?></option>
                         <?php } ?>
 
@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a subject name</label>
-                    <input type="text" name="sub_name" class="form-control" id="exampleFormControlInput1" value="<?php if(isset($edit)){ echo $editdata['subject_name']; }?>" required>
+                    <input type="text" name="sub_name" class="form-control" id="exampleFormControlInput1" placeholder="Chemistry" value="<?php if(isset($edit)){ echo $editdata['subject_name']; }?>" required>
                 </div>
                 <button type="submit" class="btn btn-success"> <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
 
@@ -45,11 +45,13 @@
 
 
         </br></br>
-   <hr/>
+    <hr/>
+    <h2 ><u>All Subjects</u></h2>
+
 </br></br>
 
 
-<table id="table_id" class="display">
+<table id="table_id" class="cell-border compact stripe hover">
 <thead>
 <tr>
     <th>S.No</th>
@@ -80,14 +82,14 @@
 <?php } ?>
 
 </tbody>
-</table>
+        </table>
 
 
 
         </div>
-    </div>
+        </div>
 
-</div>
+        </div>
         <!-- /.container-fluid -->
 
         </div>
@@ -96,19 +98,34 @@
         <!-- Footer -->
 
         <!-- End of Footer -->
+<style>
+h2 {
+    font-family: serif;
+    font-weight:bold;
+    text-align:center;
+}
+</style>
         <?php if(isset($edit)){
                 ?>
 
-             <script>
-             $("#c_id").removeAttr("required");
-             $("#c_id").parent().hide();
-             </script>
-                <?php
+<script>
+$("#c_id").removeAttr("required");
+$("#c_id").parent().hide();
+</script>
+        <?php
                 }?>
 <script>
 
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#table_id').DataTable({
+        columnDefs: [
+            {
+                targets: -1,
+                className: 'dt-body-center',
+                className:'dt-head-center'
+            }
+        ]
+    })
 } );
 
 function validate(){

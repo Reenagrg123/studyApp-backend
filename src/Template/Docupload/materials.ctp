@@ -15,145 +15,154 @@
 
     <!-- Content Row -->
     <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">UPLOAD STUDY MATERIAL</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Select a class/paper</label>
+                        <select class="form-control" name="c_id" id="exampleFormControlSelect1">
+                            <?php foreach($class as $c){ ?>
+                            <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
+                            <?php } ?>
 
-        <!-- Content Column -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Select a subject</label>
+                        <select class="form-control" name="s_id" id="exampleFormControlSelect1">
+                            <?php foreach($subject as $c){ ?>
+                            <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
+                            <?php } ?>
 
-        <div class="container">
-            <h3 align="center"><u>Upload study material</u>  </h3>
-            <form method="post">
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a class/paper</label>
-                <select class="form-control" name="c_id" id="exampleFormControlSelect1">
-                    <?php foreach($class as $c){ ?>
-                    <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
-                    <?php } ?>
+                        </select>
+                    </div>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a subject</label>
-                <select class="form-control" name="s_id" id="exampleFormControlSelect1">
-                    <?php foreach($subject as $c){ ?>
-                    <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
-                    <?php } ?>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Select a chapter</label>
+                        <select class="form-control" name="s_id" id="exampleFormControlSelect1">
+                            <?php foreach($subject as $c){ ?>
+                            <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
+                            <?php } ?>
 
-                </select>
-            </div>
+                        </select>
+                    </div>
 
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Select a chapter</label>
-                <select class="form-control" name="s_id" id="exampleFormControlSelect1">
-                    <?php foreach($subject as $c){ ?>
-                    <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
-                    <?php } ?>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Enter a topic name</label>
+                        <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+                    </div>
 
-                </select>
-            </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Select type of material</label></br>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" checked>  PDF File
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio">  You-Tube Link
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio">  Both
+                    </label>
+                </div>
 
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Enter a topic name</label>
-                <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
-            </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Enter a you-tube link</label>
+                    <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+                </div>
 
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Select type of material</label></br>
-            <label class="radio-inline">
-                <input type="radio" name="optradio" checked>  PDF File
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="optradio">  You-Tube Link
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="optradio">  Both
-            </label>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Select a PDF file</label>
+
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+                <!--<div class="file-path-wrapper">-->
+                <!--     <input class="file-path validate" type="text" placeholder="Upload your file">-->
+                <!--    </div>-->
+                <!--    </div>-->
+
+                <button type="submit" class="btn btn-success" style="width: 100px; float: right;">SUBMIT</button>
+            </form>
         </div>
+    </div>
+</div>
+<div class="col-8">
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">ALL MATERIAL</h5>
+    </div>
+    <div class="card-body">
+        <table id="table_id" class="display">
+            <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Class Name</th>
+                <th>Subject Name</th>
+                <th>Chapter Name</th>
+                <th>PDF File</th>
+                <th>You-Tube Link</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
 
-        <div class="form-group">
-            <label for="exampleFormControlInput1">Enter a you-tube link</label>
-            <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
-        </div>
+            <tr>
+                <td>1</td>
+                <td>10th</td>
+                <td>Physics</td>
+                <td>Optics</td>
+                <td>Optics</td>
+                <td>Optics</td>
+                <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                <td><i class="fa fa-times" aria-hidden="true"></i></td>
 
-        <label for="exampleFormControlInput1">Select a PDF file</label>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>11th</td>
+                <td>Physics</td>
+                <td>Optics</td>
+                <td>Optics</td>
+                <td>Optics</td>
+                <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                <td><i class="fa fa-times" aria-hidden="true"></i></td>
 
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Choose file</label>
-        </div>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>12th</td>
+                <td>Chemistry</td>
+                <td>Optics</td>
+                <td>Optics</td>
+                <td>Optics</td>
+                <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                <td><i class="fa fa-times" aria-hidden="true"></i></td>
 
-        <!--<div class="file-path-wrapper">-->
-        <!--     <input class="file-path validate" type="text" placeholder="Upload your file">-->
-        <!--    </div>-->
-        <!--    </div>-->
-    </br>
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jee Mains</td>
+                <td>Physics</td>
+                <td>Optics</td>
+                <td>Optics</td>
+                <td>Optics</td>
+                <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                <td><i class="fa fa-times" aria-hidden="true"></i></td>
 
-        </br></br>
-<h3 align="center"><u>All material</u>  </h3>
-        </br></br>
-<table id="table_id" class="display">
-<thead>
-<tr>
-    <th>S.No</th>
-    <th>Class Name</th>
-    <th>Subject Name</th>
-    <th>Chapter Name</th>
-    <th>PDF File</th>
-    <th>You-Tube Link</th>
-    <th></th>
-    <th></th>
-</tr>
-</thead>
-<tbody>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
 
-<tr>
-    <td>1</td>
-    <td>10th</td>
-    <td>Physics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
-<tr>
-    <td>1</td>
-    <td>11th</td>
-    <td>Physics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
-<tr>
-    <td>3</td>
-    <td>12th</td>
-    <td>Chemistry</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
-<tr>
-    <td>4</td>
-    <td>Jee Mains</td>
-    <td>Physics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td>Optics</td>
-    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-    <td><i class="fa fa-times" aria-hidden="true"></i></td>
-
-</tr>
-</tbody>
-</table>
-
-        </div>
         </div>
 
         </div>

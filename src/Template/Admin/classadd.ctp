@@ -3,88 +3,60 @@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
-    <!-- Page Heading -->
-
-
-    <!-- Content Row -->
-
-    <!-- Content Row -->
-
-
-
-    <!-- Content Row -->
     <div class="row">
-
-        <!-- Content Column -->
-
-        <div class="container">
-            <h2 align="center" ><u>
-
-                <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?> Class </u></h2>
-            <!--<form id="post" method="post" enctype="multipart/form-data">-->
-
-            <form method="post">
-
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Enter a class name</label>
-                    <input type="text" name="class" class="form-control" id="exampleFormControlInput1" placeholder="10th" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
-                </div>
-                <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->
-                <!--</div>-->
-                <button type="submit" class="btn btn-success mb-2">
-                    <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
-
-
-                </button>
-
-
-            </form>
-            <!--</form>-->
-        </br></br>
-    <hr/>
-    <h2><u>All Classes</u></h2>
-
-</br></br>
-<table id="table_id" class="cell-border compact stripe hover">
-<!--<table id="table_id" class="display">-->
-<thead>
-<tr>
-    <th>class Id</th>
-    <th>Class Name</th>
-    <th></th>
-
-</tr>
-</thead>
-<tbody>
-
-<?php foreach($class as $c){
-        $id=$c['id'];
-        ?>
-<a>
-
-    <td><?php echo $c['id']; ?></td>
-    <td><?php echo $c['class_name']; ?></td>
-    <td>
-    <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-
-    <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
-
-</a>
-</td>
-
-
-</tr>
-        <?php } ?>
-        </tbody>
-        </table>
-
-
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title"><?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?> CLASS </u></h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Enter a class name</label>
+                        <input type="text" name="class" class="form-control" id="exampleFormControlInput1" placeholder="Ex: 10th" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
+                    </div>
+                    <button type="submit" class="btn btn-success mb-2" style="width: 100px; float: right;">
+                        <?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?> </button>
+                </form>
+            </div>
         </div>
-
+    </div>
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">ALL CLASSES</h5>
+            </div>
+            <div class="card-body">
+                <table id="table_id" class="cell-border compact stripe hover">
+                    <thead>
+                    <tr>
+                        <th>class Id</th>
+                        <th>Class Name</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($class as $c){
+                            $id=$c['id'];
+                            ?>
+                    <a>
+                        <td><?php echo $c['id']; ?></td>
+                        <td><?php echo $c['class_name']; ?></td>
+                        <td>
+                        <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+                    </a>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+        </div>
+        </div>
         </div>
         <!-- /.container-fluid -->
-
         </div>
         <!-- End of Main Content -->
 

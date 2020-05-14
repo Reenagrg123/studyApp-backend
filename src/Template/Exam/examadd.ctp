@@ -18,91 +18,94 @@
 
     <!-- Content Row -->
     <div class="row">
-
-        <!-- Content Column -->
-
-        <div class="container">
-            <h2 align="center" ><u>  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
-                Exam </u></h3>
-            <!--<form id="post" method="post" enctype="multipart/form-data">-->
-
-            <form method="post">
-
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Select classes name</label>
-                    <br/>
-                    <select class="form-control" id="multiselect" multiple="multiple" required>
-                        <?php foreach($class as $c){ ?>
-                        <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
-                        <?php } ?>
-                    </select>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title"><?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?> EXAM</h5>
                 </div>
+                <div class="card-body">
+                    <form method="post">
+
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Select classes name</label>
+                            <br/>
+                            <select class="form-control" id="multiselect" multiple="multiple" required>
+                                <?php foreach($class as $c){ ?>
+                                <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
 
 
-                <input type="hidden" name="c_id" id="c_id" />
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Enter an exam name</label>
-                    <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Jee Mains" value="<?php if(isset($edit)){ echo $editdata['exam_name']; }?>" required>
+                        <input type="hidden" name="c_id" id="c_id" />
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Enter an exam name</label>
+                            <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Ex: Jee Mains" value="<?php if(isset($edit)){ echo $editdata['exam_name']; }?>" required>
+                        </div>
+                        <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->
+                        <!--</div>-->
+                        <button type="submit" class="btn btn-success mb-2" style="width: 100px; float: right;">
+                            <?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?>
+
+
+                        </button>
+
+
+                    </form>
                 </div>
-                <!--<input type="text" class="form-control" id="class" placeholder="Enter a class or paper name">-->
-                <!--</div>-->
-                <button type="submit" class="btn btn-success mb-2">
-                    <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
-
-
-                </button>
-
-
-            </form>
-            <!--</form>-->
-        </br></br>
-    <hr/>
-    <h2><u>All Exams</u></h2>
-</br></br>
-
-<table id="table_id" class="cell-border compact stripe hover">
-<thead>
-<tr>
-    <th>Exam Id</th>
-    <th>Exam Name</th>
-    <th>Added Class Name</th>
-    <th></th>
-
-</tr>
-</thead>
-<tbody>
-
-<?php foreach($exam as $c){
-        $id=$c['id'];
-        ?>
-<a>
-
-    <td><?php echo $c['id']; ?></td>
-    <td><?php echo $c['exam_name']; ?></td>
-    <td><?php echo $c['classlist']; ?></td>
-    <td>
-    <a href='<?php echo $this->Url->build([  "controller" => "Exam", "action" => "examadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-
-    <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Exam", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
-
-</a>
-</td>
-
-
-</tr>
-        <?php } ?>
-        </tbody>
-        </table>
-
-
+            </div>
         </div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">ALL EXAMS</h5>
+                </div>
+                <div class="card-body">
+                    <table id="table_id" class="cell-border compact stripe hover">
+                        <thead>
+                        <tr>
+                            <th>Exam Id</th>
+                            <th>Exam Name</th>
+                            <th>Added Class Name</th>
+                            <th></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php foreach($exam as $c){
+                                $id=$c['id'];
+                                ?>
+                        <a>
+
+                            <td><?php echo $c['id']; ?></td>
+                            <td><?php echo $c['exam_name']; ?></td>
+                            <td><?php echo $c['classlist']; ?></td>
+                            <td>
+                            <a href='<?php echo $this->Url->build([  "controller" => "Exam", "action" => "examadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+
+                            <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Exam", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+
+                        </a>
+                        </td>
+
+
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
 
         </div>
         <!-- /.container-fluid -->
 
         </div>
         <!-- End of Main Content -->
-
+        </div>
         <!-- Footer -->
 
         <!-- End of Footer -->
@@ -128,8 +131,9 @@ $("#multiselect").parent().hide();
 $(document).ready(function() {
     $('#multiselect').multiselect({
         buttonWidth : '160px',
-
+        //buttonBorder: '1px solid #ced4da',
         nonSelectedText: 'Select Classes',
+
         onChange: function(element, checked) {
             var brands = $('#multiselect option:selected');
             var d='';

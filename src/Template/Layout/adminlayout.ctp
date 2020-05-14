@@ -11,7 +11,7 @@
 
                     <?= $this->Html->css("bootstrap4/bootstrap.min.css"); ?>
 
-                    <?= $this->Html->css("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"); ?>
+                    <?= $this->Html->css("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"); ?>
 
                     <?= $this->Html->css("/css/sb-admin-2.min.css"); ?>
                     <?= $this->Html->css("https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"); ?>
@@ -27,7 +27,6 @@
 
                     <?= $this->Html->css("https://cdnjs.cloudflare.com/ajax/libs/summernote/0.5.0/summernote-bs3.css");?>
 
-                    <?= $this->Html->css("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css");?>
                     <?= $this->Html->css("//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"); ?>
 
                     <body id="page-top">
@@ -41,9 +40,10 @@
                         <!-- Sidebar - Brand -->
                         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                         <div class="sidebar-brand-icon rotate-n-15">
-                            <i class="fa fa-laugh-wink"></i>
+                            <!--<i class="fa fa-laugh-wink"></i>-->
+                            <img src="/img/logo.png" style="width:80px;" >
                         </div>
-                        <div class="sidebar-brand-text mx-3">Admin</sup></div>
+                        <div class="sidebar-brand-text" style="margin-left:-31px;">EQUATION UNPLUGGED</sup></div>
                     </a>
 
                     <!-- Divider -->
@@ -79,96 +79,96 @@
                       -->
 
                             <!-- Divider -->
-                            <hr class="sidebar-divider">
-
-                                <li class="nav-item">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                        <i class="fa fa-th-list" aria-hidden="true"></i>
-                                        <span>Class</span>
-                                    </a>
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                                        <div class="bg-white py-2 collapse-inner rounded">
 
 
-                                            <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "classadd" ]); ?>">
-                                            <i class="fa fa-user-circle" aria-hidden="true"></i>
-                                            <span>Add Class</span></a>
-
-                                        <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
-                                        <i class="fa fa-book" aria-hidden="true"></i>
-                                        <span>Add Subject</span></a>
-
-
-                                    <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "excersise" ]); ?>">
-                                    <i class="fa fa-file" aria-hidden="true"></i>
-                                    <span>Add Chapters</span></a>
+                            <li class="nav-item">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                    <span>Class</span>
+                                </a>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                                    <div class="py-2 collapse-inner rounded" style="background-color: #beccf3">
 
 
+                                        <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "classadd" ]); ?>">
+                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                        <span>Add Class</span></a>
 
-                                <a class="collapse-item" href="<?php echo $this->Url->build([  "controller" => "Exam", "action" => "excersise" ]); ?>">
+                                    <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span>Add Subject</span></a>
+
+
+                                <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "excersise" ]); ?>">
                                 <i class="fa fa-file" aria-hidden="true"></i>
-                                <span>Upload Questions</span></a>
+                                <span>Add Chapters</span></a>
 
-                        </div>
+
+
+                            <a class="collapse-item" href="<?php echo $this->Url->build([  "controller" => "Exam", "action" => "excersise" ]); ?>">
+                            <i class="fa fa-question" aria-hidden="true"></i>
+                            <span>Upload Questions</span></a>
+
                     </div>
-                </li>
+                </div>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo" aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fa fa-th-list" aria-hidden="true"></i>
-                        <span><b>Exam</b></span>
-                    </a>
-                    <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-
-
-                            <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "examadd" ]); ?>">
-                            <i class="fa fa-user-circle" aria-hidden="true"></i>
-                            <span>Add Exam</span></a>
-
-                        <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "subject" ]); ?>">
-                        <i class="fa fa-book" aria-hidden="true"></i>
-                        <span>Add Subject</span></a>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span><b>Exam</b></span>
+                </a>
+                <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="py-2 collapse-inner rounded" style="background-color: #beccf3">
 
 
-                    <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "excersise" ]); ?>">
-                    <i class="fa fa-file" aria-hidden="true"></i>
-                    <span>Add Chapters</span></a>
+                        <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "examadd" ]); ?>">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        <span>Add Exam</span></a>
+
+                    <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "subject" ]); ?>">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    <span>Add Subject</span></a>
 
 
                 <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "excersise" ]); ?>">
                 <i class="fa fa-file" aria-hidden="true"></i>
-                <span>Upload Questions</span></a>
+                <span>Add Chapters</span></a>
 
-        </div>
+
+            <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Exam", "action" => "excersise" ]); ?>">
+            <i class="fa fa-question" aria-hidden="true"></i>
+            <span>Upload Questions</span></a>
+
     </div>
+</div>
 </li>
 
 
 <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo5" aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fa fa-th-list" aria-hidden="true"></i>
-        <span>Upload Study Materials</span>
-    </a>
-    <div id="collapseTwoo5" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
+<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo5" aria-expanded="true" aria-controls="collapseTwo">
+    <i class="fa fa-upload" aria-hidden="true"></i>
+    <span>Upload Study Materials</span>
+</a>
+<div id="collapseTwoo5" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+    <div class="py-2 collapse-inner rounded" style="background-color: #beccf3">
 
 
 
-            <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "materials" ]); ?>">
-            <i class="fa fa-user-circle" aria-hidden="true"></i>
-            <span>Add Notes</span></a>
+        <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "materials" ]); ?>">
+        <i class="fa fa-file" aria-hidden="true"></i>
+        <span>Add Notes</span></a>
 
-        <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
-        <i class="fa fa-book" aria-hidden="true"></i>
-        <span>Add Youtube links</span></a>
+    <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
+    <i class="fa fa-youtube-play" aria-hidden="true"></i>
+    <span>Add Youtube links</span></a>
 
 
-    <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "index" ]); ?>">
-    <i class="fa fa-file" aria-hidden="true"></i>
-    <span>Add Questions</span></a>
+<a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "index" ]); ?>">
+<i class="fa fa-question" aria-hidden="true"></i>
+<span>Add Questions</span></a>
 
-</div>
+        </div>
         </div>
         </li>
 
@@ -178,11 +178,11 @@
     <span>Generate Test</span>
 </a>
 <div id="collapseTwoo6" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
+    <div class="py-2 collapse-inner rounded" style="background-color: #beccf3">
 
 
         <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Generate", "action" => "index" ]); ?>">
-        <i class="fa fa-user-circle" aria-hidden="true"></i>
+        <i class="fa fa-file" aria-hidden="true"></i>
         <span>Create Test</span></a>
 
     <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
@@ -314,10 +314,7 @@
 
 
 
-            <span class="mr-2 d-none d-lg-inline text-gray-800 small">Equation Unplugged</span>
             <i class="fa fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-
-
 
             <div class="topbar-divider d-none d-sm-block"></div>
 

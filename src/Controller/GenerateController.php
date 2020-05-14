@@ -187,11 +187,13 @@ foreach ($records as $r){
     $q_id=$r['id'];
 
     $checkadd=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$examid,'q_id'=>$q_id])->toArray();
+    if($checkadd){
 
-    if($checkadd==null){
 
-    array_push($datarecords,$r);
-}
+}else{
+        array_push($datarecords,$r);
+    }
+
 
 }
             $this->set('id',$id);

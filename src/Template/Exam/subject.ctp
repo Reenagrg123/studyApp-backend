@@ -15,79 +15,78 @@
 
     <!-- Content Row -->
     <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title"><?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?> SUBJECT </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Select an exam name</label>
+                            <select class="form-control" name="c_id" id="c_id" required>
+                                <option value="">--Select Option--</option>
+                                <?php foreach($class as $c){ ?>
+                                <option value="<?php echo $c['id']; ?>"><?php echo $c['exam_name']; ?></option>
+                                <?php } ?>
 
-        <!-- Content Column -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Enter a subject name</label>
+                            <input type="text" name="sub_name" class="form-control" id="exampleFormControlInput1" placeholder="Chemistry" value="<?php if(isset($edit)){ echo $editdata['subject_name']; }?>" required>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="width: 100px; float: right;"> <?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?>
 
-        <div class="container">
-            <h2 align="center" ><u>  <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
+                        </button>
 
-                Subject </u></h2>
-            <form method="post">
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select an exam name</label>
-                    <select class="form-control" name="c_id" id="c_id" required>
-                        <option value="">--Select Option--</option>
-                        <?php foreach($class as $c){ ?>
-                        <option value="<?php echo $c['id']; ?>"><?php echo $c['exam_name']; ?></option>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">ALL SUBJECTS</h5>
+                </div>
+                <div class="card-body">
+                    <table id="table_id" class="cell-border compact stripe hover">
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Class Name</th>
+                            <th>Subject Name</th>
+                            <th></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($data as $d){
+                                $id=$d['id'];
+                                ?>
+                        <tr>
+                            <td><?php echo $d['id']; ?></td>
+                            <td><?php echo $d['Exam']['exam_name']; ?></td>
+                            <td><?php echo $d['subject_name']; ?></td>
+                            <td>
+                                <a href='<?php echo $this->Url->build([  "controller" => "Exam", "action" => "subject","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+
+
+                                <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Exam", "action" => "delsub","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+
+                            </a>
+                        </td>
+
+                        </tr>
                         <?php } ?>
 
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Enter a subject name</label>
-                    <input type="text" name="sub_name" class="form-control" id="exampleFormControlInput1" placeholder="Chemistry" value="<?php if(isset($edit)){ echo $editdata['subject_name']; }?>" required>
-                </div>
-                <button type="submit" class="btn btn-success"> <?php if(isset($edit)){ echo 'Edit'; }else { echo 'Add'; }   ?>
-
-                </button>
-
-            </form>
-
-
-        </br></br>
-    <hr/>
-    <h2 ><u>All Subjects</u></h2>
-
-</br></br>
-
-
-<table id="table_id" class="cell-border compact stripe hover">
-<thead>
-<tr>
-    <th>S.No</th>
-    <th>Class Name</th>
-    <th>Subject Name</th>
-    <th></th>
-
-</tr>
-</thead>
-<tbody>
-<?php foreach($data as $d){
-        $id=$d['id'];
-        ?>
-<tr>
-    <td><?php echo $d['id']; ?></td>
-    <td><?php echo $d['Exam']['exam_name']; ?></td>
-    <td><?php echo $d['subject_name']; ?></td>
-    <td>
-        <a href='<?php echo $this->Url->build([  "controller" => "Exam", "action" => "subject","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-
-
-        <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Exam", "action" => "delsub","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
-
-    </a>
-</td>
-
-</tr>
-<?php } ?>
-
-</tbody>
-        </table>
-
-
-
+                    </tbody>
+                </table>
+            </div>
         </div>
-        </div>
+    </div>
+
+</div>
 
         </div>
         <!-- /.container-fluid -->

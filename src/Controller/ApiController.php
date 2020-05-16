@@ -93,17 +93,17 @@ class ApiController extends AppController{
                 echo json_encode($send);
                 exit;
             }
-           // $this->auth($data['user_id']);
+            $this->auth($data['user_id']);
 
             $classobj = $this->ClassMap->find('all')->where(['c_id'=>$data['c_id']])->group('exam_id')->toArray();
-$record=[];
+            $record=[];
             foreach($classobj as $c){
                 $exam = $this->Exam->find('all')->where(['id'=>$c['exam_id']])->first()->toArray();
-$tmp=[];
-$tmp['id']=$exam['id'];
-$tmp['name']=$exam['exam_name'];
+                $tmp=[];
+                $tmp['id']=$exam['id'];
+                $tmp['name']=$exam['exam_name'];
 
-array_push($record,$tmp);
+                array_push($record,$tmp);
 
             }
 
@@ -120,88 +120,90 @@ array_push($record,$tmp);
 
     }
 
-public function getExamSubject(){
+    public function getExamSubject(){
 
-    if ($this->request->is("post")) {
+        if ($this->request->is("post")) {
 
 
-        $date = date("Y-m-d");
-        $data = $this->request->data;
+            $date = date("Y-m-d");
+            $data = $this->request->data;
 
-        if ($data['exam_id'] == '' || $data['user_id'] == '' ) {
-            $send['error']=1;
-            $send['msg']="Parameters should not empty";
+            if ($data['exam_id'] == '' || $data['user_id'] == '' ) {
+                $send['error']=1;
+                $send['msg']="Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+
+            $classobj = $this->ExamSubject->find()->where(['c_id'=>$data['exam_id']])->toArray();
+
+            $data=[];
+            foreach($classobj as $c){
+                $tm=[];
+                $tm['id']=$c['id'];
+                $tm['name']=$c['subject_name'];
+
+                array_push($data,$tm);
+
+            }
+            $send['error'] = 0;
+            $send['data'] = $data;
+            //  $send['id'] = $userobj->id;
 
             echo json_encode($send);
             exit;
-        }
-        $this->auth($data['user_id']);
 
-        $classobj = $this->ExamSubject->find()->where(['c_id'=>$data['exam_id']])->toArray();
 
-        $data=[];
-        foreach($classobj as $c){
-            $tm=[];
-            $tm['id']=$c['id'];
-            $tm['name']=$c['subject_name'];
-
-            array_push($data,$tm);
 
         }
-        $send['error'] = 0;
-        $send['data'] = $data;
-        //  $send['id'] = $userobj->id;
 
-        echo json_encode($send);
-        exit;
 
+    }
+
+    public function getExamChapters(){
+
+        if ($this->request->is("post")) {
+
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+
+            if ($data['exam_id'] == '' || $data['examsubject_id'] == '' || $data['user_id']=='' ) {
+                $send['error']=1;
+                $send['msg']="Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+
+            $classobj = $this->ExamExercise->find()->where(['c_id'=>$data['exam_id'],'s_id'=>$data['examsubject_id']])->toArray();
+
+            $data=[];
+            foreach($classobj as $c){
+                $tm=[];
+                $tm['id']=$c['id'];
+                $tm['name']=$c['title'];
+
+                array_push($data,$tm);
+
+            }
+            $send['error'] = 0;
+            $send['data'] = $data;
+            //  $send['id'] = $userobj->id;
+
+            echo json_encode($send);
+            exit;
+
+
+        }
 
 
     }
 
 
-}
-
-public function getExamChapters(){
-
-    if ($this->request->is("post")) {
-
-
-        $date = date("Y-m-d");
-        $data = $this->request->data;
-
-        if ($data['exam_id'] == '' || $data['examsubject_id'] == '' || $data['user_id']=='' ) {
-            $send['error']=1;
-            $send['msg']="Parameters should not empty";
-
-            echo json_encode($send);
-            exit;
-        }
-        $this->auth($data['user_id']);
-
-        $classobj = $this->ExamExercise->find()->where(['c_id'=>$data['exam_id'],'s_id'=>$data['examsubject_id']])->toArray();
-
-        $data=[];
-        foreach($classobj as $c){
-            $tm=[];
-            $tm['id']=$c['id'];
-            $tm['name']=$c['title'];
-
-            array_push($data,$tm);
-
-        }
-        $send['error'] = 0;
-        $send['data'] = $data;
-        //  $send['id'] = $userobj->id;
-
-        echo json_encode($send);
-        exit;
-
-
-    }
-
-
-}
 
 
 
@@ -210,7 +212,7 @@ public function getExamChapters(){
         if ($this->request->is("post")) {
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ($data['user_id'] == '' || $data['c_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == '' || $data['type'] == '') {
+            if ($data['user_id']=='' or $data['c_id']=='' or  $data['s_id']=='' or  $data['ch_id']==''  or  $data['type']==''  ) {
                 $send['error'] = 1;
                 $send['msg'] = "Parameters should not empty";
 
@@ -221,24 +223,24 @@ public function getExamChapters(){
             $c_id=$data['c_id'];
             $s_id=$data['s_id'];
             $ch_id=$data['ch_id'];
-$tpe=0;
-$type=$data['type'];
-$mat=$this->Materials->find('all')->where(['c_id'=>$c_id,'s_id'=>$s_id,'ch_id'=>$ch_id,'upload_for'=>$type])->toArray();
+            $type=0;
+            $type=$data['type'];
+            $mat=$this->Materials->find('all')->where(['c_id'=>$c_id,'s_id'=>$s_id,'ch_id'=>$ch_id,'upload_for'=>$type])->toArray();
 
-$data=[];
-foreach ($mat as $m){
+            $data=[];
+            foreach ($mat as $m){
 
-    $temp=[];
-    $temp['id']=$m['id'];
-    $temp['name']=$m['name'];
-    $temp['type']=$m['type'];
-    $temp['file']=$host.'/materials/'.$m['hash_id'].'/'.$m['file'];
-    $temp['link']=$m['link'];
-    array_push($data,$temp);
-}
+                $temp=[];
+                $temp['id']=$m['id'];
+                $temp['name']=$m['name'];
+                $temp['type']=$m['type'];
+                $temp['file']=$host.'/materials/'.$m['hash_id'].'/'.$m['file'];
+                $temp['link']=$m['link'];
+                array_push($data,$temp);
+            }
 
-echo json_encode($data);
-exit;
+            echo json_encode($data);
+            exit;
         }
     }
 
@@ -283,7 +285,7 @@ exit;
                 exit;
 
             }
-                $history=$this->History->newEntity();
+            $history=$this->History->newEntity();
             $history->exam_id=$data['exam_id'];
             $history->user_id=$data['user_id'];
             $history->no_correct_attempt=$data['marks'];
@@ -305,13 +307,14 @@ exit;
         }
 
     }
+
     public function getTestHistory()
     {
 
         if ($this->request->is("post")) {
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ( $data['user_id'] == ''  ||  $data['exam_id'] == '' ) {
+            if ( $data['user_id'] == ''   ) {
                 $send['error'] = 1;
                 $send['msg'] = "Parameters should not empty";
 
@@ -319,9 +322,9 @@ exit;
                 exit;
             }
             $this->auth($data['user_id']);
-            $examid=$data['exam_id'];
+            // $examid=$data['exam_id'];
             $user_id=$data['user_id'];
-            $history=$this->History->find('all')->where(['exam_id'=>$examid,'user_id'=>$user_id])->first()->toArray();
+            $history=$this->History->find('all')->where(['user_id'=>$user_id])->first()->toArray();
 
 
             $send['error'] = 0;

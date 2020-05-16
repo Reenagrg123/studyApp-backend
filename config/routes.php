@@ -80,6 +80,7 @@ $routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
 $routes->connect('/getdata', ['controller' => 'Docupload', 'action' => 'getdata']);
 $routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index']);
 $routes->connect('/docupload/materials', ['controller' => 'Docupload', 'action' => 'materials']);
+$routes->connect('/docupload/exammaterials', ['controller' => 'Docupload', 'action' => 'exammaterials']);
 $routes->connect('/generatetest', ['controller' => 'Generate', 'action' => 'index']);
 $routes->connect('/generateexam', ['controller' => 'Generate', 'action' => 'generateexam']);
 

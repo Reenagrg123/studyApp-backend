@@ -6,6 +6,9 @@ use App\Controller\AppController;
 use App\Controller\Services\ExecuteService;
 use App\Controller\Services\McqService;
 use App\Model\Table\ClasssTables;
+use App\Model\Table\ExamexercisessTables;
+use App\Model\Table\ExamsTables;
+use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\MaterialsTables;
 use App\Model\Table\McqsTables;
@@ -31,6 +34,13 @@ class DocuploadController extends AppController{
         $this->Uploadfiles=$this->loadModel(UploadfilesTables::class);
         $this->Mcq=$this->loadModel(McqsTables::class);
         $this->Materials=$this->loadModel(MaterialsTables::class);
+
+
+        $this->ExamSubject=$this->loadModel(Examsubjects::class);
+        $this->ExamExercise=$this->loadModel(ExamexercisessTables::class);
+        $this->Exam=$this->loadModel(ExamsTables::class);
+
+
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -43,6 +53,141 @@ class DocuploadController extends AppController{
 
 
         $this->set("title","Dashboard");
+
+    }
+
+    public function exammaterials(){
+
+
+        $class=$this->Exam->find("all")->toArray();
+        $records=$this->Materials->find('all')->where(['upload_for'=>1])->contain(['Exam','Examsubject'])->toArray();
+        $save=0;
+        // $records=$this->Uploadfiles->find("all")->contain(['class','subject','exercises'])->toArray();
+        $this->set('class',$class);
+
+        if($this->request->is("post")) {
+
+            $data = $this->request->data;
+            $date = date("Y-m-d");
+            $hasid=$data['class'].rand(100,2000);
+
+            $material=$this->Materials->newEntity();
+
+
+            if($data['upload_type']==0){
+                $material->type=0;
+
+                $filename=$_FILES['file']['name'];
+                $path = $hasid.$_FILES['file']['name'];
+                $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+
+
+
+                if($imageFileType !== "pdf" && $imageFileType !== "doc" && $imageFileType !== "docx") {
+                    $this->Flash->error('Wrong File Format');
+                    $this->redirect(array("controller" => "Docupload",
+                        "action" => "exammaterials"));
+                    return;
+
+                }
+
+                if (!file_exists('materials/'.$hasid)) {
+                    mkdir('materials/'.$hasid, 0777, true);
+                }
+
+                $uploadPath ='materials/'.$hasid.'/';
+                $uploadFile = $uploadPath.$path;
+
+                if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
+
+                    $save=1;
+                    $material->file=$path;
+
+                }
+
+                $material->hash_id=$hasid;
+
+
+
+
+            }
+            if($data['upload_type']==1){
+                $material->type=1;
+                $material->link=$data['link'];
+                $material->hash_id=$hasid;
+                $save=1;
+
+            }
+            if($data['upload_type']==2){
+                $material->link=$data['link'];
+                $material->type=2;
+                $material->hash_id=$hasid;
+
+                $filename=$_FILES['file']['name'];
+                $path = $hasid.$_FILES['file']['name'];
+                $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+
+
+
+                if($imageFileType !== "pdf" && $imageFileType !== "doc" && $imageFileType !== "docx") {
+                    $this->Flash->success('Wrong File Format');
+                    $this->redirect(array("controller" => "Docupload",
+                        "action" => "exammaterials"));
+                    return;
+
+                }
+                if (!file_exists('materials/'.$hasid)) {
+                    mkdir('materials/'.$hasid, 0777, true);
+                }
+
+                $uploadPath ='materials/'.$hasid.'/';
+                $uploadFile = $uploadPath.$path;
+
+                if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
+
+                    $save=1;
+                    $material->file=$path;
+
+                }
+
+
+            }
+            $material->c_id=$data['class'];
+            $material->s_id=$data['subject'];
+            $material->ch_id=$data['ch_id'];
+            $material->name=$data['title'];
+            $material->create_date=date("Y-m-d H:i:s");
+            $material->upload_for=$data['upload_for'];
+            if($save==1){
+                $this->Materials->save($material);
+                $this->Flash->success('Data Saved');
+                $this->redirect(array("controller" => "Docupload",
+                    "action" => "exammaterials"));
+
+                return;
+
+            }else{
+                $this->Flash->success('Try Again');
+                $this->redirect(array("controller" => "Docupload",
+                    "action" => "exammaterials"));
+
+                return;
+            }
+
+
+
+
+
+
+
+
+
+        }
+        $this->set('records',$records);
+
+
+
+
 
     }
 
@@ -210,19 +355,27 @@ public function getdata(){
 
           if($type=='subject'){
               $clas=$data['class'];
+
               $class=$this->Subject->find("all")->where(['c_id'=>$clas])->toArray();
               $name='subject_name';
-
+  if(isset($data['for'])){
+      $class=$this->ExamSubject->find("all")->where(['c_id'=>$clas])->toArray();
+      $name='subject_name';
+  }
           }
 
           if($type=='excersise'){
 
               $clas=$data['class'];
               $sub=$data['subject'];
-            //  var_dump($clas.$sub);exit;
+
+              //  var_dump($clas.$sub);exit;
               $class=$this->Exercise->find("all")->where(['c_id'=>$clas,'s_id'=>$sub])->toArray();
               $name='title';
-
+              if(isset($data['for'])){
+                  $class=$this->ExamExercise->find("all")->where(['c_id'=>$clas,'s_id'=>$sub])->toArray();
+                  $name='title';
+              }
           }
 
           $dt='<option value="">Select Option</option>';

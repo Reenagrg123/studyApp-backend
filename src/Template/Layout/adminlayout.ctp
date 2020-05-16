@@ -147,7 +147,12 @@
 
                 <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "materials" ]); ?>">
                 <i class="fa fa-file" aria-hidden="true"></i>
-                <span>Upload Study Material</span></a>
+                <span>Upload Class Material</span></a>
+
+            <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "exammaterials" ]); ?>">
+            <i class="fa fa-file" aria-hidden="true"></i>
+            <span>Upload Exam Material</span></a>
+
 
             <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "index" ]); ?>">
             <i class="fa fa-question" aria-hidden="true"></i>

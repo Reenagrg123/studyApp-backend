@@ -28,6 +28,19 @@ class GenerateexamsTables extends Table{
             'ex_id'
         ]);
 
+
+        $this->hasOne('Exam')->setForeignKey('id')->setBindingKey([
+            'c_id'
+        ]);
+        $this->hasOne('Examsubject')->setForeignKey('id')->setBindingKey([
+            's_id'
+        ]);
+        $this->hasOne('Examexercises')->setForeignKey('id')->setBindingKey([
+            'ex_id'
+        ]);
+
+
+
     }
 
 

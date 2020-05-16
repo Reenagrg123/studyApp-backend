@@ -170,7 +170,7 @@
         <i class="fa fa-file" aria-hidden="true"></i>
         <span>Create Test</span></a>
 
-    <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "subject" ]); ?>">
+    <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Generate", "action" => "generateexam" ]); ?>">
     <i class="fa fa-book" aria-hidden="true"></i>
     <span>Create Exam</span></a>
 

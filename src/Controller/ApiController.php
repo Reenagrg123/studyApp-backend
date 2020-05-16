@@ -6,8 +6,12 @@ use App\Controller\AppController;
 use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
 use App\Model\Table\CategorysTables;
+use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
+use App\Model\Table\ExamexercisessTables;
 use App\Model\Table\ExamquestionsTables;
+use App\Model\Table\ExamsTables;
+use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\GenerateexamsTables;
 use App\Model\Table\HistorysTables;
@@ -58,6 +62,12 @@ class ApiController extends AppController{
         $this->History=$this->loadModel(HistorysTables::class);
         $this->Materials=$this->loadModel(MaterialsTables::class);
 
+        $this->ExamSubject=$this->loadModel(Examsubjects::class);
+        $this->ExamExercise=$this->loadModel(ExamexercisessTables::class);
+        $this->Exam=$this->loadModel(ExamsTables::class);
+        $this->ClassMap=$this->loadModel(ClassexammapsTables::class);
+
+
         $session = $this->getRequest()->getSession();
         // $this->authorize();
 
@@ -65,10 +75,134 @@ class ApiController extends AppController{
 
         $this->key = 'wt1U5MACWJFTXGenFoZoiLwQGrLgdbHA';
 
-
-
         $this->set("title","Dashboard");
     }
+
+
+    public function getExam(){
+        if ($this->request->is("post")) {
+
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+
+            if ($data['c_id'] == '' || $data['user_id'] == '' ) {
+                $send['error']=1;
+                $send['msg']="Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+           // $this->auth($data['user_id']);
+
+            $classobj = $this->ClassMap->find('all')->where(['c_id'=>$data['c_id']])->group('exam_id')->toArray();
+$record=[];
+            foreach($classobj as $c){
+                $exam = $this->Exam->find('all')->where(['id'=>$c['exam_id']])->first()->toArray();
+$tmp=[];
+$tmp['id']=$exam['id'];
+$tmp['name']=$exam['exam_name'];
+
+array_push($record,$tmp);
+
+            }
+
+            $send['error'] = 0;
+            $send['data'] = $record;
+            //  $send['id'] = $userobj->id;
+
+            echo json_encode($send);
+            exit;
+
+
+
+        }
+
+    }
+
+public function getExamSubject(){
+
+    if ($this->request->is("post")) {
+
+
+        $date = date("Y-m-d");
+        $data = $this->request->data;
+
+        if ($data['exam_id'] == '' || $data['user_id'] == '' ) {
+            $send['error']=1;
+            $send['msg']="Parameters should not empty";
+
+            echo json_encode($send);
+            exit;
+        }
+        $this->auth($data['user_id']);
+
+        $classobj = $this->ExamSubject->find()->where(['c_id'=>$data['exam_id']])->toArray();
+
+        $data=[];
+        foreach($classobj as $c){
+            $tm=[];
+            $tm['id']=$c['id'];
+            $tm['name']=$c['subject_name'];
+
+            array_push($data,$tm);
+
+        }
+        $send['error'] = 0;
+        $send['data'] = $data;
+        //  $send['id'] = $userobj->id;
+
+        echo json_encode($send);
+        exit;
+
+
+
+    }
+
+
+}
+
+public function getExamChapters(){
+
+    if ($this->request->is("post")) {
+
+
+        $date = date("Y-m-d");
+        $data = $this->request->data;
+
+        if ($data['exam_id'] == '' || $data['examsubject_id'] == '' || $data['user_id']=='' ) {
+            $send['error']=1;
+            $send['msg']="Parameters should not empty";
+
+            echo json_encode($send);
+            exit;
+        }
+        $this->auth($data['user_id']);
+
+        $classobj = $this->ExamExercise->find()->where(['c_id'=>$data['exam_id'],'s_id'=>$data['examsubject_id']])->toArray();
+
+        $data=[];
+        foreach($classobj as $c){
+            $tm=[];
+            $tm['id']=$c['id'];
+            $tm['name']=$c['title'];
+
+            array_push($data,$tm);
+
+        }
+        $send['error'] = 0;
+        $send['data'] = $data;
+        //  $send['id'] = $userobj->id;
+
+        echo json_encode($send);
+        exit;
+
+
+    }
+
+
+}
+
 
 
     public function getMaterials(){
@@ -76,7 +210,7 @@ class ApiController extends AppController{
         if ($this->request->is("post")) {
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ($data['user_id'] == '' || $data['c_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == '') {
+            if ($data['user_id'] == '' || $data['c_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == '' || $data['type'] == '') {
                 $send['error'] = 1;
                 $send['msg'] = "Parameters should not empty";
 
@@ -87,8 +221,9 @@ class ApiController extends AppController{
             $c_id=$data['c_id'];
             $s_id=$data['s_id'];
             $ch_id=$data['ch_id'];
-
-$mat=$this->Materials->find('all')->where(['c_id'=>$c_id,'s_id'=>$s_id,'ch_id'=>$ch_id])->toArray();
+$tpe=0;
+$type=$data['type'];
+$mat=$this->Materials->find('all')->where(['c_id'=>$c_id,'s_id'=>$s_id,'ch_id'=>$ch_id,'upload_for'=>$type])->toArray();
 
 $data=[];
 foreach ($mat as $m){

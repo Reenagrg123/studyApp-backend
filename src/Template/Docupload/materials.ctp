@@ -28,6 +28,18 @@
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Upload For </label>
+                            <select class="form-control" name="upload_for" id="upload_type" required>
+                                <option value="">Select Option</option>
+                                <option value="0">Class</option>
+                                <option value="1">Exam</option>
+
+                            </select>
+                        </div>
+
+
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Select Class</label>
 

@@ -168,7 +168,7 @@ $material->type=2;
         $material->ch_id=$data['ch_id'];
         $material->name=$data['title'];
         $material->create_date=date("Y-m-d H:i:s");
-
+        $material->upload_for=$data['upload_for'];
         if($save==1){
             $this->Materials->save($material);
             $this->Flash->success('Data Saved');

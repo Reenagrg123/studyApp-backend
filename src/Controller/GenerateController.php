@@ -49,6 +49,12 @@ class GenerateController extends AppController{
         $this->GenerateExam=$this->loadModel(GenerateexamsTables::class);
         $this->Mcq=$this->loadModel(McqsTables::class);
         $this->ExamQuestion=$this->loadModel(ExamquestionsTables::class);
+
+
+        $this->ExamSubject=$this->loadModel(Examsubjects::class);
+        $this->ExamExercise=$this->loadModel(ExamexercisessTables::class);
+        $this->Exam=$this->loadModel(ExamsTables::class);
+
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -62,6 +68,47 @@ class GenerateController extends AppController{
 
         $this->set("title","Dashboard");
     }
+
+    public function generateexam(){
+        $classdata=$this->Exam->find("all")->toArray();
+        $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>2])->contain(['Exam','Examsubject','Examexercises'])->toArray();
+        if($this->request->is("post")) {
+            $data = $this->request->data;
+            $date = date("Y-m-d");
+
+
+            $generate=$this->GenerateExam->newEntity();
+            $generate->c_id=$data['c_id'];
+            $generate->s_id=$data['s_id'];
+            $generate->ex_id=$data['ex_id'];
+            $generate->c_id=$data['c_id'];
+            $generate->name=$data['name'];
+            $generate->level=$data['level'];
+            $generate->exam_type=$data['exam_type'];
+            $generate->total_time=$data['total_time'];
+            $generate->create_date=date("Y-m-d H:i:s");
+            $this->GenerateExam->save($generate);
+
+            $this->Flash->success('Exam Saved , Please Select Questions');
+            $this->redirect(array("controller" => "Generate",
+                "action" => "index"));
+
+            return;
+
+
+
+        }
+
+
+
+        $this->set("class",$classdata);
+        $this->set("generatedata",$generatedata);
+
+
+
+
+    }
+
 
     public function getupload(){
 
@@ -263,6 +310,13 @@ foreach ($records as $r){
                 $clas=$data['class'];
                 $class=$this->Subject->find("all")->where(['c_id'=>$clas])->toArray();
                 $name='subject_name';
+                if(isset($data['for'])){
+                    $class=$this->ExamSubject->find("all")->where(['c_id'=>$clas])->toArray();
+                    $name='subject_name';
+
+                }
+
+
 
             }
 
@@ -273,6 +327,14 @@ foreach ($records as $r){
                 //  var_dump($clas.$sub);exit;
                 $class=$this->Exercise->find("all")->where(['c_id'=>$clas,'s_id'=>$sub])->toArray();
                 $name='title';
+
+                if(isset($data['for'])){
+
+                      $class=$this->ExamExercise->find("all")->where(['c_id'=>$clas,'s_id'=>$sub])->toArray();
+                $name='title';
+
+                }
+
 
             }
 

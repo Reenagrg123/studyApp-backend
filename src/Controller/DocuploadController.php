@@ -7,6 +7,7 @@ use App\Controller\Services\ExecuteService;
 use App\Controller\Services\McqService;
 use App\Model\Table\ClasssTables;
 use App\Model\Table\ExercisessTables;
+use App\Model\Table\MaterialsTables;
 use App\Model\Table\McqsTables;
 use App\Model\Table\SubjectsTables;
 use App\Model\Table\UploadfilesTables;
@@ -29,6 +30,7 @@ class DocuploadController extends AppController{
         $this->Exercise=$this->loadModel(ExercisessTables::class);
         $this->Uploadfiles=$this->loadModel(UploadfilesTables::class);
         $this->Mcq=$this->loadModel(McqsTables::class);
+        $this->Materials=$this->loadModel(MaterialsTables::class);
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -63,8 +65,136 @@ public function test(){
 
 
 }
+
+
+
 public function materials(){
 
+    $class=$this->Class->find("all")->toArray();
+    $records=$this->Materials->find('all')->contain(['class','subject'])->toArray();
+$save=0;
+   // $records=$this->Uploadfiles->find("all")->contain(['class','subject','exercises'])->toArray();
+$this->set('class',$class);
+
+    if($this->request->is("post")) {
+
+        $data = $this->request->data;
+        $date = date("Y-m-d");
+$hasid=$data['class'].rand(100,2000);
+
+        $material=$this->Materials->newEntity();
+
+
+if($data['upload_type']==0){
+    $material->type=0;
+
+    $filename=$_FILES['file']['name'];
+    $path = $hasid.$_FILES['file']['name'];
+    $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+
+
+
+    if($imageFileType !== "pdf" && $imageFileType !== "doc" && $imageFileType !== "docx") {
+        $this->Flash->error('Wrong File Format');
+        $this->redirect(array("controller" => "Docupload",
+            "action" => "materials"));
+        return;
+
+    }
+
+    if (!file_exists('materials/'.$hasid)) {
+        mkdir('materials/'.$hasid, 0777, true);
+    }
+
+    $uploadPath ='materials/'.$hasid.'/';
+    $uploadFile = $uploadPath.$path;
+
+    if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
+
+$save=1;
+        $material->file=$path;
+
+    }
+
+    $material->hash_id=$hasid;
+
+
+
+
+        }
+        if($data['upload_type']==1){
+            $material->type=1;
+            $material->link=$data['link'];
+            $material->hash_id=$hasid;
+            $save=1;
+
+        }
+        if($data['upload_type']==2){
+            $material->link=$data['link'];
+$material->type=2;
+            $material->hash_id=$hasid;
+
+            $filename=$_FILES['file']['name'];
+            $path = $hasid.$_FILES['file']['name'];
+            $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+
+
+
+            if($imageFileType !== "pdf" && $imageFileType !== "doc" && $imageFileType !== "docx") {
+                $this->Flash->success('Wrong File Format');
+                $this->redirect(array("controller" => "Docupload",
+                    "action" => "materials"));
+                return;
+
+            }
+            if (!file_exists('materials/'.$hasid)) {
+                mkdir('materials/'.$hasid, 0777, true);
+            }
+
+            $uploadPath ='materials/'.$hasid.'/';
+            $uploadFile = $uploadPath.$path;
+
+            if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
+
+                $save=1;
+                $material->file=$path;
+
+            }
+
+
+        }
+        $material->c_id=$data['class'];
+        $material->s_id=$data['subject'];
+        $material->ch_id=$data['ch_id'];
+        $material->name=$data['title'];
+        $material->create_date=date("Y-m-d H:i:s");
+
+        if($save==1){
+            $this->Materials->save($material);
+            $this->Flash->success('Data Saved');
+            $this->redirect(array("controller" => "Docupload",
+                "action" => "materials"));
+
+            return;
+
+        }else{
+            $this->Flash->success('Try Again');
+            $this->redirect(array("controller" => "Docupload",
+                "action" => "materials"));
+
+            return;
+        }
+
+
+
+
+
+
+
+
+
+    }
+$this->set('records',$records);
 
 
 }
@@ -134,7 +264,8 @@ return;
             if($imageFileType != "zip" && $imageFileType != "png" && $imageFileType != "jpeg"
                 && $imageFileType != "gif" ) {
 
-              var_dump("wrong");exit;
+                $this->Flash->error('Wrong Format');
+                return ;
 
             }
 
@@ -247,13 +378,13 @@ if($textfile['textfile']==''){
         $strip_list = array('<style>', 'p', '<div>','<img>');
         $content = preg_replace('/{.*?\}/is', '', $content);
 //$content = preg_replace('/(B)/', \n'(B)', $content);
-        $content = str_replace('Q.', "\n\n Q.", $content);
-        $content = str_replace('(A)', "\n (A).", $content);
-        $content = str_replace('(B)', "\n (B)", $content);
-        $content = str_replace('(C)', "\n(C).", $content);
+        $content = str_replace('[Q]', "\n [Q]", $content);
+        $content = str_replace('[A]', "\n [A]", $content);
+        $content = str_replace('[B]', "\n [B]", $content);
+        $content = str_replace('[C]', "\n[C]", $content);
         //    $content = str_replace('src="', 'src="1', $content);
         $content = preg_replace('/style[^>]*/', '', $content);
-        $contents= str_replace('(D)', "\n (D).", $content);
+        $contents= str_replace('[D]', "\n [D]", $content);
         $contents=strip_tags($content,'<p><img><div>');
         $ext = explode('.', $filename);
         $myfile = fopen($path.$ext[0].".txt", "w") or die("Unable to open file!");
@@ -273,6 +404,7 @@ $ext ='';
                 while (($file = readdir($dh)) !== false){
 //echo $file;
                     $ext = explode('.', $file);
+                   if($ext){
 if($ext[1]=='html' || $ext[1]=='Html' ){
 
 
@@ -280,7 +412,7 @@ if($ext[1]=='html' || $ext[1]=='Html' ){
 
 }
 
-
+                       }
                  //   echo "filename:" . $ext[1] . "<br>";
                 }
                 closedir($dh);

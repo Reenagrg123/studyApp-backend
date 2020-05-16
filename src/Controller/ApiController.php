@@ -11,6 +11,7 @@ use App\Model\Table\ExamquestionsTables;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\GenerateexamsTables;
 use App\Model\Table\HistorysTables;
+use App\Model\Table\MaterialsTables;
 use App\Model\Table\McqsTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
@@ -55,6 +56,7 @@ class ApiController extends AppController{
 
         $this->Mcq=$this->loadModel(McqsTables::class);
         $this->History=$this->loadModel(HistorysTables::class);
+        $this->Materials=$this->loadModel(MaterialsTables::class);
 
         $session = $this->getRequest()->getSession();
         // $this->authorize();
@@ -66,6 +68,43 @@ class ApiController extends AppController{
 
 
         $this->set("title","Dashboard");
+    }
+
+
+    public function getMaterials(){
+        $host = Router::getRequest(true)->host();
+        if ($this->request->is("post")) {
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ($data['user_id'] == '' || $data['c_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == '') {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+            $c_id=$data['c_id'];
+            $s_id=$data['s_id'];
+            $ch_id=$data['ch_id'];
+
+$mat=$this->Materials->find('all')->where(['c_id'=>$c_id,'s_id'=>$s_id,'ch_id'=>$ch_id])->toArray();
+
+$data=[];
+foreach ($mat as $m){
+
+    $temp=[];
+    $temp['id']=$m['id'];
+    $temp['name']=$m['name'];
+    $temp['type']=$m['type'];
+    $temp['file']=$host.'/materials/'.$m['hash_id'].'/'.$m['file'];
+    $temp['link']=$m['link'];
+    array_push($data,$temp);
+}
+
+echo json_encode($data);
+exit;
+        }
     }
 
     public function auth($user_id){

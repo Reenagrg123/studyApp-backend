@@ -10,7 +10,12 @@
     <!-- Content Row -->
 
     <!-- Content Row -->
-
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Class</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Class</li>
+        </ol>
+    </nav>
 
 
     <!-- Content Row -->
@@ -40,7 +45,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Enter a chapter name</label>
-                            <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1" placeholder="Integration" value="<?php if(isset($edit)){ echo $editdata['title']; }?>" required>
+                            <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1" placeholder="Ex: Integration" value="<?php if(isset($edit)){ echo $editdata['title']; }?>" required>
                         </div>
                         <button type="submit" class="btn btn-success" style="width: 100px; float: right;">ADD</button>
                     </form>
@@ -136,10 +141,6 @@ $("#c_id").change(function(){
             $("#s_id").html(data);
         });
 });
-
-
-
-
 
 $(document).ready( function () {
     $('#table_id').DataTable({

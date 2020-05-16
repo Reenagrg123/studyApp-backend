@@ -68,14 +68,14 @@ $routes->connect('/api/getsubject', ['controller' => 'Api', 'action' => 'getsubj
 $routes->connect('/api/getexcersice', ['controller' => 'Api', 'action' => 'getexcersice']);
 $routes->connect('/api/setTestResult', ['controller' => 'Api', 'action' => 'setTestResult']);
 $routes->connect('/api/getTestHistory', ['controller' => 'Api', 'action' => 'getTestHistory']);
-
+$routes->connect('/api/getMaterials', ['controller' => 'Api', 'action' => 'getMaterials']);
 
 
 $routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
 
 $routes->connect('/getdata', ['controller' => 'Docupload', 'action' => 'getdata']);
 $routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index']);
-$routes->connect('/materials', ['controller' => 'Docupload', 'action' => 'materials']);
+$routes->connect('/docupload/materials', ['controller' => 'Docupload', 'action' => 'materials']);
 $routes->connect('/generatetest', ['controller' => 'Generate', 'action' => 'index']);
 $routes->connect('/generatetest/add', ['controller' => 'Generate', 'action' => 'add']);
 $routes->connect('/generatetest/view', ['controller' => 'Generate', 'action' => 'view']);

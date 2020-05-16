@@ -26,7 +26,26 @@ class McqService extends AppController{
 
 
     }
+    public function clean($str){
+        $str = utf8_decode($str);
+        $str = str_replace("&nbsp;", "", $str);
+        $str = preg_replace('/\s+/', ' ',$str);
+        $str = trim($str, "\t\n\r\0\x0B\xC2\xA0");
+        $str = trim($str);
+        return $str;
+    }
 
+    public function removetags($r){
+        $i=0;
+        foreach ($r as $s){
+
+            $r[$i]=trim($s);
+            $r[$i]=$this->clean($s);
+            $r[$i]=strip_tags($s);
+$i++;
+        }
+return $r;
+    }
 
     public function extractquestion($file){
 
@@ -143,7 +162,7 @@ class McqService extends AppController{
                     if(! $option==null){
                         $optionline=$this->replace($option[0],$checkpara);
 
-                        $temp['option']=explode(',',$optionline);
+                        $temp['option']=explode('[,]',$optionline);
                         $temp['type']='mcq';
                     }else{
                         $temp['option']='';
@@ -152,7 +171,7 @@ class McqService extends AppController{
 
                     $answer= explode('[Ans]',$qu);
                     $answersol=explode('[Sol]',$answer[1]);
-                    $temp['answer']=explode(',',$answersol[0]);
+                    $temp['answer']=$this->removetags(explode(',',$answersol[0]));
 
                     $soution= explode('[Sol]',$qu);
                     $t=0;
@@ -161,6 +180,7 @@ class McqService extends AppController{
                         if($t>0){
                             array_push($sol,trim($s));
                         }
+                        $t++;
                     }
 
                     $temp['solution']=$sol;
@@ -222,7 +242,7 @@ class McqService extends AppController{
 
     public function replace($line,$arr){
         foreach ($arr as $a){
-            $line=str_replace($a,',',$line);
+            $line=str_replace($a,'[,]',$line);
         }
         return $line;
     }
@@ -275,7 +295,7 @@ class McqService extends AppController{
                     $sol = explode('[Ans]', $exans[1]);
                     $getans = $sol[0];
                     $getans = $this->replace($getans, $checkpara);
-                    $data[$i]['option'] = explode(',', trim($getans));
+                    $data[$i]['option'] = explode('[,]', trim($getans));
                     $data[$i]['type'] = 'mcq';
 
                 }
@@ -305,7 +325,7 @@ if(! $data[$i]['type']=='paragraph'){
 
                 $sol=explode('[Sol]',$exans[1]);
                 $getans=$sol[0];
-                $data[$i]['answer']=explode(',',trim($getans));
+                $data[$i]['answer']=$this->removetags(explode(',',trim($getans)));
             }
 
 

@@ -51,3 +51,5 @@ CREATE TABLE `appretiate`.`examquestion` ( `id` INT NOT NULL AUTO_INCREMENT ,  `
 
 CREATE TABLE `appretiate`.`history` ( `id` INT NOT NULL AUTO_INCREMENT ,  `exam_id` INT(200) NOT NULL ,  `user_id` INT(200) NOT NULL ,  `marks` VARCHAR(200) NOT NULL ,  `no_correct_attempt` VARCHAR(200) NOT NULL ,  `no_wrong_attempt` VARCHAR(200) NOT NULL ,  `time_taken` VARCHAR(200) NOT NULL ,  `accuracy` VARCHAR(200) NOT NULL ,  `total_question` VARCHAR(200) NOT NULL ,  `total_time` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
 
+CREATE TABLE `material` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` VARCHAR(200) NOT NULL ,  `s_id` VARCHAR(200) NOT NULL ,  `ch_id` VARCHAR(200) NOT NULL ,  `type` INT(20) NOT NULL ,  `link` VARCHAR(200) NOT NULL ,  `file` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+

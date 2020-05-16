@@ -74,7 +74,7 @@
 
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Enter test title </label>
-                            <input type="text" name="name" class="form-control" placeholder="Definite integration test" id="" required>
+                            <input type="text" name="name" class="form-control" placeholder="Ex: Definite integration test" id="" required>
                         </div>
 
 
@@ -82,7 +82,7 @@
 
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Enter duration of test (in minutes)</label>
-                            <input type="text" name="total_time" class="form-control" id="exampleFormControlInput1" placeholder="120" required>
+                            <input type="text" name="total_time" class="form-control" id="exampleFormControlInput1" placeholder="Ex: 120" required>
                         </div>
 
 

@@ -11,6 +11,12 @@
 
     <!-- Content Row -->
     <!-- Content Row -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Class</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Class</li>
+        </ol>
+    </nav>
     <div class="row">
         <div class="col-4">
             <div class="card">
@@ -52,17 +58,17 @@
 
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Enter a topic name</label>
-                            <input type="text" name="title" class="form-control" id="" required>
+                            <input type="text" name="title" class="form-control" id="" placeholder="Ex: Basic Intergration Questions" required>
                         </div>
 
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Enter correct answer marks</label>
-                            <input type="text" name="correct_mark" class="form-control" id="exampleFormControlInput1" required>
+                            <input type="text" name="correct_mark" class="form-control" id="exampleFormControlInput1" placeholder="Ex: 4" required>
                         </div>
 
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Enter wrong answer marks</label>
-                            <input type="text" name="wrong_mark" class="form-control" id="exampleFormControlInput1" required>
+                            <input type="text" name="wrong_mark" class="form-control" id="exampleFormControlInput1" placeholder="Ex: 1" required>
                         </div>
 
                         <div class="form-group">
@@ -101,15 +107,13 @@
                     <h5 class="card-title">QUESTION BANK</h5>
                 </div>
                 <div class="card-body">
-                    <table id="table_id" class="display">
+                    <table id="table_id" class="cell-border compact stripe hover">
                         <thead>
                         <tr>
-                            <th>File Id</th>
+                            <th>File Name</th>
                             <th>Class Name</th>
-                            <th>Subject Name</th>
-                            <th>Chapter Name</th>
-                            <th>Correct Marks</th>
-                            <th>Wrong Marks</th>
+                            <th>Type Of Qns</th>
+                            <th>Created At</th>
                             <th></th>
 
                         </tr>
@@ -121,16 +125,16 @@
                                 ?>
                         <tr>
 
-                            <td><?php echo $id; ?></td>
+                            <td><?php echo $r['title']; ?></td>
                             <td><?php echo $r['Class']['class_name']; ?></td>
-                            <td><?php echo $r['Subject']['subject_name']; ?></td>
+                            <td><?php echo $r['type'] ?></td>
                             <td><?php echo $r['Exercises']['title']; ?></td>
-                            <td><?php echo $r['correct_mark']; ?></td>
-                            <td><?php echo $r['wrong_mark']; ?></td>
+                            <!--<td><?php echo $r['correct_mark']; ?></td>-->
+                            <!--<td><?php echo $r['wrong_mark']; ?></td>-->
                             <td>
 
                                 <a href='<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "view","id"=>$has ]); ?>'> <i class="fa fa-eye" aria-hidden="true"></i></a>
-
+                                <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delexercise","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
                             </td>
 
 
@@ -188,7 +192,16 @@ $("#subject").change(function(){
 });
 
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#table_id').DataTable({
+        columnDefs: [
+            {
+                targets: -1,
+                className: 'dt-body-center',
+                className:'dt-head-center'
+
+            }
+        ]
+    })
 } );
 
 function validate(){

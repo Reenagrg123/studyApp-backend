@@ -11,20 +11,28 @@
 
     <!-- Content Row -->
 
-
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Class</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Class</li>
+        </ol>
+    </nav>
 
     <!-- Content Row -->
     <div class="row">
+
         <div class="col-4">
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">UPLOAD STUDY MATERIAL</h5>
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="exampleFormControlSelect1">Select a class/paper</label>
-                        <select class="form-control" name="c_id" id="exampleFormControlSelect1">
+                        <label for="exampleFormControlSelect1">Select Class</label>
+
+                        <select class="form-control" name="class" id="class" required>
+                            <option value="">Select Option</option>
                             <?php foreach($class as $c){ ?>
                             <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
                             <?php } ?>
@@ -33,7 +41,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Select a subject</label>
-                        <select class="form-control" name="s_id" id="exampleFormControlSelect1">
+                        <select class="form-control" name="subject" id="subject" required>
                             <?php foreach($subject as $c){ ?>
                             <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
                             <?php } ?>
@@ -43,7 +51,7 @@
 
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Select a chapter</label>
-                        <select class="form-control" name="s_id" id="exampleFormControlSelect1">
+                        <select class="form-control" name="ch_id" id="exercise" required>
                             <?php foreach($subject as $c){ ?>
                             <option value="<?php echo $c['id']; ?>"><?php echo $c['subject_name']; ?></option>
                             <?php } ?>
@@ -53,33 +61,31 @@
 
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter a topic name</label>
-                        <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+                        <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Ex: Basic Integration ">
                     </div>
 
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Select type of material</label></br>
-                    <label class="radio-inline">
-                        <input type="radio" name="optradio" checked>  PDF File
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="optradio">  You-Tube Link
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="optradio">  Both
-                    </label>
-                </div>
+           <div class="form-group">
+                <label for="exampleFormControlSelect1">Select Type </label>
+          <select class="form-control" name="upload_type" id="upload_type" required>
+                       <option value="">Select Option</option>
+                        <option value="0">Pdf</option>
+                        <option value="1">Youtube Link</option>
+                        <option value="2">Both</option>
+          </select>
+                        </div>
+
 
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Enter a you-tube link</label>
-                    <input type="text" name="exercise" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" name="link" class="form-control" id="exampleFormControlInput1" >
                 </div>
 
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Select a PDF file</label>
 
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        <input type="file" name="file" class="custom-file-input" id="customFile" >
+                        <label class="custom-file-label"  for="customFile">Choose file</label>
                     </div>
                 </div>
                 <!--<div class="file-path-wrapper">-->
@@ -98,70 +104,45 @@
         <h5 class="card-title">ALL MATERIAL</h5>
     </div>
     <div class="card-body">
-        <table id="table_id" class="display">
+        <table id="table_id" class="cell-border compact stripe hover">
             <thead>
             <tr>
                 <th>S.No</th>
                 <th>Class Name</th>
                 <th>Subject Name</th>
-                <th>Chapter Name</th>
-                <th>PDF File</th>
-                <th>You-Tube Link</th>
+                <th>Name</th>
+                <th>File Name</th>
+                <th>Link</th>
+
                 <th></th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
+            <?php foreach($records as $r){
+                    $id=$r['id'];
 
+                    ?>
             <tr>
-                <td>1</td>
-                <td>10th</td>
-                <td>Physics</td>
-                <td>Optics</td>
-                <td>Optics</td>
-                <td>Optics</td>
-                <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-                <td><i class="fa fa-times" aria-hidden="true"></i></td>
+                <td><?php echo $r['id']; ?></td>
+                <td><?php echo $r['Class']['class_name']; ?></td>
+                <td><?php echo $r['Subject']['subject_name']; ?></td>
+                <td><?php echo $r['name']; ?></td>
+                <td><?php echo $r['file']; ?></td>
+                <td><?php echo $r['link']; ?></td>
 
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>11th</td>
-                <td>Physics</td>
-                <td>Optics</td>
-                <td>Optics</td>
-                <td>Optics</td>
-                <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-                <td><i class="fa fa-times" aria-hidden="true"></i></td>
+                <td>
 
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>12th</td>
-                <td>Chemistry</td>
-                <td>Optics</td>
-                <td>Optics</td>
-                <td>Optics</td>
-                <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-                <td><i class="fa fa-times" aria-hidden="true"></i></td>
 
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Jee Mains</td>
-                <td>Physics</td>
-                <td>Optics</td>
-                <td>Optics</td>
-                <td>Optics</td>
-                <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-                <td><i class="fa fa-times" aria-hidden="true"></i></td>
+            </td>
+</tr>
+            <?php } ?>
 
-            </tr>
-            </tbody>
+</tbody>
         </table>
-    </div>
-</div>
-</div>
+        </div>
+        </div>
+        </div>
 
         </div>
 
@@ -174,10 +155,56 @@
         <!-- Footer -->
 
         <!-- End of Footer -->
+        <?php $url=$this->Url->build([  "controller" => "docupload", "action" => "getdata" ]); ?>
 
 <script>
+
+
+$("#class").change(function(){
+    var c_id= $("#class").val();
+    $.post('<?php echo $url; ?>',
+        {
+            type: "subject",
+            class: c_id
+        },
+        function(data, status){
+            $("#subject").html(data);
+        });
+});
+
+
+
+$("#subject").change(function(){
+    var c_id= $("#class").val();
+    var s_id= $("#subject").val();
+    $.post('<?php echo $url; ?>',
+        {
+            type: "excersise",
+            class: c_id,
+            subject: s_id
+        },
+        function(data, status){
+            $("#exercise").html(data);
+        });
+});
+
+
+
+
+
+
+
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#table_id').DataTable({
+        columnDefs: [
+            {
+                targets: -1,
+                className: 'dt-body-center',
+                className:'dt-head-center'
+
+            }
+        ]
+    })
 } );
 
 function validate(){

@@ -191,6 +191,78 @@ class DocuploadController extends AppController{
 
     }
 
+    public function paragraphupdate($data){
+
+        $q_id=$data['q_id'];
+        $records=$this->Mcq->find()->where(['id'=>$q_id])->first()->toArray();
+        if($records){
+            $datatemp=json_decode($records['data']);
+//var_dump($datatemp->innerquestion->question);exit;
+            $datatemp->question=$data['question'];
+            $i=0;
+            foreach ($datatemp->innerquestion as $r){
+
+
+
+                    $r->question = $data['innerquestion'][$i]['question'];
+                    $r->option = $data['innerquestion'][$i]['option'];
+                    $r->answer = $data['innerquestion'][$i]['answer'];
+                   $r = $data['innerquestion'][$i]['solution'];
+                    $i++;
+
+            }
+
+
+            $recordsupdate=$this->Mcq->find()->where(['id'=>$q_id])->first();
+            $recordsupdate->data=json_encode($datatemp);
+            $this->Mcq->save($recordsupdate);
+//var_dump($datatemp);exit;
+            // var_dump($datatemp);exit;
+
+        }
+    }
+
+
+    public function integerupdate($data){
+        $q_id=$data['q_id'];
+        $records=$this->Mcq->find()->where(['id'=>$q_id])->first()->toArray();
+        if($records){
+            $datatemp=json_decode($records['data']);
+
+            $datatemp->question=$data['question'];
+            $datatemp->answer=$data['answer'];
+            $datatemp->solution=$data['solution'];
+          //  $datatemp->option=$data['option'];
+
+            $recordsupdate=$this->Mcq->find()->where(['id'=>$q_id])->first();
+            $recordsupdate->data=json_encode($datatemp);
+            $this->Mcq->save($recordsupdate);
+
+            // var_dump($datatemp);exit;
+
+        }
+
+    }
+public function mcqupdate($data){
+   $q_id=$data['q_id'];
+    $records=$this->Mcq->find()->where(['id'=>$q_id])->first()->toArray();
+if($records){
+    $datatemp=json_decode($records['data']);
+
+    $datatemp->question=$data['question'];
+    $datatemp->answer=$data['answer'];
+    $datatemp->solution=$data['solution'];
+    $datatemp->option=$data['option'];
+
+    $recordsupdate=$this->Mcq->find()->where(['id'=>$q_id])->first();
+$recordsupdate->data=json_encode($datatemp);
+$this->Mcq->save($recordsupdate);
+
+   // var_dump($datatemp);exit;
+
+}
+
+}
 
 public function view(){
 
@@ -198,7 +270,60 @@ public function view(){
     $id=$this->request->getQuery('id');
     $records=$this->Mcq->find("all")->where(['hash_id'=>$id])->toArray();
 
+    if($this->request->is("post")) {
 
+        $data = $this->request->data;
+
+
+
+if($data['type']=='mcq'){
+    $o=0;
+    foreach ($data['answer'] as $t){
+        $t=strip_tags($t);
+        $data['answer'][$o]=trim($t);
+        //$data['answer'][$o]=strip_tags($t);
+        $o++;
+    }
+    $this->mcqupdate($data);
+
+}
+
+        if($data['type']=='integer'){
+            $o=0;
+            foreach ($data['answer'] as $t){
+                $t=strip_tags($t);
+                $data['answer'][$o]=trim($t);
+                //$data['answer'][$o]=strip_tags($t);
+                $o++;
+            }
+            $this->integerupdate($data);
+
+        }
+       // var_dump($data);exit;
+        if($data['type']=='paragraph'){
+
+            $g=0;
+            foreach ($data['innerquestion'] as $t){
+                $o=0;
+                foreach ($t['answer'] as $y) {
+                    $y=strip_tags($y);
+                    $data['answer'][$o] = trim($y);
+                    //$data['answer'][$o]=strip_tags($t);
+
+                    $o++;
+                }
+
+            }
+$this->paragraphupdate($data);
+        }
+
+       // var_dump($data);exit;
+        $this->Flash->success('Data Update');
+        $this->redirect(array("controller" => "Docupload",
+            "action" => "view",'id'=>$id));
+
+//var_dump($data);exit;
+    }
     $this->set('data',$records);
 
 

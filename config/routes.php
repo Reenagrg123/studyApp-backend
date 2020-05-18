@@ -102,6 +102,17 @@ $routes->connect('/exam/examadd', ['controller' => 'Exam', 'action' => 'examadd'
 $routes->connect('/exam/subject', ['controller' => 'Exam', 'action' => 'subject']);
 $routes->connect('/exam/excersise', ['controller' => 'Exam', 'action' => 'excersise']);
 
+
+
+$routes->connect('/ebook', ['controller' => 'Ebook', 'action' => 'index']);
+$routes->connect('/ebook/category', ['controller' => 'Ebook', 'action' => 'category']);
+$routes->connect('/notice', ['controller' => 'Admin', 'action' => 'notice']);
+$routes->connect('/testimonials', ['controller' => 'Admin', 'action' => 'testimonials']);
+$routes->connect('/users', ['controller' => 'Admin', 'action' => 'users']);
+
+
+
+
 $routes->connect('/delclass', ['controller' => 'Admin', 'action' => 'delclass']);
 
 $routes->connect('/delsub', ['controller' => 'Admin', 'action' => 'delsub']);

@@ -57,6 +57,16 @@ class AdminController extends AppController{
         $this->set("title","Dashboard");
     }
 
+    public function notice(){
+
+    }
+    public function testimonials(){
+
+    }
+public function users(){
+
+}
+
     public function delexercise(){
         $id=$this->request->getQuery('id');
         $dataclass=$this->Exercise->findById($id)->first();

@@ -13,6 +13,7 @@ use App\Model\Table\ExamquestionsTables;
 use App\Model\Table\ExamsTables;
 use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
+use App\Model\Table\FulltestsTables;
 use App\Model\Table\GenerateexamsTables;
 use App\Model\Table\McqsTables;
 use App\Model\Table\NotificationsTables;
@@ -51,6 +52,7 @@ class GenerateController extends AppController{
         $this->ExamQuestion=$this->loadModel(ExamquestionsTables::class);
 
 
+        $this->Fulltest=$this->loadModel(FulltestsTables::class);
         $this->ExamSubject=$this->loadModel(Examsubjects::class);
         $this->ExamExercise=$this->loadModel(ExamexercisessTables::class);
         $this->Exam=$this->loadModel(ExamsTables::class);
@@ -69,6 +71,82 @@ class GenerateController extends AppController{
         $this->set("title","Dashboard");
     }
 
+    public function fullsyllabus(){
+        $classdata=$this->Exam->find("all")->toArray();
+        $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>2])->contain(['exam'])->toArray();
+        if($this->request->is("post")) {
+            $data = $this->request->data;
+            $date = date("Y-m-d");
+
+
+            $generate=$this->GenerateExam->newEntity();
+
+            $generate->c_id=$data['c_id'];
+            $generate->exam_type=$data['exam_type'];
+            $generate->name=$data['name'];
+            $generate->total_time=$data['total_time'];
+
+            $generate->create_date=date("Y-m-d H:i:s");
+            $this->GenerateExam->save($generate);
+
+            $this->Flash->success('Exam Saved , Please Select Questions');
+            $this->redirect(array("controller" => "Generate",
+                "action" => "practicetest"));
+
+            return;
+
+
+
+        }
+
+
+
+        $this->set("class",$classdata);
+        $this->set("generatedata",$generatedata);
+
+
+
+    }
+
+    public function practicetest(){
+        $classdata=$this->Class->find("all")->toArray();
+        $generatedata=$this->GenerateExam->find("all")->contain(['class','subject','exercises'])->toArray();
+        if($this->request->is("post")) {
+            $data = $this->request->data;
+            $date = date("Y-m-d");
+
+
+            $generate=$this->GenerateExam->newEntity();
+            $generate->c_id=$data['c_id'];
+            $generate->s_id=$data['s_id'];
+            $generate->ex_id=$data['ex_id'];
+            $generate->c_id=$data['c_id'];
+            $generate->name=$data['name'];
+            $generate->level=$data['level'];
+            $generate->exam_type=$data['exam_type'];
+            $generate->total_time=$data['total_time'];
+            $generate->create_date=date("Y-m-d H:i:s");
+            $this->GenerateExam->save($generate);
+
+            $this->Flash->success('Exam Saved , Please Select Questions');
+            $this->redirect(array("controller" => "Generate",
+                "action" => "practicetest"));
+
+            return;
+
+
+
+        }
+
+
+
+        $this->set("class",$classdata);
+        $this->set("generatedata",$generatedata);
+
+
+
+
+    }
     public function generateexam(){
         $classdata=$this->Exam->find("all")->toArray();
         $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>2])->contain(['Exam','Examsubject','Examexercises'])->toArray();

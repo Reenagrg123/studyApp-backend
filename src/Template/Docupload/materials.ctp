@@ -127,7 +127,7 @@
                 <th>Link</th>
 
                 <th></th>
-                <th></th>
+
             </tr>
             </thead>
             <tbody>
@@ -145,8 +145,10 @@
 
                 <td>
 
+                      <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "delmaterial","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
 
-            </td>
+
+                </td>
 </tr>
             <?php } ?>
 

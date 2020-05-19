@@ -56,6 +56,22 @@ class DocuploadController extends AppController{
 
     }
 
+    public function delmaterial(){
+
+        $id=$this->request->getQuery('id');
+        $records=$this->Materials->findById($id)->first();
+if($records){
+
+    $this->Materials->delete($records);
+    $this->Flash->success('Data Removed');
+    $this->redirect(array("controller" => "Docupload",
+        "action" => "materials"));
+
+}
+
+    }
+
+
     public function exammaterials(){
 
 

@@ -267,7 +267,10 @@ class ApiController extends AppController{
         if ($this->request->is("post")) {
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ( $data['user_id'] == ''  ||  $data['exam_id'] == '' || $data['marks'] == '' || $data['correct_marks'] == '' || $data['wrong_marks'] == '' || $data['time_taken'] == '' || $data['accuracy'] == '' || $data['total_question'] == '' || $data['total_time'] == '') {
+            if ( $data['user_id'] == ''  ||  $data['exam_id'] == '' || $data['marks'] == '' || $data['total_correct_marks'] == '' ||
+                $data['total_wrong_marks'] == '' || $data['time_taken'] == '' || $data['accuracy'] == '' || $data['total_question'] == '' || $data['total_time'] == ''
+
+                ||  $data['total_correct_question'] == '' ||  $data['total_wrong_question'] == '' ||  $data['total_attempted'] == '') {
                 $send['error'] = 1;
                 $send['msg'] = "Parameters should not empty";
 
@@ -285,24 +288,39 @@ class ApiController extends AppController{
                 exit;
 
             }
-            $history=$this->History->newEntity();
-            $history->exam_id=$data['exam_id'];
-            $history->user_id=$data['user_id'];
-            $history->no_correct_attempt=$data['marks'];
-            $history->no_wrong_attempt=$data['exam_id'];
-            $history->time_taken=$data['time_taken'];
-            $history->accuracy=$data['accuracy'];
-            $history->total_time=$data['total_time'];
-            $history->total_question=$data['total_question'];
-            $history->create_date=date("Y-m-d H:i:s");
+            try{
+                $history=$this->History->newEntity();
+                $history->exam_id=$data['exam_id'];
+                $history->user_id=$data['user_id'];
+                $history->no_correct_marks=$data['total_correct_marks'];
+                $history->no_wrong_marks=$data['total_wrong_marks'];
+                $history->marks=$data['marks'];
+                $history->total_correct_question=$data['total_correct_question'];
+                $history->total_wrong_question=$data['total_wrong_question'];
+                $history->total_attempted=$data['total_attempted'];
 
-            $this->History->save($history);
+                $history->time_taken=$data['time_taken'];
+                $history->accuracy=$data['accuracy'];
+                $history->total_time=$data['total_time'];
+                $history->total_question=$data['total_question'];
+                $history->create_date=date("Y-m-d H:i:s");
 
-            $send['error'] = 0;
-            $send['msg'] = "Added";
+                $this->History->save($history);
 
-            echo json_encode($send);
-            exit;
+                $send['error'] = 0;
+                $send['msg'] = "Added";
+
+                echo json_encode($send);
+                exit;
+
+            }catch(\Exception $e){
+                // var_dump($e->getMessage());
+                $send['error']=1;
+                $send['msg']=$e->getMessage();
+
+                echo json_encode($send);
+                exit;
+            }
 
         }
 

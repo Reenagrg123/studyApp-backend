@@ -85,7 +85,7 @@ class GenerateController extends AppController{
             $generate->exam_type=$data['exam_type'];
             $generate->name=$data['name'];
             $generate->total_time=$data['total_time'];
-
+            $generate->instruction=$data['instruction'];
             $generate->create_date=date("Y-m-d H:i:s");
             $this->GenerateExam->save($generate);
 
@@ -124,6 +124,7 @@ class GenerateController extends AppController{
             $generate->name=$data['name'];
             $generate->level=$data['level'];
             $generate->exam_type=$data['exam_type'];
+            $generate->instruction=$data['instruction'];
             $generate->total_time=$data['total_time'];
             $generate->create_date=date("Y-m-d H:i:s");
             $this->GenerateExam->save($generate);
@@ -162,6 +163,7 @@ class GenerateController extends AppController{
             $generate->name=$data['name'];
             $generate->level=$data['level'];
             $generate->exam_type=$data['exam_type'];
+            $generate->instruction=$data['instruction'];
             $generate->total_time=$data['total_time'];
             $generate->create_date=date("Y-m-d H:i:s");
             $this->GenerateExam->save($generate);

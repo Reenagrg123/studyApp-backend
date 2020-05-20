@@ -309,6 +309,7 @@ class ApiController extends AppController{
 
                 $send['error'] = 0;
                 $send['msg'] = "Added";
+                $send['data']=$history;
 
                 echo json_encode($send);
                 exit;
@@ -342,7 +343,7 @@ class ApiController extends AppController{
             $this->auth($data['user_id']);
             // $examid=$data['exam_id'];
             $user_id=$data['user_id'];
-            $history=$this->History->find('all')->where(['user_id'=>$user_id])->first()->toArray();
+            $history=$this->History->find('all')->where(['user_id'=>$user_id])->contain(['Generateexam'])->toArray();
 
 
             $send['error'] = 0;
@@ -413,7 +414,7 @@ class ApiController extends AppController{
         if ($this->request->is("post")) {
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ($data['c_id'] == '' || $data['user_id'] == '' || $data['s_id'] == '' || $data['ch_id'] == ''    ) {
+            if ($data['c_id'] == '' || $data['user_id'] == ''     ) {
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
 
@@ -432,12 +433,12 @@ class ApiController extends AppController{
 
             }
             if($type==1){
-                $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>1,'level'=>$level])->toArray();
+                $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'exam_type'=>1])->toArray();
 
 
             }
             if($type==2){
-                $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>2,'level'=>$level])->toArray();
+                $generatedata=$this->GenerateExam->find("all")->where(['c_id'=>$c_id,'s_id'=>$s_id,'ex_id'=>$ch_id,'exam_type'=>2])->toArray();
 
 
             }

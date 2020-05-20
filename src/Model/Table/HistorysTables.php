@@ -17,6 +17,11 @@ class HistorysTables extends Table{
 
 
 
+        $this->hasOne('Generateexam',['classname'=>'class_id'])->setForeignKey('id')->setBindingKey([
+            'exam_id'
+        ]);
+
+
 
 
 

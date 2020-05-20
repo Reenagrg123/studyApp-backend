@@ -22,6 +22,12 @@
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Instruction:</label>
+                            <textarea name="instruction" class='summernote'  ></textarea>
+                        </div>
+
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Select a class name</label>
                             <select class="form-control" name="c_id" id="c_id" required>
@@ -223,7 +229,7 @@ $("#post").submit(function(e){
 });
 
 $( document ).ready(function() {
-    $('#summernote').summernote({height: 300});
+    $('.summernote').summernote();
 });
 
 $(".custom-file-input").on("change", function() {

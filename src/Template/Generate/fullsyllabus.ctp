@@ -21,6 +21,12 @@
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Instruction:</label>
+                            <textarea name="instruction" class='summernote'  ></textarea>
+                        </div>
+
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Select an exam name</label>
                             <select class="form-control" name="c_id" id="c_id" required>
@@ -121,6 +127,9 @@ h2 {
         <?php $url=$this->Url->build([  "controller" => "Generate", "action" => "getdata" ]); ?>
 <script>
 
+$(document).ready(function() {
+    $('.summernote').summernote();
+});
 
 $("#c_id").change(function(){
     var c_id= $("#c_id").val();

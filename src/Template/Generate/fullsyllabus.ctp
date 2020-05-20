@@ -32,7 +32,7 @@
                             </select>
                         </div>
 
-<input type="hidden" name="exam_type" value="2"/>
+<input type="hidden" name="exam_type" value="1"/>
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Enter test title </label>
                             <input type="text" name="name" class="form-control" placeholder="Ex: Full syllabus Test-1" id="" required>

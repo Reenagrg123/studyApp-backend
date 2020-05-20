@@ -22,25 +22,10 @@
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Select test type</label>
-                            <select class="form-control" name="exam_type" id="exampleFormControlSelect1" required>
-                                <option value="">--Select Option--</option>
-                                <option value="2">Exam Test</option>
 
+<input type="hidden" name="exam_type" value="2"/>
+                        <input type="hidden" name="level" value=0"/>
 
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Select level of test</label>
-                            <select class="form-control" name="level" id="exampleFormControlSelect1" required>
-                                <option value="">--Select Option--</option>
-                                <option value="0">Easy </option>
-                                <option value="1">Medium </option>
-                                <option value="2">Hard</option>
-                            </select>
-                        </div>
 
 
                         <div class="form-group">

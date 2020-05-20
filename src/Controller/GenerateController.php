@@ -73,7 +73,7 @@ class GenerateController extends AppController{
 
     public function fullsyllabus(){
         $classdata=$this->Exam->find("all")->toArray();
-        $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>2])->contain(['exam'])->toArray();
+        $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>1])->contain(['exam'])->toArray();
         if($this->request->is("post")) {
             $data = $this->request->data;
             $date = date("Y-m-d");
@@ -91,7 +91,7 @@ class GenerateController extends AppController{
 
             $this->Flash->success('Exam Saved , Please Select Questions');
             $this->redirect(array("controller" => "Generate",
-                "action" => "practicetest"));
+                "action" => "fullsyllabus"));
 
             return;
 
@@ -110,7 +110,7 @@ class GenerateController extends AppController{
 
     public function practicetest(){
         $classdata=$this->Class->find("all")->toArray();
-        $generatedata=$this->GenerateExam->find("all")->contain(['class','subject','exercises'])->toArray();
+        $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>0])->contain(['class','subject','exercises'])->toArray();
         if($this->request->is("post")) {
             $data = $this->request->data;
             $date = date("Y-m-d");
@@ -154,7 +154,6 @@ class GenerateController extends AppController{
             $data = $this->request->data;
             $date = date("Y-m-d");
 
-
             $generate=$this->GenerateExam->newEntity();
             $generate->c_id=$data['c_id'];
             $generate->s_id=$data['s_id'];
@@ -169,7 +168,7 @@ class GenerateController extends AppController{
 
             $this->Flash->success('Exam Saved , Please Select Questions');
             $this->redirect(array("controller" => "Generate",
-                "action" => "index"));
+                "action" => "generateexam"));
 
             return;
 

@@ -22,19 +22,19 @@
 
             </div>
             <div class="card-body">
-                <form method="post">
-                    <div class="form-group">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group" >
                         <label for="exampleFormControlSelect1">Select a category name</label>
-                        <select class="form-control" name="c_id" id="c_id" required>
+                        <select class="form-control" name="cat_id" id="c_id" required>
                             <option value="">--Select Option--</option>
                             <?php foreach($class as $c){ ?>
-                            <option value="<?php echo $c['id']; ?>"><?php echo $c['class_name']; ?></option>
+                            <option value="<?php echo $c['id']; ?>"><?php echo $c['name']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter an e-book name</label>
-                        <input type="text" name="sub_name" class="form-control" id="exampleFormControlInput1" placeholder="Ex: NECRT Class 12th chemistry" value="<?php if(isset($edit)){ echo $editdata['subject_name']; }?>" required>
+                        <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Ex: NECRT Class 12th chemistry" value="<?php if(isset($edit)){ echo $editdata['subject_name']; }?>" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Choose a file(.pdf)</label>
@@ -72,13 +72,12 @@
                             ?>
                     <tr>
                         <td><?php echo $d['id']; ?></td>
-                        <td><?php echo $d['Class']['class_name']; ?></td>
-                        <td><?php echo $d['subject_name']; ?></td>
+                        <td><?php echo $d['Category']['name']; ?></td>
+                        <td><?php echo $d['file']; ?></td>
                         <td>
-                            <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "subject","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a href='' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 
 
-                            <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delsub","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
 
                         </a>
                     </td>

@@ -105,7 +105,7 @@ $routes->connect('/exam/excersise', ['controller' => 'Exam', 'action' => 'excers
 
 
 
-$routes->connect('/ebook', ['controller' => 'Ebook', 'action' => 'index']);
+$routes->connect('/ebook/index', ['controller' => 'Ebook', 'action' => 'index']);
 $routes->connect('/ebook/category', ['controller' => 'Ebook', 'action' => 'category']);
 $routes->connect('/notice', ['controller' => 'Admin', 'action' => 'notice']);
 $routes->connect('/testimonials', ['controller' => 'Admin', 'action' => 'testimonials']);

@@ -12,10 +12,7 @@ class CategorysTables extends Table{
 
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Post', [
-            'foreignKey' => 'category_id',
-            'joinType' => 'INNER'
-        ]);
+
 
     }
 }

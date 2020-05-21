@@ -43,9 +43,8 @@
                         <td><?php echo $c['id']; ?></td>
                         <td><?php echo $c['name']; ?></td>
                         <td>
-                        <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                        <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
-                    </a>
+                        <a href='' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                     </a>
                     </td>
                 </tr>
                 <?php } ?>

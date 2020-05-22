@@ -11,6 +11,7 @@ use App\Model\Table\ClasssTables;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\GenerateexamsTables;
 use App\Model\Table\McqsTables;
+use App\Model\Table\NoticesTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
@@ -43,6 +44,7 @@ class AdminController extends AppController{
         $this->ClassMap=$this->loadModel(ClassexammapsTables::class);
         $this->GenerateExam=$this->loadModel(GenerateexamsTables::class);
         $this->Mcq=$this->loadModel(McqsTables::class);
+        $this->Notice=$this->loadModel(NoticesTables::class);
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -58,6 +60,35 @@ class AdminController extends AppController{
     }
 
     public function notice(){
+    $datanotice=$this->Notice->find("all")->toArray();
+            if($this->request->is("post")) {
+                $data = $this->request->data();
+                $notice=$data['notice'];
+
+
+
+                $classobj=$this->Notice->newEntity();
+
+                $classobj->notice=$notice;
+
+                // $encryptpass = Security::encrypt($data['password'], $this->key);
+                // $resultr = Security::decrypt($result, $this->key);
+
+                $classobj->create_date = date("Y-m-d H:i:s");
+
+                $this->Notice->save($classobj);
+                $this->Flash->success('Notice Added');
+
+                $this->redirect(array("controller" => "Admin",
+                    "action" => "notice"));
+
+                return;
+
+            }
+
+
+            $this->set("data",$datanotice);
+
 
     }
     public function testimonials(){

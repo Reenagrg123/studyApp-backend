@@ -17,6 +17,7 @@ use App\Model\Table\GenerateexamsTables;
 use App\Model\Table\HistorysTables;
 use App\Model\Table\MaterialsTables;
 use App\Model\Table\McqsTables;
+use App\Model\Table\NoticesTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
@@ -67,6 +68,7 @@ class ApiController extends AppController{
         $this->Exam=$this->loadModel(ExamsTables::class);
         $this->ClassMap=$this->loadModel(ClassexammapsTables::class);
 
+        $this->Notice=$this->loadModel(NoticesTables::class);
 
         $session = $this->getRequest()->getSession();
         // $this->authorize();
@@ -78,6 +80,11 @@ class ApiController extends AppController{
         $this->set("title","Dashboard");
     }
 
+    public function getNotice(){
+        $datanotice=$this->Notice->find("all")->toArray();
+         echo json_encode($datanotice);
+         exit;
+    }
 
     public function getExam(){
         if ($this->request->is("post")) {
@@ -367,9 +374,11 @@ class ApiController extends AppController{
 
             $data=[];
             $tmpdata=[];
+            $totalmarks=0;
             $generatedata=$this->GenerateExam->find("all")->where(['id'=>$id])->first()->toArray();
             if($generatedata){
                 $data['totaltime']=$generatedata['total_time'];
+                $data['Instruction']=$generatedata['instruction'];
                 $examquestion=$this->ExamQuestion->find("all")->where(['generateexam_id'=>$id])->toArray();
                 foreach ($examquestion as $ex){
                     $q_id=$ex['q_id'];
@@ -383,10 +392,11 @@ class ApiController extends AppController{
                     $temp['type']=$mcq['type'];
                     $temp['correctmark']=$getmarks['correct_mark'];
                     $temp['wrongmark']=$getmarks['wrong_mark'];
-
+$totalmarks=$totalmarks+$getmarks['correct_mark'];
                     array_push($tmpdata,$temp);
 
                 }
+                $data['total_mark']=$totalmarks;
                 $data['questiondata']=$tmpdata;
                 $send['error'] = 0;
                 $send['data'] = $data;

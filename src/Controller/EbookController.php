@@ -88,7 +88,7 @@ class EbookController extends AppController{
                 $this->Flash->success('Ebook Added');
 
                 $this->redirect(array("controller" => "Ebook",
-                    "action" => "category"));
+                    "action" => "index"));
 
 
                 return;

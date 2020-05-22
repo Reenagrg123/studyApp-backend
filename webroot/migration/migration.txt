@@ -61,3 +61,6 @@ CREATE TABLE `material` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` VARCHAR(200
 CREATE TABLE `appretiate`.`category` ( `id` INT NOT NULL AUTO_INCREMENT ,  `name` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
 
 CREATE TABLE `appretiate`.`catebook` ( `id` INT NOT NULL AUTO_INCREMENT ,  `cat_id` INT(200) NOT NULL ,  `name` VARCHAR(200) NOT NULL ,  `file` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `appretiate`.`notice` ( `id` INT NOT NULL AUTO_INCREMENT ,  `notice` TEXT NOT NULL ,  `date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;

@@ -13,7 +13,7 @@
                 <form method="post">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter a notice</label>
-                        <input type="text" name="class" class="form-control" id="exampleFormControlInput1" placeholder="Ex: JEE Exam date announced" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
+                        <input type="text" name="notice" class="form-control" id="exampleFormControlInput1" placeholder="Ex: JEE Exam date announced" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
                     </div>
                     <button type="submit" class="btn btn-success mb-2" style="width: 100px; float: right;">
                         <?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?> </button>
@@ -32,21 +32,17 @@
                     <tr>
                         <th>Notice Id</th>
                         <th>Notice</th>
-                        <th></th>
+
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($class as $c){
+                    <?php foreach($data as $c){
                             $id=$c['id'];
                             ?>
                     <a>
                         <td><?php echo $c['id']; ?></td>
-                        <td><?php echo $c['class_name']; ?></td>
-                        <td>
-                        <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                        <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
-                    </a>
-                    </td>
+                        <td><?php echo $c['notice']; ?></td>
+
                 </tr>
                 <?php } ?>
             </tbody>

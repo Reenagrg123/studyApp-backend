@@ -55,6 +55,7 @@ $routes->connect('/wallet/*', ['controller' => 'Admin', 'action' => 'wallet']);
 $routes->connect('/post', ['controller' => 'Admin', 'action' => 'post']);
 $routes->connect('/admin', ['controller' => 'Admin', 'action' => 'index']);
 
+$routes->connect('/api/getNotice', ['controller' => 'Api', 'action' => 'getNotice']);
 $routes->connect('/api', ['controller' => 'Api', 'action' => 'index']);
 $routes->connect('/api/signup', ['controller' => 'Api', 'action' => 'signup']);
 

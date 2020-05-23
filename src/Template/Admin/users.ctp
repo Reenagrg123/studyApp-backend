@@ -15,23 +15,27 @@
                         <tr>
                             <th>Id</th>
                             <th>Student Name</th>
-                            <th>Student Class</th>
-                            <th>Gender</th>
-                            <th>DOB</th>
-                            <th>Contact No.</th>
                             <th>Email</th>
+                            <th>Student Class</th>
+                            <th></th>
+
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($class as $c){
+                        <?php foreach($users as $c){
                                 $id=$c['id'];
+                                if($c['type']=='admin'){
+                                continue;
+                                }
+
                                 ?>
-                        <a>
+
                             <td><?php echo $c['id']; ?></td>
-                            <td><?php echo $c['class_name']; ?></td>
+                            <td><?php echo $c['f_name']; ?></td>
+                            <td><?php echo $c['email']; ?></td>
+                           <td><?php echo $c['Class']['class_name']; ?></td>
                             <td>
-                            <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delclass","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+                             <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "deluser","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
                         </a>
                         </td>
                     </tr>

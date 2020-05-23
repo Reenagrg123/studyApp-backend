@@ -13,7 +13,7 @@
                 <form method="post">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter a category name</label>
-                        <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Ex: NCERT BOOKS" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
+                        <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Ex: NCERT BOOKS" value="<?php if(isset($edit)){ echo $editdata['name']; }?>" required>
                     </div>
                     <button type="submit" class="btn btn-success mb-2" style="width: 100px; float: right;">
                         <?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?> </button>
@@ -43,8 +43,14 @@
                         <td><?php echo $c['id']; ?></td>
                         <td><?php echo $c['name']; ?></td>
                         <td>
-                        <a href='' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                     </a>
+
+                        <a href='<?php echo $this->Url->build([  "controller" => "Ebook", "action" => "category","id"=>$id ]); ?>' >
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+
+                        <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Ebook", "action" => "delcateory","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+
+
+                    </a>
                     </td>
                 </tr>
                 <?php } ?>

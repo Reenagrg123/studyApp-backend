@@ -74,6 +74,10 @@ $routes->connect('/api/getexcersice', ['controller' => 'Api', 'action' => 'getex
 $routes->connect('/api/setTestResult', ['controller' => 'Api', 'action' => 'setTestResult']);
 $routes->connect('/api/getTestHistory', ['controller' => 'Api', 'action' => 'getTestHistory']);
 $routes->connect('/api/getMaterials', ['controller' => 'Api', 'action' => 'getMaterials']);
+$routes->connect('/api/getCategory', ['controller' => 'Api', 'action' => 'getCategory']);
+$routes->connect('/api/getEbook', ['controller' => 'Api', 'action' => 'getEbook']);
+
+
 
 
 $routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
@@ -108,6 +112,10 @@ $routes->connect('/exam/excersise', ['controller' => 'Exam', 'action' => 'excers
 
 $routes->connect('/ebook/index', ['controller' => 'Ebook', 'action' => 'index']);
 $routes->connect('/ebook/category', ['controller' => 'Ebook', 'action' => 'category']);
+$routes->connect('/ebook/editebook', ['controller' => 'Ebook', 'action' => 'editebook']);
+
+
+
 $routes->connect('/notice', ['controller' => 'Admin', 'action' => 'notice']);
 $routes->connect('/testimonials', ['controller' => 'Admin', 'action' => 'testimonials']);
 $routes->connect('/users', ['controller' => 'Admin', 'action' => 'users']);

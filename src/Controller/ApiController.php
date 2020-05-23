@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
+use App\Model\Table\CatebooksTables;
 use App\Model\Table\CategorysTables;
 use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
@@ -69,6 +70,8 @@ class ApiController extends AppController{
         $this->ClassMap=$this->loadModel(ClassexammapsTables::class);
 
         $this->Notice=$this->loadModel(NoticesTables::class);
+        $this->Category=$this->loadModel(CategorysTables::class);
+        $this->Catebook=$this->loadModel(CatebooksTables::class);
 
         $session = $this->getRequest()->getSession();
         // $this->authorize();
@@ -79,6 +82,49 @@ class ApiController extends AppController{
 
         $this->set("title","Dashboard");
     }
+
+    public function getCategory(){
+        $datanotice=$this->Category->find("all")->toArray();
+        echo json_encode($datanotice);
+        exit;
+
+    }
+
+    public function getEbook(){
+        if ($this->request->is("post")) {
+
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ($data['cat_id'] == '' || $data['user_id'] == '' ) {
+                $send['error']=1;
+                $send['msg']="Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $cat_id=$data['cat_id'];
+            $datacat=$this->Catebook->find("all")->where(['cat_id'=>$cat_id])->toArray();
+$data=[];
+            $host = Router::getRequest(true)->host();
+
+            foreach ($datacat as $d){
+    $tmp=[];
+    $tmp['id']=$d['id'];
+    $tmp['name']=$d['name'];
+    $tmp['file']=$host."/ebook/".$d['hash_id']."/".$d['file'];
+
+    array_push($data,$tmp);
+
+}
+
+
+
+            echo json_encode($data);
+            exit;
+        }
+
+        }
 
     public function getNotice(){
         $datanotice=$this->Notice->find("all")->toArray();
@@ -432,6 +478,7 @@ $totalmarks=$totalmarks+$getmarks['correct_mark'];
                 exit;
             }
             $this->auth($data['user_id']);
+            $user_id=$data['user_id'];
             $c_id=$data['c_id'];
             $s_id=$data['s_id'];
             $ch_id=$data['ch_id'];
@@ -457,9 +504,16 @@ $totalmarks=$totalmarks+$getmarks['correct_mark'];
 
             foreach ($generatedata as $d){
                 $dataquestion=$this->getexamdata($d['id']);
+$exam_id=$d['id'];
+                $history=$this->History->find('all')->where(['user_id'=>$user_id,'exam_id'=>$exam_id])->first()->toArray();
+$exam_taken=0;
+                if($history){
+                    $exam_taken=1;
+}
 
                 $temp=[];
                 $temp['exam_name']=$d['name'];
+                $temp['exam_attempted']=$exam_taken;
                 $temp['exam_id']=$d['id'];
                 $temp['exam_data']=$dataquestion;
 
@@ -498,7 +552,6 @@ $totalmarks=$totalmarks+$getmarks['correct_mark'];
 
     public function getsubject(){
         if ($this->request->is("post")) {
-
 
             $date = date("Y-m-d");
             $data = $this->request->data;

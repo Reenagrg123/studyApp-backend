@@ -19,7 +19,10 @@ use App\Model\Table\SubjectsTables;
 use App\Model\Table\TrafficsTables;
 use App\Model\Table\TransactionsTables;
 use App\Model\Table\UploadfilesTables;
+use App\Model\Table\UsersTables;
+use Cake\Database\Expression\QueryExpression;
 use Cake\Network\Email\Email;
+use Cake\ORM\Query;
 use Cake\Routing\Router;
 use Cake\Mailer;
 use Cake\Datasource\ConnectionManager;
@@ -36,7 +39,7 @@ class AdminController extends AppController{
         $this->base_url=Router::url("/",true);
         $connection = ConnectionManager::get('default');
         // $this->table=TableRegistry::get("user");
-        $this->Users=$this->loadModel("User");
+        $this->Users=$this->loadModel(UsersTables::class);
         $this->Class=$this->loadModel(ClasssTables::class);
         $this->Subject=$this->loadModel(SubjectsTables::class);
         $this->Exercise=$this->loadModel(ExercisessTables::class);
@@ -91,11 +94,26 @@ class AdminController extends AppController{
 
 
     }
+    public function deluser(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Users->findById($id)->first();
+        if($dataclass) {
+            $this->Users->delete($dataclass);
+        }
+        $this->Flash->success('Data Deleted');
+
+
+        $this->redirect(array("controller" => "Admin",
+            "action" => "Users"));
+
+    }
+
     public function testimonials(){
 
     }
 public function users(){
-
+    $users=$this->Users->find('all')->contain('class')->toArray();
+    $this->set("users",$users);
 }
 
     public function delexercise(){

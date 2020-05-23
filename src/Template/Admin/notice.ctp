@@ -13,8 +13,8 @@
                 <form method="post">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter a notice</label>
-                        <input type="text" name="notice" class="form-control" id="exampleFormControlInput1" placeholder="Ex: JEE Exam date announced" value="<?php if(isset($edit)){ echo $editdata['class_name']; }?>" required>
-                    </div>
+                        <textarea name="notice" class='summernote'  ><?php if(isset($edit)){ echo $editdata['notive']; }?></textarea>
+                      </div>
                     <button type="submit" class="btn btn-success mb-2" style="width: 100px; float: right;">
                         <?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?> </button>
                 </form>
@@ -81,6 +81,10 @@ $(document).ready( function () {
         ]
     })
 } );
+
+$( document ).ready(function() {
+    $('.summernote').summernote();
+});
 
 
 function validate(){

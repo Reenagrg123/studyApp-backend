@@ -61,6 +61,7 @@
                     <tr>
                         <th>E-Book Id</th>
                         <th>Category Name</th>
+                        <th>Name</th>
                         <th>E-Book Name</th>
                         <th></th>
 
@@ -73,13 +74,13 @@
                     <tr>
                         <td><?php echo $d['id']; ?></td>
                         <td><?php echo $d['Category']['name']; ?></td>
+                        <td><?php echo $d['name']; ?></td>
                         <td><?php echo $d['file']; ?></td>
                         <td>
-                            <a href='' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a href='<?php echo $this->Url->build([  "controller" => "Ebook", "action" => "editebook","id"=>$id ]); ?>' >
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Ebook", "action" => "delebook","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
 
-
-
-                        </a>
                     </td>
 
                     </tr>

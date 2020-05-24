@@ -23,6 +23,7 @@ use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
 use App\Model\Table\SubjectsTables;
+use App\Model\Table\TestimonialsTables;
 use App\Model\Table\TrafficsTables;
 use App\Model\Table\TransactionsTables;
 use App\Model\Table\UploadfilesTables;
@@ -73,6 +74,9 @@ class ApiController extends AppController{
         $this->Category=$this->loadModel(CategorysTables::class);
         $this->Catebook=$this->loadModel(CatebooksTables::class);
 
+        $this->Testimonial=$this->loadModel(TestimonialsTables::class);
+
+
         $session = $this->getRequest()->getSession();
         // $this->authorize();
 
@@ -81,6 +85,54 @@ class ApiController extends AppController{
         $this->key = 'wt1U5MACWJFTXGenFoZoiLwQGrLgdbHA';
 
         $this->set("title","Dashboard");
+    }
+
+    public function setTestimonial(){
+        if ($this->request->is("post")) {
+
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ($data['c_id'] == '' || $data['user_id'] == '' ||  $data['description'] == '') {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+            $testimonial=$this->Testimonial->newEntity();
+            $testimonial->user_id=$data['user_id'];
+            $testimonial->description=$data['description'];
+            $testimonial->class=$data['c_id'];
+            $testimonial->create_date=date("Y-m-d H:i:s");
+            if(isset($_POST['image'])){
+
+                $imgname = $_POST['image'];
+                $imsrc = base64_decode($_POST['image']);
+                $fp = fopen($imgname, 'w');
+                fwrite($fp, "userimage/".$imsrc);
+                if(fclose($fp)){
+                    echo "Image uploaded";
+                }else{
+                    echo "Error uploading image";
+                }
+
+
+            }
+            $this->Testimonial->save($testimonial);
+$send=[];
+$send['error']=0;
+$send['msg']="Done";
+echo json_encode($send);
+exit;
+
+        }
+    }
+
+    public function getTestimonial(){
+
+
     }
 
     public function getCategory(){
@@ -103,6 +155,7 @@ class ApiController extends AppController{
                 echo json_encode($send);
                 exit;
             }
+            $this->auth($data['user_id']);
             $cat_id=$data['cat_id'];
             $datacat=$this->Catebook->find("all")->where(['cat_id'=>$cat_id])->toArray();
 $data=[];
@@ -657,6 +710,21 @@ $exam_taken=0;
             $userobj->f_name = $data['name'];
             $userobj->email = $data['email'];
             $userobj->mobile = $data['mobile'];
+            if(isset($_POST['image'])){
+
+                $imgname = $_POST['image'];
+                $imsrc = base64_decode($_POST['image']);
+                $fp = fopen($imgname, 'w');
+                fwrite($fp, "userimage/".$imsrc);
+                if(fclose($fp)){
+                    echo "Image uploaded";
+                }else{
+                    echo "Error uploading image";
+                }
+
+
+            }
+
             // $encryptpass = Security::encrypt($data['password'], $this->key);
 
 

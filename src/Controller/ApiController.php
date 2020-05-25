@@ -121,11 +121,11 @@ class ApiController extends AppController{
 
             }
             $this->Testimonial->save($testimonial);
-$send=[];
-$send['error']=0;
-$send['msg']="Done";
-echo json_encode($send);
-exit;
+            $send=[];
+            $send['error']=0;
+            $send['msg']="Done";
+            echo json_encode($send);
+            exit;
 
         }
     }
@@ -158,18 +158,18 @@ exit;
             $this->auth($data['user_id']);
             $cat_id=$data['cat_id'];
             $datacat=$this->Catebook->find("all")->where(['cat_id'=>$cat_id])->toArray();
-$data=[];
+            $data=[];
             $host = Router::getRequest(true)->host();
 
             foreach ($datacat as $d){
-    $tmp=[];
-    $tmp['id']=$d['id'];
-    $tmp['name']=$d['name'];
-    $tmp['file']=$host."/ebook/".$d['hash_id']."/".$d['file'];
+                $tmp=[];
+                $tmp['id']=$d['id'];
+                $tmp['name']=$d['name'];
+                $tmp['file']=$host."/ebook/".$d['hash_id']."/".$d['file'];
 
-    array_push($data,$tmp);
+                array_push($data,$tmp);
 
-}
+            }
 
 
 
@@ -177,12 +177,12 @@ $data=[];
             exit;
         }
 
-        }
+    }
 
     public function getNotice(){
         $datanotice=$this->Notice->find("all")->toArray();
-         echo json_encode($datanotice);
-         exit;
+        echo json_encode($datanotice);
+        exit;
     }
 
     public function getExam(){
@@ -491,7 +491,7 @@ $data=[];
                     $temp['type']=$mcq['type'];
                     $temp['correctmark']=$getmarks['correct_mark'];
                     $temp['wrongmark']=$getmarks['wrong_mark'];
-$totalmarks=$totalmarks+$getmarks['correct_mark'];
+                    $totalmarks=$totalmarks+$getmarks['correct_mark'];
                     array_push($tmpdata,$temp);
 
                 }
@@ -557,12 +557,12 @@ $totalmarks=$totalmarks+$getmarks['correct_mark'];
 
             foreach ($generatedata as $d){
                 $dataquestion=$this->getexamdata($d['id']);
-$exam_id=$d['id'];
-                $history=$this->History->find('all')->where(['user_id'=>$user_id,'exam_id'=>$exam_id])->first()->toArray();
-$exam_taken=0;
+                $exam_id=$d['id'];
+                $history=$this->History->find('all')->where(['user_id'=>$user_id,'exam_id'=>$exam_id])->first();
+                $exam_taken=0;
                 if($history){
                     $exam_taken=1;
-}
+                }
 
                 $temp=[];
                 $temp['exam_name']=$d['name'];

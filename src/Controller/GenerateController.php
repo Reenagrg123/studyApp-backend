@@ -71,6 +71,104 @@ class GenerateController extends AppController{
         $this->set("title","Dashboard");
     }
 
+
+    public function loaddetail(){
+
+        if($this->request->is("post")) {
+            $data = $this->request->data;
+$type=$data['type'];
+            $id=$data['id'];
+if($type==0){
+    $generatedata=$this->GenerateExam->findById($id)->where(['exam_type'=>0])->contain(['class','subject','exercises'])->first()->toArray();
+    // $exam=$this->Exam->find("all")->where(["id"=>$generatedata['c_id']])->first()->toArray();
+    $level='Beginner';
+    if($generatedata['level']==1){
+        $level='Intermediate';
+    }
+    if($generatedata['level']==2){
+        $level='Advance';
+    }
+
+    $data='   
+                <p>  Class Name: '.$generatedata["Class"]["class_name"].'</p>
+                     <p>  Subject Name: '.$generatedata['Subject']["subject_name"].'</p>
+                          <p>  Chapter Name: '.$generatedata['Exercises']["title"].'</p>
+                <p> Level:  '.$level.'</p>
+                <p>  Test Name: '.$generatedata["name"].'</p>
+                <p>  Duration: '.$generatedata["total_time"].'</p>
+                   <p>  Create Date: '.$generatedata["create_date"].'</p>
+                '
+
+    ;
+
+
+
+    echo $data;
+    exit;
+
+}
+            if($type==1){
+                $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>1,'id'=>$id])->first()->toArray();
+                $exam=$this->Exam->find("all")->where(["id"=>$generatedata['c_id']])->first()->toArray();
+                $level='Beginner';
+                if($generatedata['level']==1){
+                    $level='Intermediate';
+                }
+                if($generatedata['level']==2){
+                    $level='Advance';
+                }
+
+                $data='   
+                <p>  Exam Name: '.$exam["exam_name"].'</p>
+                <p> Level:  '.$level.'</p>
+                <p>  Test Name: '.$generatedata["name"].'</p>
+                <p>  Duration: '.$generatedata["total_time"].'</p>
+                   <p>  Create Date: '.$generatedata["create_date"].'</p>
+                '
+
+                ;
+
+
+
+echo $data;
+exit;
+            }
+
+            if($type==2){
+                $generatedata=$this->GenerateExam->findById($id)->where(['exam_type'=>2])->contain(['Exam','Examsubject','Examexercises'])->first()->toArray();
+               // $exam=$this->Exam->find("all")->where(["id"=>$generatedata['c_id']])->first()->toArray();
+                $level='Beginner';
+                if($generatedata['level']==1){
+                    $level='Intermediate';
+                }
+                if($generatedata['level']==2){
+                    $level='Advance';
+                }
+
+                $data='   
+                <p>  Exam Name: '.$generatedata['exam']["exam_name"].'</p>
+                     <p>  Subject Name: '.$generatedata['examsubject']["subject_name"].'</p>
+                          <p>  Chapter Name: '.$generatedata['examexercise']["title"].'</p>
+                <p> Level:  '.$level.'</p>
+                <p>  Test Name: '.$generatedata["name"].'</p>
+                <p>  Duration: '.$generatedata["total_time"].'</p>
+                   <p>  Create Date: '.$generatedata["create_date"].'</p>
+                '
+
+                ;
+
+
+
+                echo $data;
+                exit;
+            }
+
+
+
+
+        }
+        }
+
     public function fullsyllabus(){
         $classdata=$this->Exam->find("all")->toArray();
         $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>1])->contain(['exam'])->toArray();

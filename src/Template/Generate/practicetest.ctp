@@ -12,6 +12,25 @@
     <!-- Content Row -->
 
 
+    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="load">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Content Row -->
     <div class="row">
@@ -115,6 +134,9 @@
                         <td><?php echo $g['name']; ?></td>
 
                         <td>
+                            <a id="preview" onclick="show(`<?php echo $id; ?>`);" ><i class="fa fa-search" aria-hidden="true"></i></a>
+
+
                             <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "view","id"=>$id ]); ?>' ><i class="fa fa-eye" aria-hidden="true"></i></a>
 
                             <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "add","id"=>$id ]); ?>' ><i class="fa fa-plus" aria-hidden="true"></i></a>
@@ -148,8 +170,23 @@ h2 {
 }
 </style>
         <?php $url=$this->Url->build([  "controller" => "Generate", "action" => "getdata" ]); ?>
+        <?php $load=$this->Url->build([  "controller" => "Generate", "action" => "loaddetail" ]); ?>
+
 <script>
 
+
+function show(id){
+    $.post('<?php echo $load; ?>',
+        {
+            type: "0",
+            id: id
+        },
+        function(data, status){
+            $("#load").html(data);
+            $('#exampleModal').modal('toggle')
+        });
+
+}
 
 $("#c_id").change(function(){
     var c_id= $("#c_id").val();

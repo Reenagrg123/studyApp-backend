@@ -95,7 +95,7 @@ class ApiController extends AppController{
 
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ($data['type'] == '' || $data['user_id'] == '' ) {
+            if ( $data['user_id'] == '' ) {
                 $send['error'] = 1;
                 $send['msg'] = "Parameters should not empty";
 
@@ -103,14 +103,18 @@ class ApiController extends AppController{
                 exit;
             }
             $this->auth($data['user_id']);
-if($data['type']==0){
+            $datacat=$this->Banner->find("all")->toArray();
+/*
+            if($data['type']==0){
     $datacat=$this->Banner->find("all")->where(['type'=>0])->toArray();
 
 
-}else{
+}
+            if($data['type']==1){
     $datacat=$this->Banner->find("all")->where(['type'=>1])->toArray();
 
 }
+*/
 $data=[];
             $host = Router::getRequest(true)->host();
 

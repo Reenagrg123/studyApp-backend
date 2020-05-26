@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
+use App\Model\Table\BannersTables;
 use App\Model\Table\CatebooksTables;
 use App\Model\Table\CategorysTables;
 use App\Model\Table\ClassexammapsTables;
@@ -76,6 +77,7 @@ class ApiController extends AppController{
 
         $this->Testimonial=$this->loadModel(TestimonialsTables::class);
 
+        $this->Banner=$this->loadModel(BannersTables::class);
 
         $session = $this->getRequest()->getSession();
         // $this->authorize();
@@ -85,6 +87,66 @@ class ApiController extends AppController{
         $this->key = 'wt1U5MACWJFTXGenFoZoiLwQGrLgdbHA';
 
         $this->set("title","Dashboard");
+    }
+
+    public function getBanner(){
+        if ($this->request->is("post")) {
+
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ($data['type'] == '' || $data['user_id'] == '' ) {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+if($data['type']==0){
+    $datacat=$this->Banner->find("all")->where(['type'=>0])->toArray();
+
+
+}else{
+    $datacat=$this->Banner->find("all")->where(['type'=>1])->toArray();
+
+}
+$data=[];
+            $host = Router::getRequest(true)->host();
+
+            foreach ($datacat as $b){
+            $tmp=[];
+            $c_id=$b['c_id'];
+            $s_id=$b['s_id'];
+            $type="Learn";
+            if($b['type']==0){
+                $class=$this->Class->find("all")->where(['id'=>$c_id])->first();
+                $subject=$this->Subject->find("all")->where(['id'=>$s_id])->first();
+                $tmp['class']=$class->class_name;
+                $tmp['subject']=$subject->subject_name;
+
+            }else{
+                $type="Exam";
+                $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
+                $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
+                $tmp['class']=$class->exam_name;
+                $tmp['subject']=$subject->subject_name;
+            }
+            $tmp['type']=$type;
+            $tmp['msg']=$b['msg'];
+            $tmp['file']=$host.'/banner/'.$b['file'];
+            $tmp['id']=$b['id'];
+
+            array_push($data,$tmp);
+
+
+        }
+
+echo json_encode($data);
+            exit;
+
+        }
+
     }
 
     public function setTestimonial(){

@@ -237,7 +237,13 @@
 <span>Users</span></a>
         </li>
 
+        </li>
+<li class="nav-item ">
+<a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "banner" ]); ?>">
+<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 
+<span>Banners</span></a>
+        </li>
 
 
 

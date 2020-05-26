@@ -64,3 +64,7 @@ CREATE TABLE `appretiate`.`catebook` ( `id` INT NOT NULL AUTO_INCREMENT ,  `cat_
 
 
 CREATE TABLE `appretiate`.`notice` ( `id` INT NOT NULL AUTO_INCREMENT ,  `notice` TEXT NOT NULL ,  `date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `appretiate`.`banner` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` INT(200) NOT NULL ,  `s_id` INT(200) NOT NULL ,  `type` INT(200) NOT NULL ,  `msg` VARCHAR(200) NOT NULL ,  `date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+ALTER TABLE `banner` ADD `file` VARCHAR(200) NULL AFTER `date`;

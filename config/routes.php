@@ -83,6 +83,7 @@ $routes->connect('/api/getEbook', ['controller' => 'Api', 'action' => 'getEbook'
 
 
 
+$routes->connect('/banner', ['controller' => 'Upload', 'action' => 'banner']);
 $routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
 
 $routes->connect('/getdata', ['controller' => 'Docupload', 'action' => 'getdata']);

@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Controller\AppController;
 use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
+use App\Model\Table\BannersTables;
 use App\Model\Table\CategorysTables;
 use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
+use App\Model\Table\ExamsTables;
+use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\GenerateexamsTables;
 use App\Model\Table\McqsTables;
@@ -41,6 +44,7 @@ class AdminController extends AppController{
         // $this->table=TableRegistry::get("user");
         $this->Users=$this->loadModel(UsersTables::class);
         $this->Class=$this->loadModel(ClasssTables::class);
+        $this->Exam=$this->loadModel(ExamsTables::class);
         $this->Subject=$this->loadModel(SubjectsTables::class);
         $this->Exercise=$this->loadModel(ExercisessTables::class);
         $this->Uploadfiles=$this->loadModel(UploadfilesTables::class);
@@ -48,6 +52,8 @@ class AdminController extends AppController{
         $this->GenerateExam=$this->loadModel(GenerateexamsTables::class);
         $this->Mcq=$this->loadModel(McqsTables::class);
         $this->Notice=$this->loadModel(NoticesTables::class);
+        $this->ExamSubject=$this->loadModel(Examsubjects::class);
+        $this->Banner=$this->loadModel(BannersTables::class);
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -62,6 +68,163 @@ class AdminController extends AppController{
         $this->set("title","Dashboard");
     }
 
+    public function getdata(){
+
+        if($this->request->is("post")) {
+
+            $data = $this->request->data;
+            $date = date("Y-m-d");
+            $type=$data['type'];
+
+            if($type=='5'){
+                $for=$data['for'];
+                $class=$data['class'];
+                if($for==0){
+
+                    $class=$this->Subject->find("all")->where(['c_id'=>$class])->toArray();
+                    $name='subject_name';
+                }
+
+
+                if($for==1){
+
+                    $class=$this->ExamSubject->find("all")->where(['c_id'=>$class])->toArray();
+                    $name='subject_name';
+                }
+
+
+
+
+            }
+
+
+            if($type=='0'){
+                $class=$this->Class->find("all")->toArray();
+                $name='class_name';
+
+            }
+
+            if($type=='1'){
+
+                //  var_dump($clas.$sub);exit;
+                $class=$this->Exam->find("all")->toArray();
+                $name='exam_name';
+
+            }
+
+            $dt='<option>Select Option</option>';
+            foreach ($class as $d){
+
+                $id=$d['id'];
+                $dt.='<option value="'.$id.'">'.$d[$name].'</option>';
+
+                // array_push($datalist,$d);
+
+            }
+
+            echo $dt;
+            exit;
+        }
+        return;
+    }
+
+
+public function delbanner(){
+    $id=$this->request->getQuery('id');
+    $dataclass=$this->Banner->findById($id)->first();
+
+    if($dataclass) {
+        unlink('banner/'.$dataclass->file);
+        $this->Banner->delete($dataclass);
+    }
+    $this->Flash->success('Data Deleted');
+
+
+    $this->redirect(array("controller" => "Admin",
+        "action" => "banner"));
+
+}
+    public function banner(){
+        $banner=$this->Banner->find("all")->toArray();
+        if($this->request->is("post")) {
+            $data = $this->request->data();
+
+            $banner=$this->Banner->newEntity();
+            $banner->c_id=$data['c_id'];
+            $banner->s_id=$data['s_id'];
+            $banner->type=$data['type'];
+            $banner->msg=$data['msg'];
+            $banner->date=date("Y-m-d H:i:s");
+
+            $filename=$_FILES['file']['name'];
+            $path = rand(100,2000).$_FILES['file']['name'];
+            $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+
+
+            if($imageFileType !== "jpg" && $imageFileType !== "jpeg" && $imageFileType !== "png" && $imageFileType !== "PNG") {
+                $this->Flash->error('Wrong File Format');
+                $this->redirect(array("controller" => "Admin",
+                    "action" => "banner"));
+                return;
+
+            }
+
+            if (!file_exists('banner/')) {
+                mkdir('banner/', 0777, true);
+            }
+
+            $uploadPath ='banner/';
+            $uploadFile = $uploadPath.$path;
+
+            if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
+
+                $save=1;
+                $banner->file=$path;
+
+            }
+
+            $this->Banner->save($banner);
+
+            $this->Flash->success('Added');
+            $this->redirect(array("controller" => "Admin",
+                "action" => "banner"));
+            return;
+
+
+
+
+        }
+        $host = Router::getRequest(true)->host();
+        $data=[];
+        foreach ($banner as $b){
+            $tmp=[];
+            $c_id=$b['c_id'];
+            $s_id=$b['s_id'];
+            $type="Learn";
+            if($b['type']==0){
+                $class=$this->Class->find("all")->where(['id'=>$c_id])->first();
+                $subject=$this->Subject->find("all")->where(['id'=>$s_id])->first();
+$tmp['class']=$class->class_name;
+                $tmp['subject']=$subject->subject_name;
+
+            }else{
+                $type="Exam";
+                $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
+                $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
+                $tmp['class']=$class->exam_name;
+                $tmp['subject']=$subject->subject_name;
+            }
+$tmp['type']=$type;
+            $tmp['msg']=$b['msg'];
+            $tmp['file']=$host.'/banner/'.$b['file'];
+            $tmp['id']=$b['id'];
+
+array_push($data,$tmp);
+        }
+
+      $this->set('banner',$data);
+
+        }
     public function notice(){
     $datanotice=$this->Notice->find("all")->toArray();
             if($this->request->is("post")) {

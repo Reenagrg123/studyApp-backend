@@ -159,7 +159,7 @@ echo json_encode($data);
 
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ($data['c_id'] == '' || $data['user_id'] == '' ||  $data['description'] == '') {
+            if ($data['c_id'] == '' || $data['user_id'] == '' ||  $data['des'] == '') {
                 $send['error'] = 1;
                 $send['msg'] = "Parameters should not empty";
 
@@ -169,7 +169,7 @@ echo json_encode($data);
             $this->auth($data['user_id']);
             $testimonial=$this->Testimonial->newEntity();
             $testimonial->user_id=$data['user_id'];
-            $testimonial->description=$data['description'];
+            $testimonial->description=$data['des'];
             $testimonial->class=$data['c_id'];
             $testimonial->create_date=date("Y-m-d H:i:s");
             if(isset($_POST['image'])){
@@ -197,7 +197,25 @@ echo json_encode($data);
     }
 
     public function getTestimonial(){
+        if ($this->request->is("post")) {
 
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ($data['user_id'] == '' ) {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+            $u_id=$data['user_id'];
+            $testi=$this->Testimonial->find("all")->where(['user_id'=>$u_id])->toArray();
+            echo json_encode($testi);
+            exit;
+
+        }
 
     }
 

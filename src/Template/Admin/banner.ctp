@@ -23,7 +23,7 @@
     <div class="col-4">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">GENERATE FULL-SYLLABUS TEST</h5>
+                <h5 class="card-title">GENERATE BANNER</h5>
             </div>
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
@@ -75,7 +75,7 @@
                     <!--    </div>-->
                     <!--    </div>-->
                 </br>
-                <button type="submit" class="btn btn-success">Generate</button>
+                <button type="submit" class="btn btn-success">Add</button>
             </form>
 
         </div>
@@ -84,7 +84,7 @@
 <div class="col-8">
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">GENERATED FULL-SYLLABUS TESTS</h5>
+            <h5 class="card-title">Banner</h5>
         </div>
         <div class="card-body">
             <table id="table_id" class="cell-border compact stripe hover">

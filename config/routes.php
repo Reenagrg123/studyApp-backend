@@ -67,6 +67,7 @@ $routes->connect('/api/getExam', ['controller' => 'Api', 'action' => 'getExam'])
 $routes->connect('/api/getExamSubject', ['controller' => 'Api', 'action' => 'getExamSubject']);
 $routes->connect('/api/getExamChapters', ['controller' => 'Api', 'action' => 'getExamChapters']);
 $routes->connect('/api/getBanner', ['controller' => 'Api', 'action' => 'getBanner']);
+$routes->connect('/api/sendmail', ['controller' => 'Api', 'action' => 'sendmail']);
 
 $routes->connect('/api/setTestimonial', ['controller' => 'Api', 'action' => 'setTestimonial']);
 $routes->connect('/api/getTestimonial', ['controller' => 'Api', 'action' => 'getTestimonial']);

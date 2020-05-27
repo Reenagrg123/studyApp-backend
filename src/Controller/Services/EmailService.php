@@ -18,7 +18,20 @@ class EmailService extends AppController{
 
     }
 
+public function send(){
+    Mailer\TransportFactory::setConfig('default', [
+        'className' => 'Mail'
+    ]);
 
+// Sample SMTP configuration.
+    Mailer\TransportFactory::setConfig('gmail', [
+        'host' => 'ssl://smtp.gmail.com',
+        'port' => 465,
+        'username' => 'my@gmail.com',
+        'password' => 'secret',
+        'className' => 'Smtp'
+    ]);
+}
 
     public function sendmail(){
 

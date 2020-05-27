@@ -89,6 +89,22 @@ class ApiController extends AppController{
         $this->set("title","Dashboard");
     }
 
+    public function sendmail(){
+
+
+        $message = "Hello User";
+        $email = new Email();
+        $email->transport('default');
+        $email
+            ->to('kumarshubhendu228@gmail.com')
+            ->subject('Test Subject')
+        ->send($message);
+
+
+
+
+    }
+
     public function getBanner(){
         if ($this->request->is("post")) {
 
@@ -104,49 +120,49 @@ class ApiController extends AppController{
             }
             $this->auth($data['user_id']);
             $datacat=$this->Banner->find("all")->toArray();
-/*
-            if($data['type']==0){
-    $datacat=$this->Banner->find("all")->where(['type'=>0])->toArray();
+            /*
+                        if($data['type']==0){
+                $datacat=$this->Banner->find("all")->where(['type'=>0])->toArray();
 
 
-}
-            if($data['type']==1){
-    $datacat=$this->Banner->find("all")->where(['type'=>1])->toArray();
+            }
+                        if($data['type']==1){
+                $datacat=$this->Banner->find("all")->where(['type'=>1])->toArray();
 
-}
-*/
-$data=[];
+            }
+            */
+            $data=[];
             $host = Router::getRequest(true)->host();
 
             foreach ($datacat as $b){
-            $tmp=[];
-            $c_id=$b['c_id'];
-            $s_id=$b['s_id'];
-            $type="Learn";
-            if($b['type']==0){
-                $class=$this->Class->find("all")->where(['id'=>$c_id])->first();
-                $subject=$this->Subject->find("all")->where(['id'=>$s_id])->first();
-                $tmp['class']=$class->class_name;
-                $tmp['subject']=$subject->subject_name;
+                $tmp=[];
+                $c_id=$b['c_id'];
+                $s_id=$b['s_id'];
+                $type="Learn";
+                if($b['type']==0){
+                    $class=$this->Class->find("all")->where(['id'=>$c_id])->first();
+                    $subject=$this->Subject->find("all")->where(['id'=>$s_id])->first();
+                    $tmp['class']=$class->class_name;
+                    $tmp['subject']=$subject->subject_name;
 
-            }else{
-                $type="Exam";
-                $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
-                $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
-                $tmp['class']=$class->exam_name;
-                $tmp['subject']=$subject->subject_name;
+                }else{
+                    $type="Exam";
+                    $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
+                    $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
+                    $tmp['class']=$class->exam_name;
+                    $tmp['subject']=$subject->subject_name;
+                }
+                $tmp['type']=$type;
+                $tmp['msg']=$b['msg'];
+                $tmp['file']='http://'.$host.'/banner/'.$b['file'];
+                $tmp['id']=$b['id'];
+
+                array_push($data,$tmp);
+
+
             }
-            $tmp['type']=$type;
-            $tmp['msg']=$b['msg'];
-            $tmp['file']=$host.'/banner/'.$b['file'];
-            $tmp['id']=$b['id'];
 
-            array_push($data,$tmp);
-
-
-        }
-
-echo json_encode($data);
+            echo json_encode($data);
             exit;
 
         }

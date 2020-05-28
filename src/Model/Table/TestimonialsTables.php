@@ -18,6 +18,13 @@ class TestimonialsTables extends Table{
         $this->addBehavior('Timestamp');
 
 
+        $this->hasOne('Class',['classname'=>'class_id'])->setForeignKey('id')->setBindingKey([
+            'class'
+        ]);
+        $this->hasOne('User',['classname'=>'class_id'])->setForeignKey('id')->setBindingKey([
+            'user_id'
+        ]);
+
 
     }
 

@@ -108,6 +108,9 @@ $routes->connect('/login', ['controller' => 'Main', 'action' => 'login']);
 $routes->connect('/classadd', ['controller' => 'Admin', 'action' => 'classadd']);
 $routes->connect('/subject', ['controller' => 'Admin', 'action' => 'subject']);
 $routes->connect('/excersise', ['controller' => 'Admin', 'action' => 'excersise']);
+$routes->connect('/edituser', ['controller' => 'Admin', 'action' => 'edituser']);
+
+
 
 $routes->connect('/exam/examadd', ['controller' => 'Exam', 'action' => 'examadd']);
 $routes->connect('/exam/subject', ['controller' => 'Exam', 'action' => 'subject']);

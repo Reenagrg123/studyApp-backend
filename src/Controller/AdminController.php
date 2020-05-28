@@ -68,6 +68,53 @@ class AdminController extends AppController{
         $this->set("title","Dashboard");
     }
 
+    public function edituser(){
+        $id=$this->request->getQuery('id');
+        $userdata=$this->Users->findById($id)->first();
+        if(! $userdata){
+            $this->Flash->success('Data Not Found');
+
+
+            $this->redirect(array("controller" => "Admin",
+                "action" => "users"));
+
+        }
+
+        if($this->request->is("post")) {
+
+            $data = $this->request->data;
+            $userdata=$this->Users->patchEntity($userdata,$data);
+            $this->Users->save($userdata);
+            $this->Flash->success('Data Updated');
+
+
+            $this->redirect(array("controller" => "Admin",
+                "action" => "users"));
+        }
+       $classobj= $this->Class->find('all')->select(['id','class_name'])->toArray();
+      // var_dump($classobj);exit;
+
+       $classlist=[];
+
+       foreach ($classobj as $c) {
+
+           $classlist[$c['id']]=$c['class_name'];
+     //  $tmp['id']=$c['id'];
+      // array_push($classlist, $tmp);
+
+       }
+
+        $this->set('classlist',$classlist);
+       // $this->set('classlist',$classlist );
+        $this->set("name",$userdata->f_name);
+        $this->set("gender",$userdata->gender);
+        $this->set("email",$userdata->email);
+        $this->set("mob",$userdata->mobile);
+        $this->set("class",$userdata->class);
+        $this->set("dob",$userdata->dob);
+
+        }
+
     public function getdata(){
 
         if($this->request->is("post")) {

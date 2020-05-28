@@ -17,6 +17,9 @@
                             <th>Student Name</th>
                             <th>Email</th>
                             <th>Student Class</th>
+                             <th>Mobile No.</th>
+                               <th>Gender</th>
+                                 <th>D.O.B</th>
                             <th></th>
 
                         </tr>
@@ -34,9 +37,14 @@
                             <td><?php echo $c['f_name']; ?></td>
                             <td><?php echo $c['email']; ?></td>
                            <td><?php echo $c['Class']['class_name']; ?></td>
+                           <td><?php echo $c['mobile']; ?></td>
+                            <td><?php echo $c['gender']; ?></td>
+                             <td><?php echo $c['dob']; ?></td>
                             <td>
                              <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "deluser","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
                         </a>
+                           <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "edituser","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+
                         </td>
                     </tr>
                     <?php } ?>

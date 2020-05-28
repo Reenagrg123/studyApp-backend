@@ -92,7 +92,11 @@ class ApiController extends AppController{
     public function sendmail(){
 
         try{
-                $message = "Hello User";
+            //   Email::deliver('kumarshubhendu228@gmail.com', 'Subject', 'Message', ['from' => 'me@example.com']);
+
+
+
+            $message = "Hello Usezcxzczxczr";
             $email = new Email();
             $email->transport('mail');
             $email
@@ -100,7 +104,7 @@ class ApiController extends AppController{
                 ->subject('Forgot')
                 ->send($message);
 
-            var_dump($email);exit;
+            //   var_dump($email);exit;
 
         }catch(\Exception $e){
 
@@ -110,6 +114,8 @@ class ApiController extends AppController{
 
         echo json_encode("done");
         exit;
+
+
 
     }
 
@@ -151,14 +157,18 @@ class ApiController extends AppController{
                     $class=$this->Class->find("all")->where(['id'=>$c_id])->first();
                     $subject=$this->Subject->find("all")->where(['id'=>$s_id])->first();
                     $tmp['class']=$class->class_name;
+                    $tmp['class_id']=$c_id;
                     $tmp['subject']=$subject->subject_name;
+                    $tmp['subject_id']=$s_id;
 
                 }else{
                     $type="Exam";
                     $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
                     $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
                     $tmp['class']=$class->exam_name;
+                    $tmp['class_id']=$c_id;
                     $tmp['subject']=$subject->subject_name;
+                    $tmp['subject_id']=$s_id;
                 }
                 $tmp['type']=$type;
                 $tmp['msg']=$b['msg'];
@@ -196,20 +206,20 @@ class ApiController extends AppController{
             $testimonial->description=$data['des'];
             $testimonial->class=$data['c_id'];
             $testimonial->create_date=date("Y-m-d H:i:s");
-            if(isset($_POST['image'])){
 
-                $imgname = $_POST['image'];
-                $imsrc = base64_decode($_POST['image']);
-                $fp = fopen($imgname, 'w');
-                fwrite($fp, "userimage/".$imsrc);
-                if(fclose($fp)){
-                    echo "Image uploaded";
-                }else{
-                    echo "Error uploading image";
-                }
+            if(isset($data['image'])){
+
+                $dataim = base64_decode($data['image']);
 
 
+                $imagename=rand() . '.png';
+                $file = 'testimonial/'.$imagename;
+                file_put_contents($file, $dataim);
+
+                $testimonial->image = $imagename;
             }
+
+
             $this->Testimonial->save($testimonial);
             $send=[];
             $send['error']=0;
@@ -235,8 +245,21 @@ class ApiController extends AppController{
             }
             $this->auth($data['user_id']);
             $u_id=$data['user_id'];
-            $testi=$this->Testimonial->find("all")->where(['user_id'=>$u_id])->toArray();
-            echo json_encode($testi);
+            $testi=$this->Testimonial->find("all")->where(['user_id'=>$u_id])->contain(['class','user'])->toArray();
+            $alldata=[];
+            $host = Router::getRequest(true)->host();
+
+
+            foreach ($testi as $t){
+               $tmp=[];
+               $tmp['user_name']=$t['User']['f_name'];
+               $tmp['class_name']=$t['Class']['class_name'];
+               $tmp['des']=$t['description'];
+               $tmp['image']=$host.'/testimonial/'.$t['image'];
+               array_push($alldata,$tmp);
+            }
+
+            echo json_encode($alldata);
             exit;
 
         }
@@ -818,20 +841,8 @@ class ApiController extends AppController{
             $userobj->f_name = $data['name'];
             $userobj->email = $data['email'];
             $userobj->mobile = $data['mobile'];
-            if(isset($_POST['image'])){
-
-                $imgname = $_POST['image'];
-                $imsrc = base64_decode($_POST['image']);
-                $fp = fopen($imgname, 'w');
-                fwrite($fp, "userimage/".$imsrc);
-                if(fclose($fp)){
-                    echo "Image uploaded";
-                }else{
-                    echo "Error uploading image";
-                }
 
 
-            }
 
             // $encryptpass = Security::encrypt($data['password'], $this->key);
 
@@ -842,8 +853,22 @@ class ApiController extends AppController{
 
             try{
 
+                if(isset($data['image']['uri'])){
+
+                    $dataim = base64_decode($data['image']['uri']);
+
+
+                    $imagename=rand().$data['name']. '.png';
+                    $file = 'userimage/'.$imagename;
+                    file_put_contents($file, $dataim);
+
+                    $userobj->profile_img = $imagename;
+                }
+                $host = Router::getRequest(true)->host();
+
 
                 if ($this->Users->save($userobj)) {
+
 
                     $send['error'] = 0;
                     $send['msg'] = "Updated successfully ";
@@ -855,6 +880,7 @@ class ApiController extends AppController{
                     $send['gender']=$userobj->gender;
                     $send['dob']=$userobj->dob;
                     $claaobj = $this->Class->findById($data['c_id'])->first()->toArray();
+                    $send['image']=$host.'/userimage/'.$userobj->profile_img;
                     $send['class_name']=$claaobj['class_name'];
 
 
@@ -869,7 +895,7 @@ class ApiController extends AppController{
             }catch(\Exception $e){
                 // var_dump($e->getMessage());
                 $send['error']=1;
-                $send['msg']="Try Again";
+                $send['msg']=$e->getMessage();
 
                 echo json_encode($send);
                 exit;
@@ -881,7 +907,7 @@ class ApiController extends AppController{
 
 
 
-        //    var_dump("fsdfsdfsd");exit;
+        var_dump("Only Post Method Allowed");exit;
 
 
     }
@@ -890,7 +916,7 @@ class ApiController extends AppController{
     public function index(){
 
 
-        var_dump("ASfasfasf");exit;
+        var_dump("Not Allowed");exit;
 
     }
 
@@ -926,6 +952,20 @@ class ApiController extends AppController{
 
             $userobj->mobile=$data['mobile'];
             $userobj->f_name = $data['f_name'];
+
+            if(isset($data['image']['uri'])){
+
+                $dataim = base64_decode($data['image']['uri']);
+
+
+                $imagename=rand().$data['f_name']. '.png';
+                $file = 'userimage/'.$imagename;
+                file_put_contents($file, $dataim);
+
+                $userobj->profile_img = $imagename;
+            }
+            $host = Router::getRequest(true)->host();
+
             if(isset($_POST['email'])){
 
                 $userobj->email = $data['email'];
@@ -956,8 +996,10 @@ class ApiController extends AppController{
                     $send['email']=$datauser['email'];
                     $send['class_id']=$datauser['class'];
                     $send['gender']=$datauser['gender'];
+                    $send['image']=$host.'/userimage/'.$userobj->profile_img;
                     $claaobj = $this->Class->findById($data['c_id'])->first()->toArray();
                     $send['class_name']=$claaobj['class_name'];
+
                     echo json_encode($send);
                     exit;
                 }
@@ -1015,6 +1057,7 @@ class ApiController extends AppController{
             }
 
             $datauser=$this->Users->find()->where(["mobile"=>$data['mobile'],"password"=>md5($data['password'])])->first();
+            $host = Router::getRequest(true)->host();
 
             //   var_dump($datauser);exit;
             //   $data=$this->Users->get(2);
@@ -1033,6 +1076,7 @@ class ApiController extends AppController{
                     $send['dob']=$datauser->toArray()['dob'];
                     $claaobj = $this->Class->findById($datauser->toArray()['class'])->first()->toArray();
                     $send['class_name']=$claaobj['class_name'];
+                    $send['image']=$host.'/userimage/'.$claaobj['profile_img'];
 
                     echo json_encode($send);
                     exit;

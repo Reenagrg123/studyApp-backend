@@ -116,7 +116,7 @@
                 <table id="table_id" class="cell-border compact stripe hover">
                     <thead>
                     <tr>
-                        <th>Test Id</th>
+
                         <th>Class Name</th>
                         <th>Subject Name</th>
                         <th>Chapter Name</th>
@@ -130,7 +130,7 @@
                             $id=$g['id'];
                             ?>
                     <tr>
-                        <td><?php echo $id; ?></td>
+
                         <td><?php echo $g['exam']['exam_name']; ?></td>
                         <td><?php echo $g['examsubject']['subject_name']; ?></td>
 
@@ -138,11 +138,12 @@
                         <td><?php echo $g['name']; ?></td>
 
                         <td>
-                            <a id="preview" onclick="show(`<?php echo $id; ?>`);" ><i class="fa fa-search" aria-hidden="true"></i></a>
+                            <a href="#" id="preview" onclick="show(`<?php echo $id; ?>`);" ><i class="fa fa-info" aria-hidden="true"></i></a>
 
                             <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "view","id"=>$id ]); ?>' ><i class="fa fa-eye" aria-hidden="true"></i></a>
 
                             <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "add","id"=>$id ]); ?>' ><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "edit","id"=>$id,"type"=>2 ]); ?>' ><i class="fa fa-edit" aria-hidden="true"></i></a>
 
                         </td>
 

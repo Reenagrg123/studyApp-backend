@@ -97,6 +97,7 @@ if($type==0){
                 <p>  Test Name: '.$generatedata["name"].'</p>
                 <p>  Duration: '.$generatedata["total_time"].'</p>
                    <p>  Create Date: '.$generatedata["create_date"].'</p>
+                    <p>  Instruction: '.$generatedata["instruction"].'</p>
                 '
 
     ;
@@ -124,6 +125,7 @@ if($type==0){
                 <p>  Test Name: '.$generatedata["name"].'</p>
                 <p>  Duration: '.$generatedata["total_time"].'</p>
                    <p>  Create Date: '.$generatedata["create_date"].'</p>
+                     <p>  Instruction: '.$generatedata["instruction"].'</p>
                 '
 
                 ;
@@ -153,6 +155,7 @@ exit;
                 <p>  Test Name: '.$generatedata["name"].'</p>
                 <p>  Duration: '.$generatedata["total_time"].'</p>
                    <p>  Create Date: '.$generatedata["create_date"].'</p>
+                     <p>  Instruction: '.$generatedata["instruction"].'</p>
                 '
 
                 ;
@@ -167,6 +170,158 @@ exit;
 
 
         }
+        }
+
+        public function edit(){
+            $classdata=$this->Class->find("all")->toArray();
+            $id=$this->request->getQuery('id');
+            $type=$this->request->getQuery('type');
+
+
+
+
+
+            if($type==1){
+
+                $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>1,'id'=>$id])->first();
+
+
+                if($this->request->is("post")) {
+
+                    $data = $this->request->data;
+
+                    $userdata=$this->GenerateExam->patchEntity($generatedata,$data);
+                    $this->GenerateExam->save($userdata);
+                    $this->Flash->success('Data Updated');
+
+                    $this->redirect(array("controller" => "Generate",
+                        "action" => "edit","id"=>$id,"type"=>$type));
+                }
+
+                $exam= $this->Exam->find('all')->select(['id','exam_name'])->toArray();
+
+                $classlist=[];
+
+                foreach ($exam as $c) {
+
+                    $classlist[$c['id']]=$c['exam_name'];
+                    //  $tmp['id']=$c['id'];
+                    // array_push($classlist, $tmp);
+
+                }
+
+
+                $this->set('type',1);
+                $this->set('total_time',$generatedata->total_time);
+                $this->set('instruction',$generatedata->instruction);
+                $this->set('name',$generatedata->name);
+                $this->set('exam_id',$generatedata->c_id);
+                $this->set('examlist',$classlist);
+
+return;
+
+            }
+
+            if($type==2){
+
+                $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>2,'id'=>$id])->first();
+
+
+                if($this->request->is("post")) {
+
+                    $data = $this->request->data;
+
+                    $userdata=$this->GenerateExam->patchEntity($generatedata,$data);
+                    $this->GenerateExam->save($userdata);
+                    $this->Flash->success('Data Updated');
+
+                    $this->redirect(array("controller" => "Generate",
+                        "action" => "edit","id"=>$id,"type"=>$type));
+                }
+
+                $exam= $this->Exam->find('all')->select(['id','exam_name'])->toArray();
+                $examsubject= $this->ExamSubject->find('all')->select(['id','subject_name'])->where(['c_id'=>$generatedata->c_id])->toArray();
+                $examchapter= $this->ExamExercise->find('all')->select(['id','title'])->where(['c_id'=>$generatedata->c_id,'s_id'=>$generatedata->ex_id])->toArray();
+
+                $classlist=[];
+                foreach ($exam as $c)
+                    $classlist[$c['id']]=$c['exam_name'];
+
+                $subjectlist=[];
+                foreach ($examsubject as $c)
+                    $subjectlist[$c['id']]=$c['subject_name'];
+
+                $chapterlist=[];
+                foreach ($examchapter as $c)
+                    $chapterlist[$c['id']]=$c['title'];
+
+
+                $this->set('type',2);
+                $this->set('total_time',$generatedata->total_time);
+                $this->set('instruction',$generatedata->instruction);
+                $this->set('name',$generatedata->name);
+                $this->set('exam_id',$generatedata->c_id);
+                $this->set('examlist',$classlist);
+                $this->set('subjectlist',$subjectlist);
+                $this->set('chapterist',$chapterlist);
+
+
+                $this->set('s_id',$generatedata->s_id);
+                $this->set('ex_id',$generatedata->ex_id);
+                return;
+
+            }
+
+            if($type==0){
+
+                $generatedata=$this->GenerateExam->find("all")->where(['exam_type'=>0,'id'=>$id])->first();
+
+
+                if($this->request->is("post")) {
+
+                    $data = $this->request->data;
+
+                    $userdata=$this->GenerateExam->patchEntity($generatedata,$data);
+                    $this->GenerateExam->save($userdata);
+                    $this->Flash->success('Data Updated');
+
+                    $this->redirect(array("controller" => "Generate",
+                        "action" => "edit","id"=>$id,"type"=>$type));
+                }
+
+                $exam= $this->Class->find('all')->select(['id','class_name'])->toArray();
+                $examsubject= $this->Subject->find('all')->select(['id','subject_name'])->where(['c_id'=>$generatedata->c_id])->toArray();
+                $examchapter= $this->Exercise->find('all')->select(['id','title'])->where(['c_id'=>$generatedata->c_id,'s_id'=>$generatedata->s_id])->toArray();
+                $classlist=[];
+                foreach ($exam as $c)
+                    $classlist[$c['id']]=$c['class_name'];
+
+                $subjectlist=[];
+                foreach ($examsubject as $c)
+                    $subjectlist[$c['id']]=$c['subject_name'];
+
+                $chapterlist=[];
+                foreach ($examchapter as $c)
+                    $chapterlist[$c['id']]=$c['title'];
+
+
+                $this->set('type',0);
+                $this->set('total_time',$generatedata->total_time);
+                $this->set('instruction',$generatedata->instruction);
+                $this->set('name',$generatedata->name);
+                $this->set('exam_id',$generatedata->c_id);
+                $this->set('examlist',$classlist);
+                $this->set('subjectlist',$subjectlist);
+                $this->set('chapterist',$chapterlist);
+
+
+                $this->set('s_id',$generatedata->s_id);
+                $this->set('ex_id',$generatedata->ex_id);
+                return;
+
+            }
+
+
         }
 
     public function fullsyllabus(){
@@ -515,7 +670,7 @@ foreach ($records as $r){
 
             }
 
-            $dt='<option>Select Option</option>';
+            $dt='<option value="">Select Option</option>';
             foreach ($class as $d){
 
                 $id=$d['id'];

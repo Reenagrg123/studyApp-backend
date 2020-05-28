@@ -323,7 +323,7 @@ class ApiController extends AppController{
 
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ($data['cat_id'] == '' || $data['user_id'] == '' || $data['subcat_id'] ) {
+            if ($data['cat_id'] == '' || $data['user_id'] == '' || $data['subcat_id']=='' ) {
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
 

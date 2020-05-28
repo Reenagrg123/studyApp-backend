@@ -97,6 +97,7 @@ $routes->connect('/generateexam', ['controller' => 'Generate', 'action' => 'gene
 $routes->connect('/generatetest/add', ['controller' => 'Generate', 'action' => 'add']);
 $routes->connect('/generatetest/view', ['controller' => 'Generate', 'action' => 'view']);
 $routes->connect('/generatetest/fullsyllabus', ['controller' => 'Generate', 'action' => 'fullsyllabus']);
+$routes->connect('/generatetest/edit', ['controller' => 'Generate', 'action' => 'edit']);
 $routes->connect('/', ['controller' => 'Main', 'action' => 'login']);
 
 

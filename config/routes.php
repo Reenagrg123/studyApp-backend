@@ -80,7 +80,7 @@ $routes->connect('/api/getTestHistory', ['controller' => 'Api', 'action' => 'get
 $routes->connect('/api/getMaterials', ['controller' => 'Api', 'action' => 'getMaterials']);
 $routes->connect('/api/getCategory', ['controller' => 'Api', 'action' => 'getCategory']);
 $routes->connect('/api/getEbook', ['controller' => 'Api', 'action' => 'getEbook']);
-
+$routes->connect('/api/getSubcategory', ['controller' => 'Api', 'action' => 'getSubcategory']);
 
 
 

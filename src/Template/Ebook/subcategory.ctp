@@ -54,8 +54,9 @@
                             $id=$c['id'];
                             ?>
                         <a>
-                            <td><?php echo $c['name']; ?></td>
+
                             <td><?php echo $c['Category']['name']; ?></td>
+                            <td><?php echo $c['name']; ?></td>
                             <td>
 
                                 <a href='<?php echo $this->Url->build([  "controller" => "Ebook", "action" => "subcategory","id"=>$id ]); ?>' >

@@ -92,7 +92,7 @@ return;
             $classobj=$this->SubCategory->newEntity();
             $classobj->cat_id=$data['cat_id'];
             $classobj->name=$data['name'];
-            $classobj->create_date = date("Y-m-d H:i:s");
+            $classobj->date = date("Y-m-d H:i:s");
 
             $this->SubCategory->save($classobj);
 

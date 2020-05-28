@@ -23,6 +23,7 @@ use App\Model\Table\NoticesTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
+use App\Model\Table\SubcategorysTables;
 use App\Model\Table\SubjectsTables;
 use App\Model\Table\TestimonialsTables;
 use App\Model\Table\TrafficsTables;
@@ -76,7 +77,7 @@ class ApiController extends AppController{
         $this->Catebook=$this->loadModel(CatebooksTables::class);
 
         $this->Testimonial=$this->loadModel(TestimonialsTables::class);
-
+        $this->SubCategory=$this->loadModel(SubcategorysTables::class);
         $this->Banner=$this->loadModel(BannersTables::class);
 
         $session = $this->getRequest()->getSession();
@@ -118,6 +119,49 @@ class ApiController extends AppController{
 
 
     }
+
+    public function getSubcategory(){
+        if ($this->request->is("post")) {
+
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ($data['user_id'] == '' || $data['cat_id']=='') {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+            $cat_id=$data['cat_id'];
+            $datacat=$this->Category->findById($cat_id)->toArray();
+            if($datacat){
+                $subcat=$this->SubCategory->find('all')->where(["cat_id"=>$cat_id])->toArray();
+
+                $send['error'] = 0;
+                $send['data'] = $subcat;
+
+                echo json_encode($send);
+                exit;
+
+            }else{
+                $send['error'] = 1;
+                $send['msg'] = "No Category Found";
+
+                echo json_encode($send);
+                exit;
+
+
+            }
+
+
+
+        }
+
+    }
+
+
 
     public function getBanner(){
         if ($this->request->is("post")) {
@@ -279,7 +323,7 @@ class ApiController extends AppController{
 
             $date = date("Y-m-d");
             $data = $this->request->data;
-            if ($data['cat_id'] == '' || $data['user_id'] == '' ) {
+            if ($data['cat_id'] == '' || $data['user_id'] == '' || $data['subcat_id'] ) {
                 $send['error']=1;
                 $send['msg']="Parameters should not empty";
 
@@ -288,7 +332,8 @@ class ApiController extends AppController{
             }
             $this->auth($data['user_id']);
             $cat_id=$data['cat_id'];
-            $datacat=$this->Catebook->find("all")->where(['cat_id'=>$cat_id])->toArray();
+            $subcat_id=$data['subcat_id'];
+            $datacat=$this->Catebook->find("all")->where(['cat_id'=>$cat_id,'subcat_id'=>$subcat_id])->toArray();
             $data=[];
             $host = Router::getRequest(true)->host();
 
@@ -852,20 +897,24 @@ class ApiController extends AppController{
             $userobj->update_date = date("Y-m-d H:i:s");
 
             try{
+if($data['is_image']==1){
+    if(isset($data['image']['uri'])){
 
-                if(isset($data['image']['uri'])){
-
-                    $dataim = base64_decode($data['image']['uri']);
+        $dataim = base64_decode($data['image']['uri']);
 
 
-                    $imagename=rand().$data['name']. '.png';
-                    $file = 'userimage/'.$imagename;
-                    file_put_contents($file, $dataim);
+        $imagename=rand().$data['name']. '.png';
+        $file = 'userimage/'.$imagename;
+        file_put_contents($file, $dataim);
 
-                    $userobj->profile_img = $imagename;
-                }else{
-                    $userobj->profile_img = NULL;
-                }
+        $userobj->profile_img = $imagename;
+    }else{
+        $userobj->profile_img = NULL;
+    }
+
+
+}
+
                 $host = Router::getRequest(true)->host();
 
 

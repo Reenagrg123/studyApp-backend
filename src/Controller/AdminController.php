@@ -19,6 +19,7 @@ use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
 use App\Model\Table\ProfilesTables;
 use App\Model\Table\SubjectsTables;
+use App\Model\Table\TestimonialsTables;
 use App\Model\Table\TrafficsTables;
 use App\Model\Table\TransactionsTables;
 use App\Model\Table\UploadfilesTables;
@@ -53,6 +54,8 @@ class AdminController extends AppController{
         $this->Mcq=$this->loadModel(McqsTables::class);
         $this->Notice=$this->loadModel(NoticesTables::class);
         $this->ExamSubject=$this->loadModel(Examsubjects::class);
+        $this->Testimonial=$this->loadModel(TestimonialsTables::class);
+
         $this->Banner=$this->loadModel(BannersTables::class);
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
@@ -319,11 +322,54 @@ array_push($data,$tmp);
     }
 
     public function testimonials(){
+        $testimonial=$this->Testimonial->find('all')->contain('class','users')->toArray();
+        $data=[];
+        foreach ($testimonial as $t){
+            $tmp=[];
+            $tmp['class']=$t['Class']['class_name'];
+            $u_id=$t['user_id'];
+            $userdata=$this->Users->find('all')->where(['id'=>$u_id])->first();
+if($userdata){
+    $tmp['username']=$userdata->f_name;
+    $tmp['contact']=$userdata->mobile;
+}
+
+$tmp['id']=$t['id'];
+            $tmp['feedback']=$t['description'];
+            $tmp['image']=$t['image'];
+
+            array_push($data,$tmp);
+
+        }
+
+        $this->set("data",$data);
 
     }
 public function users(){
     $users=$this->Users->find('all')->contain('class')->toArray();
     $this->set("users",$users);
+}
+
+public function deltestimonial(){
+    $id=$this->request->getQuery('id');
+    $dataclass=$this->Testimonial->findById($id)->first();
+    if($dataclass) {
+
+        $this->Testimonial->delete($dataclass);
+        $this->Flash->success('Data Deleted');
+
+
+        $this->redirect(array("controller" => "Admin",
+            "action" => "testimonials"));
+return;
+
+    }
+    $this->Flash->success('No Data Found');
+
+
+    $this->redirect(array("controller" => "Admin",
+        "action" => "testimonials"));
+
 }
 
     public function delexercise(){

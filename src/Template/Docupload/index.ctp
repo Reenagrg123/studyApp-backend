@@ -115,7 +115,6 @@
                             <th>Type Of Qns</th>
                             <th>Created At</th>
                             <th></th>
-
                         </tr>
                         </thead>
                         <tbody>
@@ -127,7 +126,7 @@
 
                             <td><?php echo $r['title']; ?></td>
                             <td><?php echo $r['Class']['class_name']; ?></td>
-                            <td><?php echo $r['type'] ?></td>
+                            <td><?php echo $r['question_type'] ?></td>
                             <td><?php echo $r['Exercises']['title']; ?></td>
                             <!--<td><?php echo $r['correct_mark']; ?></td>-->
                             <!--<td><?php echo $r['wrong_mark']; ?></td>-->

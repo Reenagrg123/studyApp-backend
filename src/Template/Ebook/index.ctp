@@ -32,6 +32,15 @@
                             <?php } ?>
                         </select>
                     </div>
+
+                    <div class="form-group" >
+                        <label for="exampleFormControlSelect1">Select a Sub-category </label>
+                        <select class="form-control" name="subcat_id" id="subcat_id" required>
+
+                        </select>
+                    </div>
+
+
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter an e-book name</label>
                         <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Ex: NECRT Class 12th chemistry" value="<?php if(isset($edit)){ echo $editdata['subject_name']; }?>" required>
@@ -109,8 +118,9 @@ h2 {
 }
 </style>
 
+<?php $url=$this->Url->build([  "controller" => "Ebook", "action" => "getdata" ]); ?>
 
-        <?php if(isset($edit)){
+<?php if(isset($edit)){
                 ?>
 
 <script>
@@ -121,9 +131,25 @@ $("#c_id").parent().hide();
                 }?>
 <script>
 
+
 $(document).ready( function () {
     $('#table_id').DataTable();
 } );
+
+
+$("#c_id").change(function(){
+    var c_id= $("#c_id").val();
+    $.post('<?php echo $url; ?>',
+        {
+
+
+            class: c_id
+        },
+        function(data, status){
+            $("#subcat_id").html(data);
+        });
+});
+
 
 function validate(){
     var er=true;
@@ -138,8 +164,6 @@ function validate(){
     }
 
     if(content.length<100){
-
-
         alert("content should be greater than 100 characters");
         return false;
         er=false;

@@ -251,12 +251,12 @@ class ApiController extends AppController{
 
 
             foreach ($testi as $t){
-               $tmp=[];
-               $tmp['user_name']=$t['User']['f_name'];
-               $tmp['class_name']=$t['Class']['class_name'];
-               $tmp['des']=$t['description'];
-               $tmp['image']=$host.'/testimonial/'.$t['image'];
-               array_push($alldata,$tmp);
+                $tmp=[];
+                $tmp['user_name']=$t['User']['f_name'];
+                $tmp['class_name']=$t['Class']['class_name'];
+                $tmp['des']=$t['description'];
+                $tmp['image']='http://'.$host.'/testimonial/'.$t['image'];
+                array_push($alldata,$tmp);
             }
 
             echo json_encode($alldata);
@@ -471,7 +471,7 @@ class ApiController extends AppController{
                 $temp['id']=$m['id'];
                 $temp['name']=$m['name'];
                 $temp['type']=$m['type'];
-                $temp['file']=$host.'/materials/'.$m['hash_id'].'/'.$m['file'];
+                $temp['file']='http://'.$host.'/materials/'.$m['hash_id'].'/'.$m['file'];
                 $temp['link']=$m['link'];
                 array_push($data,$temp);
             }
@@ -863,6 +863,8 @@ class ApiController extends AppController{
                     file_put_contents($file, $dataim);
 
                     $userobj->profile_img = $imagename;
+                }else{
+                    $userobj->profile_img = NULL;
                 }
                 $host = Router::getRequest(true)->host();
 
@@ -880,7 +882,12 @@ class ApiController extends AppController{
                     $send['gender']=$userobj->gender;
                     $send['dob']=$userobj->dob;
                     $claaobj = $this->Class->findById($data['c_id'])->first()->toArray();
-                    $send['image']=$host.'/userimage/'.$userobj->profile_img;
+                    if($userobj->profile_img==''){
+                        $send['image']='';
+                    }else{
+                        $send['image']='http://'.$host.'/userimage/'.$userobj->profile_img;
+                    }
+
                     $send['class_name']=$claaobj['class_name'];
 
 
@@ -996,7 +1003,7 @@ class ApiController extends AppController{
                     $send['email']=$datauser['email'];
                     $send['class_id']=$datauser['class'];
                     $send['gender']=$datauser['gender'];
-                    $send['image']=$host.'/userimage/'.$userobj->profile_img;
+                    $send['image']='http://'.$host.'/userimage/'.$userobj->profile_img;
                     $claaobj = $this->Class->findById($data['c_id'])->first()->toArray();
                     $send['class_name']=$claaobj['class_name'];
 
@@ -1076,7 +1083,7 @@ class ApiController extends AppController{
                     $send['dob']=$datauser->toArray()['dob'];
                     $claaobj = $this->Class->findById($datauser->toArray()['class'])->first()->toArray();
                     $send['class_name']=$claaobj['class_name'];
-                    $send['image']=$host.'/userimage/'.$claaobj['profile_img'];
+                    $send['image']='http://'.$host.'/userimage/'.$datauser->toArray()['profile_img'];
 
                     echo json_encode($send);
                     exit;

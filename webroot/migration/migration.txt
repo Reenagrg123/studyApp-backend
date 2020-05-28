@@ -68,3 +68,7 @@ CREATE TABLE `appretiate`.`notice` ( `id` INT NOT NULL AUTO_INCREMENT ,  `notice
 
 CREATE TABLE `appretiate`.`banner` ( `id` INT NOT NULL AUTO_INCREMENT ,  `c_id` INT(200) NOT NULL ,  `s_id` INT(200) NOT NULL ,  `type` INT(200) NOT NULL ,  `msg` VARCHAR(200) NOT NULL ,  `date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
 ALTER TABLE `banner` ADD `file` VARCHAR(200) NULL AFTER `date`;
+
+
+
+CREATE TABLE `studyapp`.`subcategory` ( `id` INT NOT NULL AUTO_INCREMENT ,  `cat_id` INT(200) NOT NULL ,  `name` VARCHAR(200) NOT NULL ,  `date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;

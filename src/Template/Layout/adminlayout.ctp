@@ -207,6 +207,10 @@
         <i class="fa fa-graduation-cap" aria-hidden="true"></i>
         <span>Add Category</span></a>
 
+        <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Ebook", "action" => "subcategory" ]); ?>">
+        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+        <span>Add Sub Category</span></a>
+
     <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Ebook", "action" => "index" ]); ?>">
     <i class="fa fa-book" aria-hidden="true"></i>
     <span>Add E-Book</span></a>

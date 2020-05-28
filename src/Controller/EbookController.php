@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use App\Model\Table\CatebooksTables;
 use App\Model\Table\CategorysTables;
+use App\Model\Table\SubcategorysTables;
 
 class EbookController extends AppController{
 
@@ -14,6 +15,7 @@ class EbookController extends AppController{
         $this->viewBuilder()->layout("adminlayout");
         $this->Category=$this->loadModel(CategorysTables::class);
         $this->Catebook=$this->loadModel(CatebooksTables::class);
+        $this->SubCategory=$this->loadModel(SubcategorysTables::class);
         $session = $this->getRequest()->getSession();
         $t= $session->read('user');
         if( $t=="" || $t==null ){
@@ -28,6 +30,102 @@ class EbookController extends AppController{
         $this->set("title","Dashboard");
 
     }
+    public function getdata(){
+
+        if($this->request->is("post")) {
+
+            $data = $this->request->data;
+            $date = date("Y-m-d");
+            $type = $data['type'];
+
+
+                $clas = $data['class'];
+                $class = $this->SubCategory->find("all")->where(['cat_id' => $clas])->toArray();
+$name='name';
+
+            $dt='<option>Select Option</option>';
+            foreach ($class as $d){
+
+                $id=$d['id'];
+                $dt.='<option value="'.$id.'">'.$d[$name].'</option>';
+
+                // array_push($datalist,$d);
+
+            }
+
+            echo $dt;
+            exit;
+
+        }
+return;
+    }
+
+    public function subcategory(){
+
+
+        $allcat=$this->Category->find("all")->toArray();
+        $datac=$this->SubCategory->find("all")->contain(['category'])->toArray();
+        $id=$this->request->getQuery('id');
+
+        if($this->request->is("post")) {
+
+            $data = $this->request->data();
+            $cat=$data['name'];
+            //var_dump(array_unique($carray));exit;
+
+            //   $data=$this->Users->get(2);
+            if($id){
+                $dataclass=$this->SubCategory->findById($id)->first();
+                $dataclass->name=$data['name'];
+
+                $this->SubCategory->save($dataclass);
+
+                $this->Flash->success('Data Updated');
+
+
+                $this->redirect(array("controller" => "Ebook",
+                    "action" => "subcategory"));
+
+                return;
+            }
+
+            $classobj=$this->SubCategory->newEntity();
+            $classobj->cat_id=$data['cat_id'];
+            $classobj->name=$data['name'];
+            $classobj->create_date = date("Y-m-d H:i:s");
+
+            $this->SubCategory->save($classobj);
+
+
+            $this->Flash->success('SubCategory Added');
+
+            $this->redirect(array("controller" => "Ebook",
+                "action" => "subcategory"));
+
+
+            return;
+
+        }
+        if($id){
+            $dataclass=$this->SubCategory->findById($id)->first()->toArray();
+            if($dataclass){
+                $this->set("edit",1);
+                $this->set("editdata",$dataclass);
+
+            }
+            // var_dump("asfasfasf");exit;
+        }
+
+        $examd=[];
+
+
+
+        $this->set("allcat",$allcat);
+        $this->set("class",$datac);
+        $this->set("data",$datac);
+
+    }
+
     function delete_directory($dirname) {
         if (is_dir($dirname))
             $dir_handle = opendir($dirname);
@@ -172,6 +270,7 @@ $this->set('class',$cat);
 
                 $classobj->name=$data['name'];
                 $classobj->cat_id=$data['cat_id'];
+                $classobj->subcat_id=$data['subcat_id'];
 
                 $filename=$_FILES['file']['name'];
                 $path = $hasid.$_FILES['file']['name'];
@@ -199,7 +298,9 @@ $this->set('class',$cat);
 
                     $classobj->file=$path;
                     $classobj->hash_id=$hasid;
+                    $classobj->hash_id=$hasid;
                     $classobj->create_date = date("Y-m-d H:i:s");
+
 
                     $this->Catebook->save($classobj);
 

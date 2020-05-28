@@ -121,7 +121,7 @@ $routes->connect('/exam/excersise', ['controller' => 'Exam', 'action' => 'excers
 $routes->connect('/ebook/index', ['controller' => 'Ebook', 'action' => 'index']);
 $routes->connect('/ebook/category', ['controller' => 'Ebook', 'action' => 'category']);
 $routes->connect('/ebook/editebook', ['controller' => 'Ebook', 'action' => 'editebook']);
-
+$routes->connect('/ebook/subcategory', ['controller' => 'Ebook', 'action' => 'subcategory']);
 
 
 $routes->connect('/notice', ['controller' => 'Admin', 'action' => 'notice']);

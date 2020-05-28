@@ -91,17 +91,25 @@ class ApiController extends AppController{
 
     public function sendmail(){
 
+        try{
+                $message = "Hello User";
+            $email = new Email();
+            $email->transport('mail');
+            $email
+                ->to('kumarshubhendu228@gmail.com')
+                ->subject('Forgot')
+                ->send($message);
 
-        $message = "Hello User";
-        $email = new Email();
-        $email->transport('default');
-        $email
-            ->to('kumarshubhendu228@gmail.com')
-            ->subject('Test Subject')
-        ->send($message);
+            var_dump($email);exit;
 
+        }catch(\Exception $e){
 
+            var_dump($e->getMessage());
+            exit;
+        }
 
+        echo json_encode("done");
+        exit;
 
     }
 

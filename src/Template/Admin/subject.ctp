@@ -51,7 +51,7 @@
                 <table id="table_id" class="cell-border compact stripe hover">
                     <thead>
                     <tr>
-                        <th>Subject Id</th>
+                        <th>S No.</th>
                         <th>Class Name</th>
                         <th>Subject Name</th>
                         <th></th>
@@ -59,11 +59,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($data as $d){
+                    <?php $i=1; foreach($data as $d){
                             $id=$d['id'];
                             ?>
                     <tr>
-                        <td><?php echo $d['id']; ?></td>
+                        <td><?php echo $i ?></td>
                         <td><?php echo $d['Class']['class_name']; ?></td>
                         <td><?php echo $d['subject_name']; ?></td>
                         <td>
@@ -76,7 +76,7 @@
                     </td>
 
                     </tr>
-                    <?php } ?>
+                    <?php  $i++; } ?>
 
                 </tbody>
             </table>

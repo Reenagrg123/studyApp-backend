@@ -8,7 +8,11 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-
+<style>
+    .multiselect-container{
+        padding:10px;
+    }
+</style>
 
     <!-- Content Row -->
 

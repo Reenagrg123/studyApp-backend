@@ -30,17 +30,18 @@
                 <table id="table_id" class="cell-border compact stripe hover">
                     <thead>
                     <tr>
-                        <th>class Id</th>
+                        <th>S No.</th>
                         <th>Class Name</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($class as $c){
+                    <?php $i=1;
+                     foreach($class as $c){
                             $id=$c['id'];
                             ?>
                     <a>
-                        <td><?php echo $c['id']; ?></td>
+                        <td><?php echo $i; ?></td>
                         <td><?php echo $c['class_name']; ?></td>
                         <td>
                         <a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd","id"=>$id ]); ?>' ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -48,7 +49,7 @@
                     </a>
                     </td>
                 </tr>
-                <?php } ?>
+                <?php $i++; } ?>
             </tbody>
         </table>
     </div>

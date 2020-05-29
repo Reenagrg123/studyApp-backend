@@ -116,7 +116,7 @@
                 <table id="table_id" class="cell-border compact stripe hover">
                     <thead>
                     <tr>
-
+<th>S No.</th>
                         <th>Class Name</th>
                         <th>Subject Name</th>
                         <th>Chapter Name</th>
@@ -126,11 +126,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($generatedata as $g){
+                    <?php
+                    $i=1;
+                    foreach($generatedata as $g){
                             $id=$g['id'];
                             ?>
                     <tr>
-
+<td><?php echo $i; ?></td>
                         <td><?php echo $g['exam']['exam_name']; ?></td>
                         <td><?php echo $g['examsubject']['subject_name']; ?></td>
 
@@ -149,7 +151,7 @@
 
 
                     </tr>
-                    <?php } ?>
+                    <?php $i++;  } ?>
                     </tbody>
                 </table>
 

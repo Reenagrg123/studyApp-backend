@@ -58,6 +58,8 @@ $routes->connect('/admin', ['controller' => 'Admin', 'action' => 'index']);
 $routes->connect('/api/getNotice', ['controller' => 'Api', 'action' => 'getNotice']);
 $routes->connect('/api', ['controller' => 'Api', 'action' => 'index']);
 $routes->connect('/api/signup', ['controller' => 'Api', 'action' => 'signup']);
+$routes->connect('/api/contact', ['controller' => 'Api', 'action' => 'contact']);
+
 
 $routes->connect('/api/login', ['controller' => 'Api', 'action' => 'login']);
 $routes->connect('/api/gettest', ['controller' => 'Api', 'action' => 'gettest']);
@@ -85,11 +87,14 @@ $routes->connect('/api/getSubcategory', ['controller' => 'Api', 'action' => 'get
 
 
 $routes->connect('/banner', ['controller' => 'Upload', 'action' => 'banner']);
+
+$routes->connect('/contact', ['controller' => 'Admin', 'action' => 'contact']);
 $routes->connect('/upload', ['controller' => 'Upload', 'action' => 'upload']);
 
 $routes->connect('/getdata', ['controller' => 'Docupload', 'action' => 'getdata']);
 $routes->connect('/docupload', ['controller' => 'Docupload', 'action' => 'index']);
 $routes->connect('/docupload/materials', ['controller' => 'Docupload', 'action' => 'materials']);
+$routes->connect('/docupload/edit', ['controller' => 'Docupload', 'action' => 'edit']);
 $routes->connect('/docupload/exammaterials', ['controller' => 'Docupload', 'action' => 'exammaterials']);
 $routes->connect('/generatetest', ['controller' => 'Generate', 'action' => 'index']);
 $routes->connect('/generateexam', ['controller' => 'Generate', 'action' => 'generateexam']);

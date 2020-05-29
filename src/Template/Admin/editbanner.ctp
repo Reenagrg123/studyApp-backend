@@ -10,7 +10,7 @@
 <div class="container-fluid">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a type="button" href="#" onclick="window.history.back();">Users</a></li>
+            <li class="breadcrumb-item"><a type="button" href="#" onclick="window.history.back();">Banner</a></li>
             <li class="breadcrumb-item active" aria-current="page"> Edit</li>
         </ol>
     </nav>
@@ -19,18 +19,18 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title"> Edit User </u></h5>
+                    <h5 class="card-title"> Edit Banner </u></h5>
                 </div>
                 <div class="card-body">
 
-                    <?php echo $this->Form->create();
-                    echo $this->Form->input('f_name',['value'=>$name,'label'=>'Full Name','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('email',['value'=>$email,'label'=>'Email','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('class',['value'=>$class,'options' => $classlist,'label'=>'Class','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('gender',['value'=>$gender,'options' => array(""=>"Select Gender","Male"=>"Male","Female"=>"Female"),'label'=>'Gender','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('dob',['value'=>$dob,'label'=>'D.O.B','class'=>'form-control','required'=>'required','type'=>'text']);
-                    echo $this->Form->input('mobile',['value'=>$mob,'label'=>'Mobile No','class'=>'form-control','required'=>'required','type'=>'number']);
+                    <?php echo $this->Form->create('form',['type'=>'file']);
+                     echo $this->Form->input('type',['value'=>$type,'options' => array(""=>"Select Gender","0"=>"Learn","1"=>"Exam"),'label'=>'Upload For','class'=>'form-control','required'=>'required']);
+                    echo $this->Form->input('c_id',['value'=>$c_id,'options' => $classlist,'label'=>'Class','class'=>'form-control','required'=>'required','id'=>'c_id']);
+                    echo $this->Form->input('s_id',['value'=>$s_id,'options' => $subjectlist,'label'=>'Subject','class'=>'form-control','required'=>'required','id'=>'s_id']);
 
+                    echo $this->Form->input('file',['value'=>$file,'label'=>'File','class'=>'form-control','required'=>'required','type'=>'file']);
+                    echo $file;
+                    echo "<br/>";
 
                     echo $this->Form->button('Save',['class'=>'btn btn-success mb-2 topmargin']);
                     ?>
@@ -55,7 +55,7 @@
 <!-- Footer -->
 
 <!-- End of Footer -->
-
+<?php $url=$this->Url->build([  "controller" => "Admin", "action" => "getdata" ]); ?>
 <style>
     h2 {
         font-family: serif;
@@ -65,6 +65,40 @@
 </style>
 
 <script>
+
+    $("#type").change(function(){
+        var c_id= $("#type").val();
+        $.post('<?php echo $url; ?>',
+            {
+
+                type: c_id
+            },
+            function(data, status){
+                $("#c_id").html(data);
+            });
+    });
+
+
+
+    $("#c_id").change(function(){
+        var c_id= $("#c_id").val();
+        var gfor= $("#type").val();
+        $.post('<?php echo $url; ?>',
+            {
+                for: gfor,
+                class: c_id,
+                type: 5
+            },
+            function(data, status){
+                $("#s_id").html(data);
+            });
+    });
+
+
+
+
+
+
     $(document).ready( function () {
         $('#table_id').DataTable({
             columnDefs: [

@@ -11,12 +11,6 @@
 
     <!-- Content Row -->
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Class</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Class</li>
-        </ol>
-    </nav>
 
     <!-- Content Row -->
     <div class="row">
@@ -29,17 +23,7 @@
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
 
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Upload For </label>
-                            <select class="form-control" name="upload_for" id="upload_type" required>
-                                <option value="">Select Option</option>
-                                <option value="0">Class</option>
-                                <option value="1">Exam</option>
-
-                            </select>
-                        </div>
-
-
+<input type="hidden" name="upload_for" value="0"/>
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Select Class</label>
 
@@ -96,8 +80,8 @@
                     <label for="exampleFormControlInput1">Select a PDF file</label>
 
                     <div class="custom-file">
-                        <input type="file" name="file" class="custom-file-input" id="customFile" >
-                        <label class="custom-file-label"  for="customFile">Choose file</label>
+                        <input type="file" name="file" class="form-control" id="customFile" >
+
                     </div>
                 </div>
                 <!--<div class="file-path-wrapper">-->
@@ -122,7 +106,8 @@
                 <th>S.No</th>
                 <th>Class Name</th>
                 <th>Subject Name</th>
-                <th>Name</th>
+                <th>Chapter</th>
+                <th>Topic Name</th>
                 <th>File Name</th>
                 <th>Link</th>
 
@@ -131,26 +116,32 @@
             </tr>
             </thead>
             <tbody>
-            <?php foreach($records as $r){
+            <?php
+
+            $i=1;
+            foreach($records as $r){
                     $id=$r['id'];
 
                     ?>
-            <tr>
-                <td><?php echo $r['id']; ?></td>
+            <a>
+                <td><?php echo $i; ?></td>
                 <td><?php echo $r['Class']['class_name']; ?></td>
                 <td><?php echo $r['Subject']['subject_name']; ?></td>
+                <td><?php echo $r['Exercises']['title']; ?></td>
+
                 <td><?php echo $r['name']; ?></td>
                 <td><?php echo $r['file']; ?></td>
                 <td><?php echo $r['link']; ?></td>
 
                 <td>
 
-                      <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "delmaterial","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+                    <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "delmaterial","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i></a>
+                <a href="<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "edit","id"=>$id ]); ?>"> <i class="fa fa-edit" aria-hidden="true"></i></a>
 
 
                 </td>
 </tr>
-            <?php } ?>
+            <?php $i++;  } ?>
 
 </tbody>
         </table>
@@ -210,6 +201,10 @@ $("#subject").change(function(){
 
 $(document).ready( function () {
     $('#table_id').DataTable({
+        responsive: true,
+
+        scrollX:        true,
+        scrollCollapse: true,
         columnDefs: [
             {
                 targets: -1,

@@ -13,7 +13,7 @@
                     <table id="table_id" class="cell-border compact stripe hover">
                         <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>S No.</th>
                             <th>Student Name</th>
                             <th>Email</th>
                             <th>Student Class</th>
@@ -25,7 +25,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($users as $c){
+                        <?php
+                        $i=1;
+                        foreach($users as $c){
                                 $id=$c['id'];
                                 if($c['type']=='admin'){
                                 continue;
@@ -33,7 +35,7 @@
 
                                 ?>
 
-                            <td><?php echo $c['id']; ?></td>
+                            <td><?php echo $i; ?></td>
                             <td><?php echo $c['f_name']; ?></td>
                             <td><?php echo $c['email']; ?></td>
                            <td><?php echo $c['Class']['class_name']; ?></td>
@@ -47,7 +49,7 @@
 
                         </td>
                     </tr>
-                    <?php } ?>
+                    <?php  $i++; } ?>
                 </tbody>
             </table>
         </div>

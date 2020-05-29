@@ -10,27 +10,20 @@
 <div class="container-fluid">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a type="button" href="#" onclick="window.history.back();">Users</a></li>
+            <li class="breadcrumb-item"><a type="button" href="#" onclick="window.history.back();">Testimonial</a></li>
             <li class="breadcrumb-item active" aria-current="page"> Edit</li>
         </ol>
     </nav>
-
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title"> Edit User </u></h5>
+                    <h5 class="card-title"> Edit Notice </u></h5>
                 </div>
                 <div class="card-body">
 
                     <?php echo $this->Form->create();
-                    echo $this->Form->input('f_name',['value'=>$name,'label'=>'Full Name','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('email',['value'=>$email,'label'=>'Email','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('class',['value'=>$class,'options' => $classlist,'label'=>'Class','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('gender',['value'=>$gender,'options' => array(""=>"Select Gender","Male"=>"Male","Female"=>"Female"),'label'=>'Gender','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('dob',['value'=>$dob,'label'=>'D.O.B','class'=>'form-control','required'=>'required','type'=>'text']);
-                    echo $this->Form->input('mobile',['value'=>$mob,'label'=>'Mobile No','class'=>'form-control','required'=>'required','type'=>'number']);
-
+                    echo $this->Form->textarea('description',['value'=>$notice,'label'=>'Full Name','class'=>'form-control','required'=>'required','id'=>'summernote']);
 
                     echo $this->Form->button('Save',['class'=>'btn btn-success mb-2 topmargin']);
                     ?>
@@ -119,7 +112,7 @@
 
 
     $( document ).ready(function() {
-        $('#summernote').summernote({height: 300});
+        $('#summernote').summernote();
     });
 
 </script>

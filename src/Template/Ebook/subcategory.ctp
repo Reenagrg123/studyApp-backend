@@ -7,7 +7,7 @@
         <div class="col-4">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title"><?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?> CATEGORY </u></h5>
+                    <h5 class="card-title"><?php if(isset($edit)){ echo 'EDIT'; }else { echo 'ADD'; }   ?> SUB-CATEGORIES </u></h5>
                 </div>
                 <div class="card-body">
                     <form method="post">
@@ -44,17 +44,20 @@
                     <table id="table_id" class="cell-border compact stripe hover">
                         <thead>
                         <tr>
+                            <th>S No.</th>
                             <th>Category Name</th>
                             <th>Sub-Category Name</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($data as $c){
+                        <?php
+                         $i=1;
+                         foreach($data as $c){
                             $id=$c['id'];
                             ?>
                         <a>
-
+<td><?php echo $i; ?></td>
                             <td><?php echo $c['Category']['name']; ?></td>
                             <td><?php echo $c['name']; ?></td>
                             <td>
@@ -68,7 +71,7 @@
                         </a>
                         </td>
                         </tr>
-                        <?php } ?>
+                        <?php $i++; } ?>
                         </tbody>
                     </table>
                 </div>

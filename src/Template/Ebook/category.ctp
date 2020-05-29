@@ -30,17 +30,19 @@
                 <table id="table_id" class="cell-border compact stripe hover">
                     <thead>
                     <tr>
-                        <th>Category Id</th>
+                        <th>S No.</th>
                         <th>Category Name</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($data as $c){
+                    <?php
+                    $i=1;
+                    foreach($data as $c){
                             $id=$c['id'];
                             ?>
                     <a>
-                        <td><?php echo $c['id']; ?></td>
+                        <td><?php echo $i; ?></td>
                         <td><?php echo $c['name']; ?></td>
                         <td>
 
@@ -53,7 +55,7 @@
                     </a>
                     </td>
                 </tr>
-                <?php } ?>
+                <?php $i++; } ?>
             </tbody>
         </table>
     </div>

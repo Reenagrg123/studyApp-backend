@@ -38,8 +38,8 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Class</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Add Class</li>
+                <li class="breadcrumb-item"><a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "fullsyllabus"]); ?>'>Generate Exam</a></li>
+                <li class="breadcrumb-item active" aria-current="page"> View</li>
             </ol>
         </nav>
 

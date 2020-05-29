@@ -28,21 +28,18 @@
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
 
-
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Banner For</label>
                         <select class="form-control" name="type" id="type" required>
                             <option value="">--Select option--</option>
-                           <option value="0">Learn</option>
+                            <option value="0">Learn</option>
                             <option value="1">Exam</option>
                         </select>
                     </div>
 
-
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Select Class/Exam</label>
                         <select class="form-control" name="c_id" id="c_id" required>
-
 
                         </select>
                     </div>
@@ -51,30 +48,16 @@
                         <label for="exampleFormControlSelect1">Select Subject</label>
                         <select class="form-control" name="s_id" id="s_id" required>
 
-
                         </select>
                     </div>
 
                     <input type="hidden" name="exam_type" value="1"/>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Enter test title </label>
+                        <label for="exampleFormControlInput1">Upload Image </label>
                         <input type="file" name="file" class="form-control"  required>
                     </div>
-
-
-
-
-                    <div class="form-group">
-                        <label for="comment">Message:</label>
-                        <textarea class="form-control" rows="5" name="msg" id="comment" required></textarea>
-                    </div>
-
-
-                    <!--<div class="file-path-wrapper">-->
-                    <!--     <input class="file-path validate" type="text" placeholder="Upload your file">-->
-                    <!--    </div>-->
-                    <!--    </div>-->
                 </br>
+
                 <button type="submit" class="btn btn-success">Add</button>
             </form>
 
@@ -94,33 +77,34 @@
                     <th>Exam/Class Name</th>
                     <th>Subject Name</th>
                     <th>File </th>
-                    <th>Message</th>
+
 
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach($banner as $g){
+                <?php
+                 $i=1;
+                 foreach($banner as $g){
                         $id=$g['id'];
                         ?>
                 <tr>
 
-                    <td><?php echo $id; ?></td>
+                    <td><?php echo $i; ?></td>
                     <td><?php echo $g['class']; ?></td>
                     <td><?php echo $g['subject']; ?></td>
                     <td><img src="<?php echo $g['file']; ?>" /></td>
-                    <td><?php echo $g['msg']; ?></td>
+
 
                     <td>
-
-
                         <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delbanner","id"=>$id ]); ?>' ><i class="fa fa-times" aria-hidden="true"></i></a>
+                        <a  href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "editbanner","id"=>$id ]); ?>' ><i class="fa fa-edit" aria-hidden="true"></i></a>
 
                     </td>
 
 
                 </tr>
-                <?php } ?>
+                <?php $i++; } ?>
                 </tbody>
             </table>
 

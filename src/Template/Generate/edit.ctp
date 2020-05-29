@@ -7,7 +7,19 @@
     }
 </style>
 <!-- Begin Page Content -->
+
+
+
 <div class="container-fluid">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a type="button" href="#" onclick="window.history.back();">Generate Exam</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> Add Question</li>
+        </ol>
+    </nav>
+
+
     <div class="row">
         <div class="col-12">
             <div class="card">

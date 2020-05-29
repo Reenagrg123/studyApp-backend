@@ -1,51 +1,54 @@
 
 <!-- End of Topbar -->
-<style>
-    .topmargin{
-        margin-top:10px;
 
-    }
-</style>
 <!-- Begin Page Content -->
 <div class="container-fluid">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a type="button" href="#" onclick="window.history.back();">Users</a></li>
-            <li class="breadcrumb-item active" aria-current="page"> Edit</li>
-        </ol>
-    </nav>
-
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title"> Edit User </u></h5>
+                    <h5 class="card-title">ALL CONTACTS</h5>
                 </div>
                 <div class="card-body">
+                    <table id="table_id" class="cell-border compact stripe hover">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
 
-                    <?php echo $this->Form->create();
-                    echo $this->Form->input('f_name',['value'=>$name,'label'=>'Full Name','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('email',['value'=>$email,'label'=>'Email','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('class',['value'=>$class,'options' => $classlist,'label'=>'Class','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('gender',['value'=>$gender,'options' => array(""=>"Select Gender","Male"=>"Male","Female"=>"Female"),'label'=>'Gender','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('dob',['value'=>$dob,'label'=>'D.O.B','class'=>'form-control','required'=>'required','type'=>'text']);
-                    echo $this->Form->input('mobile',['value'=>$mob,'label'=>'Mobile No','class'=>'form-control','required'=>'required','type'=>'number']);
+                            <th>Contact No.</th>
 
+                            <th>Message</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $i=1;
+                        foreach($data as $c){
+                                $id=$c['id'];
+                                ?>
+                        <a>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $c['User']['f_name']; ?></td>
 
-                    echo $this->Form->button('Save',['class'=>'btn btn-success mb-2 topmargin']);
-                    ?>
+                            <td><?php echo $c['User']['mobile']; ?></td>
 
+                            <td><?php echo $c['msg']; ?></td>
+                            <td>
+                                <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delcontact","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
 
-
-
-                    <?php echo $this->Form->end(); ?>
-
-
-
+                        </td>
+                        </tr>
+                        <?php
+                    $i++;
+                    } ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 <!-- /.container-fluid -->

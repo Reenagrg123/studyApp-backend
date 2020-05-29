@@ -35,17 +35,20 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Class</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Add Class</li>
+                <li class="breadcrumb-item"><a href='<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "index"]); ?>'>Upload Question</a></li>
+                <li class="breadcrumb-item active" aria-current="page"> View</li>
             </ol>
         </nav>
         <h5 class="card-title"><center><u>QUESTIONS LIST</u></center></h5></br>
 
 
-    <?php  $i=0;
+    <?php  $i=1;
+     $upload_id=$upload_id;
             foreach($data as $d){
 
             $data=json_decode($d['data']);
+            $q_id=$d['id'];
+
             ?>
 
     <div id="<?php echo $i; ?>" class="block" onclick="$(this).next().toggle();">  Q. <?php echo $i; ?></div>
@@ -54,9 +57,9 @@
         <form method="post" id="form<?php echo $i; ?>">
 <input type="hidden" name="q_id" value="<?php echo $d['id']; ?>">
             <input type="hidden" name="type" value="<?php echo $d['type']; ?>">
-            <button id="edit" onclick="$('#form<?php echo $i; ?>').find('.teaxtedit').css('display','block'); $('#form<?php echo $i; ?>').find('.data').css('display','none'); $('#form<?php echo $i; ?>').find('.click2edit').summernote(); " class="btn btn-primary"  type="button">Edit </button>
+            <button id="edit" onclick="$('#form<?php echo $i; ?>').find('.note-editor').toggle(); $('#form<?php echo $i; ?>').find('.data').toggle(); $('#form<?php echo $i; ?>').find('.click2edit').summernote();$(this).text($(this).text() == 'Cancel' ? 'Edit' : 'Cancel');" class="btn btn-primary"  type="button">Edit </button>
             <a id="save" class="btn btn-primary" onclick="save(this,'<?php echo $i; ?>')" type="button">Save </a>
-            <a id="del" class="btn btn-primary" onclick="" type="button">Delete </a>
+            <a id="del" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');"  href='<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "delquestion","id"=>$q_id,"upload"=>$upload_id ]); ?>' type="button">Delete </a>
 
             <br/>
 
@@ -114,9 +117,9 @@
         <form method="post" id="form<?php echo $i; ?>">
             <input type="hidden" name="q_id" value="<?php echo $d['id']; ?>">
             <input type="hidden" name="type" value="<?php echo $d['type']; ?>">
-            <button id="edit" onclick="$('#form<?php echo $i; ?>').find('.teaxtedit').css('display','block'); $('#form<?php echo $i; ?>').find('.data').css('display','none'); $('#form<?php echo $i; ?>').find('.click2edit').summernote(); " class="btn btn-primary"  type="button">Edit </button>
+            <button id="edit" onclick="$('#form<?php echo $i; ?>').find('.note-editor').toggle(); $('#form<?php echo $i; ?>').find('.data').toggle(); $('#form<?php echo $i; ?>').find('.click2edit').summernote();$(this).text($(this).text() == 'Cancel' ? 'Edit' : 'Cancel');" class="btn btn-primary"  type="button">Edit </button>
             <a id="save" class="btn btn-primary" onclick="save(this,'<?php echo $i; ?>')" type="button">Save </a>
-            <a id="del" class="btn btn-primary" onclick="" type="button">Delete </a>
+            <a id="del" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');"  href='<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "delquestion","id"=>$q_id,"upload"=>$upload_id ]); ?>' type="button">Delete </a>
 
             <br/>
 
@@ -160,9 +163,9 @@
         <form method="post" id="form<?php echo $i; ?>">
             <input type="hidden" name="q_id" value="<?php echo $d['id']; ?>">
             <input type="hidden" name="type" value="<?php echo $d['type']; ?>">
-            <button id="edit" onclick="$('#form<?php echo $i; ?>').find('.teaxtedit').css('display','block'); $('#form<?php echo $i; ?>').find('.data').css('display','none'); $('#form<?php echo $i; ?>').find('.click2edit').summernote(); " class="btn btn-primary"  type="button">Edit </button>
+            <button id="edit" onclick="$('#form<?php echo $i; ?>').find('.note-editor').toggle(); $('#form<?php echo $i; ?>').find('.data').toggle(); $('#form<?php echo $i; ?>').find('.click2edit').summernote();$(this).text($(this).text() == 'Cancel' ? 'Edit' : 'Cancel');" class="btn btn-primary"  type="button">Edit </button>
             <a id="save" class="btn btn-primary" onclick="save(this,'<?php echo $i; ?>')" type="button">Save </a>
-            <a id="del" class="btn btn-primary" onclick="" type="button">Delete </a>
+            <a id="del" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');"  href='<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "delquestion","id"=>$q_id,"upload"=>$upload_id ]); ?>' type="button">Delete </a>
 
             <br/>
             <b>Question</b>

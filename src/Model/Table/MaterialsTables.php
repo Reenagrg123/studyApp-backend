@@ -21,10 +21,13 @@ class MaterialsTables extends Table{
 
         $this->hasOne('Subject',['classname'=>'id'])->setForeignKey('id')->setBindingKey(['s_id']);
 
+            $this->hasOne('Exercises',['classname'=>'id'])->setForeignKey('id')->setBindingKey(['ch_id']);
+
 
         $this->hasOne('Exam',['classname'=>'id'])->setForeignKey('id')->setBindingKey(['c_id']);
 
         $this->hasOne('Examsubject',['classname'=>'id'])->setForeignKey('id')->setBindingKey(['s_id']);
+
 
 
 

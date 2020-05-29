@@ -529,11 +529,11 @@ return;
             foreach ($records as $r){
                 $q_id=$r['q_id'];
 
-                $checkadd=$this->Mcq->find('all')->where(['id'=>$q_id])->first()->toArray();
+                $checkadd=$this->Mcq->find('all')->where(['id'=>$q_id])->first();
 
                 if($checkadd){
 
-                    array_push($datarecords,$checkadd);
+                    array_push($datarecords,$checkadd->toArray());
                 }
 
             }

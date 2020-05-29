@@ -11,12 +11,7 @@
 
     <!-- Content Row -->
     <!-- Content Row -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Class</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Class</li>
-        </ol>
-    </nav>
+
     <div class="row">
         <div class="col-4">
             <div class="card">
@@ -26,14 +21,8 @@
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
 
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Select Upload For</label>
-                            <select class="form-control" name="upload_for" id="upload_for" required>
-                                <option value="">--Select Option--</option>
-                                <option value="0">Class</option>
-                            </select>
-                        </div>
 
+<input type="hidden" name="upload_for" value="0"/>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Select a class name</label>
                             <select class="form-control" name="c_id" id="class" required>
@@ -86,8 +75,8 @@
                             <label for="exampleFormControlInput1">Select a file(.zip)</label>
 
                             <div class="custom-file">
-                                <input type="file" name="file" class="custom-file-input" id="customFile" required>
-                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="file" name="file" class="form-control" id="customFile" required>
+
                             </div>
                         </div>
 
@@ -113,7 +102,7 @@
                             <th>File Name</th>
                             <th>Class Name</th>
                             <th>Type Of Qns</th>
-                            <th>Created At</th>
+                            <th>Chapter</th>
                             <th></th>
                         </tr>
                         </thead>

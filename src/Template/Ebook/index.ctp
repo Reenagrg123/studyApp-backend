@@ -49,8 +49,8 @@
                         <label for="exampleFormControlInput1">Choose a file(.pdf)</label>
 
                         <div class="custom-file">
-                            <input type="file" name="file" class="custom-file-input" id="customFile" required>
-                            <label class="custom-file-label" for="customFile">Choose file</label>
+                            <input type="file" name="file" class="form-control" id="customFile" required>
+
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success mb-2" style="width: 100px; float: right;">
@@ -68,7 +68,7 @@
                 <table id="table_id" class="cell-border compact stripe hover">
                     <thead>
                     <tr>
-                        <th>E-Book Id</th>
+                        <th>S No.</th>
                         <th>Category Name</th>
                         <th>Name</th>
                         <th>E-Book Name</th>
@@ -77,11 +77,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($data as $d){
+                    <?php
+                    $i=1;
+                    foreach($data as $d){
                             $id=$d['id'];
                             ?>
                     <tr>
-                        <td><?php echo $d['id']; ?></td>
+                        <td><?php echo $i; ?></td>
                         <td><?php echo $d['Category']['name']; ?></td>
                         <td><?php echo $d['name']; ?></td>
                         <td><?php echo $d['file']; ?></td>
@@ -93,7 +95,9 @@
                     </td>
 
                     </tr>
-                    <?php } ?>
+                    <?php
+                    $i++;
+                    } ?>
 
                 </tbody>
             </table>

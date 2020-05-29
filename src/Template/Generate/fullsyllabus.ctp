@@ -97,7 +97,7 @@
                 <table id="table_id" class="cell-border compact stripe hover">
                     <thead>
                     <tr>
-
+<th>S No.</th>
                         <th>Exam Name</th>
 
                         <th>Test Title</th>
@@ -106,11 +106,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($generatedata as $g){
+                    <?php
+
+                    $i=1;  foreach($generatedata as $g){
                             $id=$g['id'];
                             ?>
                     <tr>
-
+<td><?php echo $i; ?></td>
                         <td><?php echo $g['Exam']['exam_name']; ?></td>
 
                         <td><?php echo $g['name']; ?></td>

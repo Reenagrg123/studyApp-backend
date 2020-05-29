@@ -10,6 +10,7 @@ use App\Model\Table\CatebooksTables;
 use App\Model\Table\CategorysTables;
 use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
+use App\Model\Table\ContactsTables;
 use App\Model\Table\ExamexercisessTables;
 use App\Model\Table\ExamquestionsTables;
 use App\Model\Table\ExamsTables;
@@ -79,7 +80,7 @@ class ApiController extends AppController{
         $this->Testimonial=$this->loadModel(TestimonialsTables::class);
         $this->SubCategory=$this->loadModel(SubcategorysTables::class);
         $this->Banner=$this->loadModel(BannersTables::class);
-
+        $this->Contact=$this->loadModel(ContactsTables::class);
         $session = $this->getRequest()->getSession();
         // $this->authorize();
 
@@ -88,6 +89,37 @@ class ApiController extends AppController{
         $this->key = 'wt1U5MACWJFTXGenFoZoiLwQGrLgdbHA';
 
         $this->set("title","Dashboard");
+    }
+
+    public function contact(){
+        if ($this->request->is("post")) {
+
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ( $data['user_id'] == '' ||  $data['msg'] == '') {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+            $testimonial=$this->Contact->newEntity();
+            $testimonial->user_id=$data['user_id'];
+            $testimonial->msg=$data['msg'];
+
+            $testimonial->create_date=date("Y-m-d H:i:s");
+
+            $this->Contact->save($testimonial);
+            $send=[];
+            $send['error']=0;
+            $send['msg']="Done";
+            echo json_encode($send);
+            exit;
+
+        }
+
     }
 
     public function sendmail(){

@@ -173,12 +173,13 @@ return;
 
                 $dataobj=$this->Catebook->findById($id)->first();
               //  var_dump($dataobj);
+                $oldfile=$dataobj->file;
                 $hasid=$dataobj->hash_id;
                 $dataobj->name=$data['name'];
                 $dataobj->cat_id=$data['cat_id'];
 
                 $filename=$_FILES['file']['name'];
-                $path = $hasid.$_FILES['file']['name'];
+                $path = rand().$_FILES['file']['name'];
                 $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
 
                 if($_FILES['file']['name']) {
@@ -204,6 +205,10 @@ return;
                     $dataobj->file=$path;
 
                     $this->Catebook->save($dataobj);
+
+                    if($oldfile){
+                        unlink('ebook/' . $hasid.'/'.$oldfile);
+                    }
 
                 }else{
 

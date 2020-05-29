@@ -17,28 +17,34 @@
                             <th>Student Name</th>
                             <th>Student Class</th>
                             <th>Contact No.</th>
-                            <th>Photo</th>
+
                             <th>Feedback</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($data as $c){
+                        <?php
+                        $i=1;
+                        foreach($data as $c){
                                 $id=$c['id'];
                                 ?>
                         <a>
-                            <td><?php echo $c['id']; ?></td>
+                            <td><?php echo $i; ?></td>
                             <td><?php echo $c['username']; ?></td>
                             <td><?php echo $c['class']; ?></td>
                             <td><?php echo $c['contact']; ?></td>
-                            <td><?php echo $c['image']; ?></td>
+
                             <td><?php echo $c['feedback']; ?></td>
                             <td>
                               <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "deltestimonial","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
+                        <a href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "edittestimonial","id"=>$id ]); ?>"> <i class="fa fa-edit" aria-hidden="true"></i></a>
+
                         </td>
                     </tr>
-                    <?php } ?>
+                    <?php
+                    $i++;
+                    } ?>
                 </tbody>
             </table>
         </div>

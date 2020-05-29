@@ -12,7 +12,12 @@
     <!-- Content Row -->
 
 
-
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a type="button" href="#" onclick="window.history.back();">Ebook</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> Edit</li>
+        </ol>
+    </nav>
     <!-- Content Row -->
     <div class="row">
         <div class="col-12">
@@ -40,8 +45,8 @@
                             <label for="exampleFormControlInput1">Choose a file(.pdf)</label>
 
                             <div class="custom-file">
-                                <input type="file" name="file" class="custom-file-input" id="customFile" >
-                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="file" name="file" class="form-control" id="customFile" >
+
                                 <p><?php echo $data['file']; ?></p>
                             </div>
                         </div>

@@ -20,6 +20,9 @@ class ContactsTables extends Table{
         //  $this->hasOne('Users');
         //$this->hasOne('Posts');
 
+        $this->hasOne('User')->setForeignKey('id')->setBindingKey([
+            'user_id'
+        ]);
 
 
 

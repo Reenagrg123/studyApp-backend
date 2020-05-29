@@ -72,3 +72,6 @@ ALTER TABLE `banner` ADD `file` VARCHAR(200) NULL AFTER `date`;
 
 
 CREATE TABLE `studyapp`.`subcategory` ( `id` INT NOT NULL AUTO_INCREMENT ,  `cat_id` INT(200) NOT NULL ,  `name` VARCHAR(200) NOT NULL ,  `date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `studyapp`.`contact` ( `id` INT NOT NULL AUTO_INCREMENT ,  `user_id` INT(200) NOT NULL ,  `msg` VARCHAR(200) NOT NULL ,  `create_date` DATETIME NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;

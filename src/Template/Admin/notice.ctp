@@ -30,21 +30,34 @@
                 <table id="table_id" class="cell-border compact stripe hover">
                     <thead>
                     <tr>
-                        <th>Notice Id</th>
+                        <th>S No.</th>
+
                         <th>Notice</th>
+                        <th></th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($data as $c){
+                    <?php
+                    $i=1;
+                    foreach($data as $c){
                             $id=$c['id'];
                             ?>
                     <a>
-                        <td><?php echo $c['id']; ?></td>
+                        <td><?php echo $i; ?></td>
+
                         <td><?php echo $c['notice']; ?></td>
 
+                        <td>
+
+                    <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delnotice","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i></a>
+
+                    <a href="<?php echo $this->Url->build([  "controller" => "Admin", "action" => "editnotice","id"=>$id ]); ?>"> <i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                    </td>
+
                 </tr>
-                <?php } ?>
+                <?php $i++;   } ?>
             </tbody>
         </table>
     </div>
@@ -127,7 +140,8 @@ $("#post").submit(function(e){
 
 
 $( document ).ready(function() {
-    $('#summernote').summernote({height: 300});
+    $('#summernote').summernote(
+    );
 });
 
 </script>

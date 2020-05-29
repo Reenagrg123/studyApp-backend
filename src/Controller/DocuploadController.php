@@ -56,6 +56,20 @@ class DocuploadController extends AppController{
 
     }
 
+    public function delquestion(){
+        $uploadid=$this->request->getQuery('upload');
+        $qid=$this->request->getQuery('id');
+        $records=$this->Mcq->findById($qid)->first();
+        if($records){
+            $this->Mcq->delete($records);
+        }
+
+        $this->Flash->success('Data Removed');
+        $this->redirect(array("controller" => "Docupload",
+            "action" => "view","id"=>$uploadid));
+
+    }
+
     public function delmaterial(){
 
         $id=$this->request->getQuery('id');
@@ -73,7 +87,6 @@ if($records){
 
 
     public function exammaterials(){
-
 
         $class=$this->Exam->find("all")->toArray();
         $records=$this->Materials->find('all')->where(['upload_for'=>1])->contain(['Exam','Examsubject'])->toArray();
@@ -189,14 +202,6 @@ if($records){
 
                 return;
             }
-
-
-
-
-
-
-
-
 
         }
         $this->set('records',$records);
@@ -341,23 +346,105 @@ $this->paragraphupdate($data);
 //var_dump($data);exit;
     }
     $this->set('data',$records);
+    $this->set('upload_id',$id);
 
 
     $this->set("title","Dashboard");
 
 }
 
-public function test(){
 
 
+public function edit(){
+$id=$this->getRequest()->getQuery('id');
+    $records=$this->Materials->findById($id)->contain(['class','subject','exercises'])->first();
+    if($this->request->is("post")) {
+
+        $data = $this->request->data;
+
+        $filename=$_FILES['file']['name'];
+        $path = rand().$_FILES['file']['name'];
+        $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+        $hasid=$records->hash_id;
+
+        echo $hasid;
+if($filename){
+$oldfile=$records->file;
+    if($imageFileType !== "pdf" && $imageFileType !== "doc" && $imageFileType !== "docx") {
+        $this->Flash->error('Wrong File Format');
+        $this->redirect(array("controller" => "Docupload",
+            "action" => "materials"));
+        return;
+
+    }
+
+    if (!file_exists('materials/'.$hasid)) {
+        mkdir('materials/'.$hasid, 0777, true);
+    }
+
+    $uploadPath ='materials/'.$hasid.'/';
+    $uploadFile = $uploadPath.$path;
+
+    if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
+        $data['file']=$path;
+if($oldfile)
+unlink('materials/'.$hasid.'/'.$oldfile);
+
+    }
+
+}else{
+    $data['file']='';
 }
 
 
+       // var_dump($data);exit;
+        $userdata=$this->Materials->patchEntity($records,$data);
+        $this->Materials->save($userdata);
+        $this->Flash->success('Data Updated');
+
+        $this->redirect(array("controller" => "Docupload",
+            "action" => "materials"));
+    }
+
+if($records){
+    $class= $this->Class->find('all')->select(['id','class_name'])->toArray();
+    $subject= $this->Subject->find('all')->select(['id','subject_name'])->where(['c_id'=>$records->c_id])->toArray();
+    $chapter= $this->Exercise->find('all')->select(['id','title'])->where(['c_id'=>$records->c_id,'s_id'=>$records->s_id])->toArray();
+
+    $classlist=[];
+    $sublectlist=[];
+    $chapterlist=[];
+
+    foreach ($class as $c)
+        $classlist[$c['id']]=$c['class_name'];
+
+    foreach ($subject as $c)
+        $sublectlist[$c['id']]=$c['subject_name'];
+
+    foreach ($chapter as $c)
+        $chapterlist[$c['id']]=$c['title'];
+
+
+
+    $this->set('subjectlist',$sublectlist);
+    $this->set('s_id',$records->s_id);
+    $this->set('name',$records->name);
+    $this->set('link',$records->link);
+    $this->set('type',$records->type);
+    $this->set('chapterlist',$chapterlist);
+    $this->set('ch_id',$records->c_id);
+
+    $this->set('classlist',$classlist);
+    $this->set('c_id',$records->c_id);
+    $this->set('file',$records->file);
+}
+
+}
 
 public function materials(){
 
     $class=$this->Class->find("all")->toArray();
-    $records=$this->Materials->find('all')->contain(['class','subject'])->toArray();
+    $records=$this->Materials->find('all')->contain(['class','subject','exercises'])->toArray();
 $save=0;
    // $records=$this->Uploadfiles->find("all")->contain(['class','subject','exercises'])->toArray();
 $this->set('class',$class);

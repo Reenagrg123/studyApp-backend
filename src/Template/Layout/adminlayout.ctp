@@ -148,11 +148,11 @@
                 <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "materials" ]); ?>">
                 <i class="fa fa-file" aria-hidden="true"></i>
                 <span>Upload Class Material</span></a>
-
+<!--
             <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "exammaterials" ]); ?>">
             <i class="fa fa-file" aria-hidden="true"></i>
             <span>Upload Exam Material</span></a>
-
+-->
 
         <a class="collapse-item" href="<?php	echo $this->Url->build([  "controller" => "Docupload", "action" => "index" ]); ?>">
         <i class="fa fa-question" aria-hidden="true"></i>
@@ -250,6 +250,13 @@
         </li>
 
 
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php	echo $this->Url->build([  "controller" => "Admin", "action" => "contact" ]); ?>">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+
+                                <span>Contact</span></a>
+                            </li>
 
         <!-- Nav Item - Charts -->
 <li class="nav-item">
@@ -384,14 +391,6 @@
 <?= $this->Flash->render() ?>
 
 <?= $this->fetch('content') ?>
-
-<footer class="sticky-footer bg-white">
-    <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-        </div>
-    </div>
-</footer>
 
 
 </div>

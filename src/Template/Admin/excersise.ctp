@@ -12,8 +12,8 @@
     <!-- Content Row -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Class</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Class</li>
+            <li class="breadcrumb-item"><a href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "classadd"]); ?>'>Class</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> Chapter</li>
         </ol>
     </nav>
 

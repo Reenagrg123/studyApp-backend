@@ -9,6 +9,7 @@ use App\Model\Table\BannersTables;
 use App\Model\Table\CategorysTables;
 use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
+use App\Model\Table\ContactsTables;
 use App\Model\Table\ExamsTables;
 use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
@@ -55,6 +56,7 @@ class AdminController extends AppController{
         $this->Notice=$this->loadModel(NoticesTables::class);
         $this->ExamSubject=$this->loadModel(Examsubjects::class);
         $this->Testimonial=$this->loadModel(TestimonialsTables::class);
+        $this->Contact=$this->loadModel(ContactsTables::class);
 
         $this->Banner=$this->loadModel(BannersTables::class);
         $session = $this->getRequest()->getSession();
@@ -69,6 +71,165 @@ class AdminController extends AppController{
 
 
         $this->set("title","Dashboard");
+    }
+    public function contact(){
+        $dataclass=$this->Contact->find('all')->contain(['user']);
+$this->set("data",$dataclass);
+
+
+    }
+    public function delcontact(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Contact->findById($id)->first();
+
+        if($dataclass) {
+            // unlink('banner/'.$dataclass->file);
+            $this->Contact->delete($dataclass);
+        }
+        $this->Flash->success('Data Deleted');
+
+
+        $this->redirect(array("controller" => "Admin",
+            "action" => "contact"));
+
+
+
+    }
+    public function editbanner(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Banner->findById($id)->first();
+
+        if($dataclass) {
+            if($this->request->is("post")) {
+
+
+
+
+                $data = $this->request->data;
+               // var_dump($data);exit;
+                $filename=$_FILES['file']['name'];
+                $path = rand(100,2000).$_FILES['file']['name'];
+                $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
+                $oldfile=$dataclass->file;
+
+                if($filename){
+
+                    if($imageFileType !== "jpg" && $imageFileType !== "jpeg" && $imageFileType !== "png" && $imageFileType !== "PNG") {
+                        $this->Flash->error('Wrong File Format');
+                        $this->redirect(array("controller" => "Admin",
+                            "action" => "banner"));
+                        return;
+
+                    }
+
+                    if (!file_exists('banner/')) {
+                        mkdir('banner/', 0777, true);
+                    }
+
+                    $uploadPath ='banner/';
+                    $uploadFile = $uploadPath.$path;
+
+                    if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
+
+
+                        $data['file']=$path;
+
+                        if($oldfile){
+                            unlink('banner/'.$oldfile);
+                        }
+                    }
+
+
+                }
+
+
+                $userdata=$this->Banner->patchEntity($dataclass,$data);
+                $this->Banner->save($userdata);
+                $this->Flash->success('Data Updated');
+
+                $this->redirect(array("controller" => "Admin",
+                    "action" => "banner"));
+            }
+            $classobj= $this->Class->find('all')->select(['id','class_name'])->toArray();
+            $subject= $this->Subject->find('all')->select(['id','subject_name'])->where(['c_id'=>$dataclass->c_id])->toArray();
+            $classlist=[];
+            foreach ($classobj as $c) {
+                $classlist[$c['id']]=$c['class_name'];
+            }
+            $subjectlist=[];
+            foreach ($subject as $c) {
+                $subjectlist[$c['id']]=$c['subject_name'];
+            }
+            $this->set('subjectlist',$subjectlist);
+            $this->set('classlist',$classlist);
+            $this->set("type",$dataclass->type);
+            $this->set("c_id",$dataclass->c_id);
+            $this->set("s_id",$dataclass->s_id);
+            $this->set("file",$dataclass->file);
+            // $this->Notice->delete($dataclass);
+
+        }
+    }
+
+    public function edittestimonial(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Testimonial->findById($id)->first();
+
+        if($dataclass) {
+            if($this->request->is("post")) {
+                $data = $this->request->data;
+                $userdata=$this->Testimonial->patchEntity($dataclass,$data);
+                $this->Testimonial->save($userdata);
+                $this->Flash->success('Data Updated');
+
+                $this->redirect(array("controller" => "Admin",
+                    "action" => "testimonials"));
+            }
+             // unlink('banner/'.$dataclass->file);
+            $this->set("notice",$dataclass->description);
+            // $this->Notice->delete($dataclass);
+        }
+    }
+
+public function editnotice(){
+    $id=$this->request->getQuery('id');
+    $dataclass=$this->Notice->findById($id)->first();
+
+    if($dataclass) {
+        if($this->request->is("post")) {
+
+            $data = $this->request->data;
+
+                $userdata=$this->Notice->patchEntity($dataclass,$data);
+            $this->Notice->save($userdata);
+            $this->Flash->success('Data Updated');
+
+            $this->redirect(array("controller" => "Admin",
+                "action" => "notice"));
+
+        }
+
+
+        // unlink('banner/'.$dataclass->file);
+
+        $this->set("notice",$dataclass->notice);
+       // $this->Notice->delete($dataclass);
+    }
+}
+    public function delnotice(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Notice->findById($id)->first();
+
+        if($dataclass) {
+           // unlink('banner/'.$dataclass->file);
+            $this->Notice->delete($dataclass);
+        }
+        $this->Flash->success('Data Deleted');
+
+
+        $this->redirect(array("controller" => "Admin",
+            "action" => "Notice"));
+
     }
 
     public function edituser(){
@@ -203,7 +364,7 @@ public function delbanner(){
             $banner->c_id=$data['c_id'];
             $banner->s_id=$data['s_id'];
             $banner->type=$data['type'];
-            $banner->msg=$data['msg'];
+
             $banner->date=date("Y-m-d H:i:s");
 
             $filename=$_FILES['file']['name'];

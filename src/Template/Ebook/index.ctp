@@ -70,6 +70,7 @@
                     <tr>
                         <th>S No.</th>
                         <th>Category Name</th>
+                        <th>Sub-Category Name</th>
                         <th>Name</th>
                         <th>E-Book Name</th>
                         <th></th>
@@ -85,6 +86,7 @@
                     <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $d['Category']['name']; ?></td>
+                        <td><?php echo $d['Subcategory']['name']; ?></td>
                         <td><?php echo $d['name']; ?></td>
                         <td><?php echo $d['file']; ?></td>
                         <td>

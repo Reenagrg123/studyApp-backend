@@ -64,9 +64,9 @@
 
                                 <a href='<?php echo $this->Url->build([  "controller" => "Ebook", "action" => "subcategory","id"=>$id ]); ?>' >
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-<!--
-                                <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Ebook", "action" => "delcateory","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
--->
+
+                                <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href="<?php echo $this->Url->build([  "controller" => "Ebook", "action" => "delsubcategory","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+
 
                         </a>
                         </td>

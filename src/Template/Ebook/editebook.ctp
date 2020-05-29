@@ -37,6 +37,16 @@
                                 <?php } ?>
                             </select>
                         </div>
+                        <div class="form-group" >
+                            <label for="exampleFormControlSelect1">Select a Sub-category </label>
+                            <select class="form-control" name="subcat_id" id="subcat_id" required>
+                                <option value="">--Select Option--</option>
+                                <?php foreach($subclass as $c){ ?>
+                                <option value="<?php echo $c['id']; ?>"><?php echo $c['name']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Enter an e-book name</label>
                             <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Ex: NECRT Class 12th chemistry" value="<?php echo $data['name']; ?>" required>
@@ -76,6 +86,8 @@
 </style>
 
 
+<?php $url=$this->Url->build([  "controller" => "Ebook", "action" => "getdata" ]); ?>
+
 <?php if(isset($edit)){
     ?>
 
@@ -89,9 +101,23 @@
 
 $('#c_id option[value=<?php echo $data["cat_id"]; ?>]').attr('selected','selected');
 
+$('#subcat_id option[value=<?php echo $data["subcat_id"]; ?>]').attr('selected','selected');
     $(document).ready( function () {
         $('#table_id').DataTable();
     } );
+
+$("#c_id").change(function(){
+    var c_id= $("#c_id").val();
+    $.post('<?php echo $url; ?>',
+        {
+
+            class: c_id
+        },
+        function(data, status){
+            $("#subcat_id").html(data);
+        });
+});
+
 
     function validate(){
         var er=true;

@@ -43,7 +43,7 @@ class EbookController extends AppController{
                 $class = $this->SubCategory->find("all")->where(['cat_id' => $clas])->toArray();
 $name='name';
 
-            $dt='<option>Select Option</option>';
+            $dt='<option value="">Select Option</option>';
             foreach ($class as $d){
 
                 $id=$d['id'];
@@ -165,6 +165,7 @@ return;
         $cat=$this->Category->find("all")->toArray();
 
         $dataclass=$this->Catebook->findById($id)->first()->toArray();
+        $subcat=$this->SubCategory->find("all")->where(['cat_id'=>$dataclass["cat_id"]])->toArray();
         if($dataclass) {
             if($this->request->is("post")) {
 
@@ -177,6 +178,7 @@ return;
                 $hasid=$dataobj->hash_id;
                 $dataobj->name=$data['name'];
                 $dataobj->cat_id=$data['cat_id'];
+                $dataobj->subcat_id=$data['subcat_id'];
 
                 $filename=$_FILES['file']['name'];
                 $path = rand().$_FILES['file']['name'];
@@ -230,11 +232,35 @@ return;
 
             $this->set("data",$dataclass);
 $this->set('class',$cat);
+            $this->set('subclass',$subcat);
         }
 
 
     }
 
+public function delsubcategory(){
+    $id=$this->request->getQuery('id');
+    $dataclass=$this->SubCategory->findById($id)->first();
+    if($dataclass) {
+        $this->SubCategory->delete($dataclass);
+        $exerciserecord=$this->Catebook->find('all')->where(['subcat_id'=>$id]);
+
+        foreach ($exerciserecord as $t){
+            $this->delete_directory('ebook/'.$t->hash_id."/");
+
+            $this->Catebook->delete($t);
+        }
+
+
+
+    }
+    $this->Flash->success('Data Deleted');
+
+
+    $this->redirect(array("controller" => "Ebook",
+        "action" => "subcategory"));
+
+}
 
     public function delcateory(){
         $id=$this->request->getQuery('id');
@@ -263,7 +289,7 @@ $this->set('class',$cat);
 
         public function index(){
             $cat=$this->Category->find("all")->toArray();
-            $datac=$this->Catebook->find("all")->contain('category')->toArray();
+            $datac=$this->Catebook->find("all")->contain(['category','subcategory'])->toArray();
 
             if($this->request->is("post")) {
 

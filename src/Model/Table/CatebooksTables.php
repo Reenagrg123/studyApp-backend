@@ -17,6 +17,8 @@ class CatebooksTables extends Table{
 
         $this->hasOne('Category',['classname'=>'id'])->setForeignKey('id')->setBindingKey(['cat_id']);
 
+        $this->hasOne('Subcategory',['classname'=>'id'])->setForeignKey('id')->setBindingKey(['subcat_id']);
+
 
 
 

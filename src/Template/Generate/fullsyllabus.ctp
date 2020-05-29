@@ -97,7 +97,7 @@
                 <table id="table_id" class="cell-border compact stripe hover">
                     <thead>
                     <tr>
-<th>S No.</th>
+                        <th>S No.</th>
                         <th>Exam Name</th>
 
                         <th>Test Title</th>
@@ -112,7 +112,7 @@
                             $id=$g['id'];
                             ?>
                     <tr>
-<td><?php echo $i; ?></td>
+                        <td><?php echo $i; ?></td>
                         <td><?php echo $g['Exam']['exam_name']; ?></td>
 
                         <td><?php echo $g['name']; ?></td>
@@ -126,6 +126,9 @@
                             <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "add","id"=>$id ]); ?>' ><i class="fa fa-plus" aria-hidden="true"></i></a>
 
                             <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "edit","id"=>$id,"type"=>1 ]); ?>' ><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                            <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Generate", "action" => "delexam","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
+
 
                         </td>
 

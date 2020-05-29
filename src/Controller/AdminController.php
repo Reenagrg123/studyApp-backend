@@ -361,8 +361,11 @@ public function delbanner(){
             $data = $this->request->data();
 
             $banner=$this->Banner->newEntity();
-            $banner->c_id=$data['c_id'];
-            $banner->s_id=$data['s_id'];
+            if(! $data['type']==2){
+                $banner->c_id=$data['c_id'];
+                $banner->s_id=$data['s_id'];
+            }
+
             $banner->type=$data['type'];
 
             $banner->date=date("Y-m-d H:i:s");
@@ -418,13 +421,22 @@ public function delbanner(){
 $tmp['class']=$class->class_name;
                 $tmp['subject']=$subject->subject_name;
 
-            }else{
+            }
+            if($b['type']==1){
                 $type="Exam";
                 $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
                 $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
                 $tmp['class']=$class->exam_name;
                 $tmp['subject']=$subject->subject_name;
             }
+            if($b['type']==2){
+                $type="Advertisement";
+
+                $tmp['class']='';
+                $tmp['subject']='';
+            }
+
+
 $tmp['type']=$type;
             $tmp['msg']=$b['msg'];
             $tmp['file']=$host.'/banner/'.$b['file'];
@@ -472,6 +484,9 @@ array_push($data,$tmp);
         $id=$this->request->getQuery('id');
         $dataclass=$this->Users->findById($id)->first();
         if($dataclass) {
+if($dataclass->profile_img)
+            unlink('userimage/'.$dataclass->profile_img);
+
             $this->Users->delete($dataclass);
         }
         $this->Flash->success('Data Deleted');

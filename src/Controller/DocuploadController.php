@@ -75,6 +75,9 @@ class DocuploadController extends AppController{
         $id=$this->request->getQuery('id');
         $records=$this->Materials->findById($id)->first();
 if($records){
+    if($records->hash_id)
+        $this->delete_directory('materials/'.$records->hash_id.'/');
+
 
     $this->Materials->delete($records);
     $this->Flash->success('Data Removed');
@@ -393,7 +396,7 @@ unlink('materials/'.$hasid.'/'.$oldfile);
     }
 
 }else{
-    $data['file']='';
+    unset($data['file']);
 }
 
 
@@ -622,6 +625,26 @@ exit;
 return;
     }
 
+    public function delupload(){
+$id=$this->getRequest()->getQuery('id');
+        $records=$this->Uploadfiles->find("all")->where(['id'=>$id])->first();
+if($records){
+    $mcq=$this->Mcq->find("all")->where(['hash_id'=>$records->hashid]);
+
+    foreach ($mcq as $m)
+        $this->Mcq->delete($m);
+
+$this->Uploadfiles->delete($records);
+
+
+
+}
+        $this->Flash->error('Data Deleted');
+        $this->redirect(array("controller" => "Docupload",
+            "action" => "index"));
+
+    }
+
     public function index(){
 
         $class=$this->Class->find("all")->toArray();
@@ -642,10 +665,11 @@ return;
 
 
 
-            if($imageFileType != "zip" && $imageFileType != "png" && $imageFileType != "jpeg"
-                && $imageFileType != "gif" ) {
+            if($imageFileType != "zip" ) {
 
                 $this->Flash->error('Wrong Format');
+                $this->redirect(array("controller" => "Docupload",
+                    "action" => "index"));
                 return ;
 
             }
@@ -670,7 +694,9 @@ $filename=$this->getfilename('mcq/'.$exercise.'/'.$hashid.'/');
 if($filename['filename']=='' && $filename['er']==1){
 
     $this->Flash->error('File Format Not Correct ');
-return;
+    $this->redirect(array("controller" => "Docupload",
+        "action" => "index"));
+
     // echo $filename['filename'];
 }
 
@@ -685,6 +711,7 @@ if($textfile['textfile']==''){
 
        $mcqservice=new McqService('mcq/'.$exercise.'/'.$hashid.'/'.$textfile['textfile'],$exercise,$hashid);
        $upload=$mcqservice->fitertext();
+
 
                 $uploadfiles=$this->Uploadfiles->newEntity();
 
@@ -706,7 +733,7 @@ if($textfile['textfile']==''){
 
                 foreach ($upload as $d){
                     $mcq=$this->Mcq->newEntity();
-                    $mcq->data=json_encode($d);
+                    $mcq->data=json_encode(utf8_encode($d));
                     $mcq->hash_id=$hashid;
                     $mcq->type=$d['type'];
                     $mcq->create_date = date("Y-m-d H:i:s");
@@ -714,7 +741,7 @@ if($textfile['textfile']==''){
 
                 }
 
-
+exit;
                 $this->Flash->success('Questions Saved');
                 $this->redirect(array("controller" => "Docupload",
                     "action" => "index"));
@@ -785,11 +812,14 @@ $ext ='';
                 while (($file = readdir($dh)) !== false){
 //echo $file;
                     $ext = explode('.', $file);
+
+
                    if($ext){
-if($ext[1]=='html' || $ext[1]=='Html' ){
+if($ext[1]=='html' || $ext[1]=='Html' || $ext[1]=='htm' ){
 
 
     $send=['er'=>0,'filename'=>$file];
+    break;
 
 }
 

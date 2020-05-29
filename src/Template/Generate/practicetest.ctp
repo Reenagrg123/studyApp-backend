@@ -143,6 +143,7 @@
 
                             <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "add","id"=>$id ]); ?>' ><i class="fa fa-plus" aria-hidden="true"></i></a>
                             <a href='<?php echo $this->Url->build([  "controller" => "Generate", "action" => "edit","id"=>$id,"type"=>0 ]); ?>' ><i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Generate", "action" => "delexam","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i>
 
 
                         </td>

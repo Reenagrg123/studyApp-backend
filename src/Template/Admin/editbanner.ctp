@@ -24,7 +24,7 @@
                 <div class="card-body">
 
                     <?php echo $this->Form->create('form',['type'=>'file']);
-                     echo $this->Form->input('type',['value'=>$type,'options' => array(""=>"Select Gender","0"=>"Learn","1"=>"Exam"),'label'=>'Upload For','class'=>'form-control','required'=>'required']);
+                     echo $this->Form->input('type',['value'=>$type,'options' => array(""=>"Select Type","0"=>"Learn","1"=>"Exam","2"=>"Advertisement"),'label'=>'Upload For','class'=>'form-control','required'=>'required']);
                     echo $this->Form->input('c_id',['value'=>$c_id,'options' => $classlist,'label'=>'Class','class'=>'form-control','required'=>'required','id'=>'c_id']);
                     echo $this->Form->input('s_id',['value'=>$s_id,'options' => $subjectlist,'label'=>'Subject','class'=>'form-control','required'=>'required','id'=>'s_id']);
 

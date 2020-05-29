@@ -268,6 +268,11 @@ public function delsubcategory(){
         if($dataclass) {
             $this->Category->delete($dataclass);
             $exerciserecord=$this->Catebook->find('all')->where(['cat_id'=>$id]);
+            $subcat=$this->SubCategory->find('all')->where(['cat_id'=>$id]);
+
+            foreach ($subcat as $t)
+                $this->SubCategory->delete($t);
+
 
             foreach ($exerciserecord as $t){
                 $this->delete_directory('ebook/'.$t->hash_id."/");

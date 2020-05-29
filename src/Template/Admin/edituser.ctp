@@ -28,9 +28,11 @@
                     echo $this->Form->input('email',['value'=>$email,'label'=>'Email','class'=>'form-control','required'=>'required']);
                     echo $this->Form->input('class',['value'=>$class,'options' => $classlist,'label'=>'Class','class'=>'form-control','required'=>'required']);
                     echo $this->Form->input('gender',['value'=>$gender,'options' => array(""=>"Select Gender","Male"=>"Male","Female"=>"Female"),'label'=>'Gender','class'=>'form-control','required'=>'required']);
-                    echo $this->Form->input('dob',['value'=>$dob,'label'=>'D.O.B','class'=>'form-control','required'=>'required','type'=>'text']);
-                    echo $this->Form->input('mobile',['value'=>$mob,'label'=>'Mobile No','class'=>'form-control','required'=>'required','type'=>'number']);
+                      echo $this->Form->input('mobile',['value'=>$mob,'label'=>'Mobile No','class'=>'form-control','required'=>'required','type'=>'number']);
+?>
+                    <div class="input text required"><label for="dob">D.O.B</label><input type="date" name="dob" class="form-control" required="required" id="dob" value="<?php echo $dob; ?>"></div>
 
+                    <?php
 
                     echo $this->Form->button('Save',['class'=>'btn btn-success mb-2 topmargin']);
                     ?>

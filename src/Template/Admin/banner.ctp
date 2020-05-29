@@ -34,6 +34,7 @@
                             <option value="">--Select option--</option>
                             <option value="0">Learn</option>
                             <option value="1">Exam</option>
+                            <option value="2">Advertisement</option>
                         </select>
                     </div>
 
@@ -73,7 +74,7 @@
             <table id="table_id" class="cell-border compact stripe hover">
                 <thead>
                 <tr>
-                    <th>Test Id</th>
+                    <th>S No.</th>
                     <th>Exam/Class Name</th>
                     <th>Subject Name</th>
                     <th>File </th>
@@ -136,7 +137,24 @@ h2 {
         <?php $load=$this->Url->build([  "controller" => "Generate", "action" => "loaddetail" ]); ?>
 
 <script>
+    $('#type').on('change', function() {
+        if(this.value==2){
 
+            $('#c_id').removeAttr('required');
+            $('#s_id').removeAttr('required');
+            $('#s_id').parent().hide();
+            $('#c_id').parent().hide();
+        }else{
+
+            $('#c_id').attr('required','true');
+            $('#s_id').attr('required','true');
+            $('#s_id').parent().show();
+            $('#c_id').parent().show();
+
+        }
+
+
+    });
 $(document).ready(function() {
     $('.summernote').summernote();
 });

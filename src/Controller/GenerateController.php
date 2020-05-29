@@ -71,6 +71,40 @@ class GenerateController extends AppController{
         $this->set("title","Dashboard");
     }
 
+public function delexam(){
+
+        $type=1;
+    $id=$this->getRequest()->getQuery('id');
+    $records=$this->GenerateExam->find("all")->where(['id'=>$id])->first();
+    if($records){
+        $type=$records->exam_type;
+        $mcq=$this->ExamQuestion->find("all")->where(['generateexam_id'=>$id]);
+
+        foreach ($mcq as $m)
+            $this->ExamQuestion->delete($m);
+
+        $this->GenerateExam->delete($records);
+
+
+
+    }
+    $this->Flash->error('Data Deleted');
+if($type==1)
+    $this->redirect(array("controller" => "Generate", "action" => "fullsyllabus"));
+
+    if($type==2)
+        $this->redirect(array("controller" => "Generate", "action" => "generateexam"));
+
+    if($type==0)
+        $this->redirect(array("controller" => "Generate", "action" => "practicetest"));
+
+
+    $this->redirect(array("controller" => "Generate", "action" => "practicetest"));
+   return;
+
+
+
+}
 
     public function loaddetail(){
 

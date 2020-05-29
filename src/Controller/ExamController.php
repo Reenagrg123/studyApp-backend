@@ -76,6 +76,17 @@ class ExamController extends AppController{
         $id=$this->request->getQuery('id');
         $dataclass=$this->Exercise->findById($id)->first();
         if($dataclass){
+            $examobj=$this->GenerateExam->find('all')->where(['exam_type'=>2,'ex_id'=>$id]);
+
+
+            foreach ($examobj as $e){
+                $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
+                foreach ($examobjquestion as $e)
+                    $this->ExamQuestion->delete($e);
+
+                $this->GenerateExam->delete($e);
+
+            }
 
             $this->Exercise->delete($dataclass);
 
@@ -83,7 +94,7 @@ class ExamController extends AppController{
             $this->Flash->success('Data Deleted');
 
 
-            $this->redirect(array("controller" => "Admin",
+            $this->redirect(array("controller" => "Exam",
                 "action" => "excersise"));
 
             return;
@@ -96,20 +107,45 @@ class ExamController extends AppController{
 
 
     }
+    public function delgenerateexam($id){
+
+        $examobj=$this->GenerateExam->find('all')->where(['id'=>$id]);
+        foreach ($examobj as $e){
+            $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
+            foreach ($examobjquestion as $e)
+                $this->ExamQuestion->delete($e);
+
+            $this->GenerateExam->delete($e);
+        }
+
+
+        return true;
+    }
+
     public function delsub(){
         $id=$this->request->getQuery('id');
         $dataclass=$this->Subject->findById($id)->first();
         if($dataclass){
 
-            $this->Subject->delete($dataclass);
 
             $exerciserecord=$this->Exercise->find('all')->where(['s_id'=>$id]);
             foreach ($exerciserecord as $e)
                 $this->Exercise->delete($e);
 
+            $examobj2=$this->GenerateExam->find('all')->where(['exam_type'=>2,'s_id'=>$id]);
 
+            foreach ($examobj2 as $e){
+                $this->delgenerateexam($e->id);
+            }
+
+            $examobj1=$this->GenerateExam->find('all')->where(['exam_type'=>1,'s_id'=>$id]);
+            foreach ($examobj1 as $e){
+                $this->delgenerateexam($e->id);
+            }
+
+
+            $this->Subject->delete($dataclass);
             $this->Flash->success('Data Deleted');
-
 
             $this->redirect(array("controller" => "Exam",
                 "action" => "subject"));
@@ -131,8 +167,6 @@ class ExamController extends AppController{
 
             $this->Exam->delete($dataclass);
 
-
-
             $subjectrec=$this->Subject->find('all')->where(['c_id'=>$id]);
             foreach ($subjectrec as $s)
                 $this->Subject->delete($s);
@@ -141,7 +175,20 @@ class ExamController extends AppController{
             foreach ($exerciserecord as $e)
                 $this->Exercise->delete($e);
 
+            $examobj2=$this->GenerateExam->find('all')->where(['exam_type'=>2,'c_id'=>$id]);
 
+            foreach ($examobj2 as $e){
+                $this->delgenerateexam($e->id);
+            }
+
+            $examobj1=$this->GenerateExam->find('all')->where(['exam_type'=>1,'c_id'=>$id]);
+            foreach ($examobj1 as $e){
+                $this->delgenerateexam($e->id);
+            }
+            $examobj0=$this->GenerateExam->find('all')->where(['exam_type'=>0,'c_id'=>$id]);
+            foreach ($examobj0 as $e){
+                $this->delgenerateexam($e->id);
+            }
 
             $this->Flash->success('Data Deleted');
 

@@ -38,7 +38,8 @@
 
                     echo $this->Form->input('link',['value'=>$link,'label'=>'Youtube Link','class'=>'form-control']);
                     echo $this->Form->input('file',['value'=>$file,'label'=>'File','class'=>'form-control','type'=>'file']);
-
+echo $file;
+                    echo "<br/>";
 
                     echo $this->Form->button('Save',['class'=>'btn btn-success mb-2 topmargin']);
                     ?>

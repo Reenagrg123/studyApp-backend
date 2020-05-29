@@ -237,15 +237,26 @@ class ApiController extends AppController{
                     $tmp['subject']=$subject->subject_name;
                     $tmp['subject_id']=$s_id;
 
-                }else{
+                }
+
+                if($b['type']==1){
                     $type="Exam";
                     $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
                     $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
                     $tmp['class']=$class->exam_name;
-                    $tmp['class_id']=$c_id;
                     $tmp['subject']=$subject->subject_name;
                     $tmp['subject_id']=$s_id;
+                    $tmp['class_id']=$c_id;
                 }
+                if($b['type']==2){
+                    $type="Advertisement";
+
+                    $tmp['class']='';
+                    $tmp['subject']='';
+                }
+
+
+
                 $tmp['type']=$type;
                 $tmp['msg']=$b['msg'];
                 $tmp['file']='http://'.$host.'/banner/'.$b['file'];

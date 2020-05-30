@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use App\Controller\Services\EmailService;
 use App\Model\Table\AppritiatespostsTables;
+use App\Model\Table\BannersTables;
 use App\Model\Table\CategorysTables;
 use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
@@ -48,7 +49,7 @@ class ExamController extends AppController{
 
 
 
-
+        $this->Banner=$this->loadModel(BannersTables::class);
         $this->Uploadfiles=$this->loadModel(UploadfilesTables::class);
         $this->GenerateExam=$this->loadModel(GenerateexamsTables::class);
         $this->ExamQuestion=$this->loadModel(ExamquestionsTables::class);
@@ -189,6 +190,12 @@ class ExamController extends AppController{
             foreach ($examobj0 as $e){
                 $this->delgenerateexam($e->id);
             }
+
+            $banner=$this->Banner->find('all')->where(['type'=>1,'c_id'=>$id]);
+            foreach ($banner as $e){
+               $this->Banner->delete($e);
+            }
+
 
             $this->Flash->success('Data Deleted');
 

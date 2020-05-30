@@ -57,6 +57,7 @@ class AdminController extends AppController{
         $this->ExamSubject=$this->loadModel(Examsubjects::class);
         $this->Testimonial=$this->loadModel(TestimonialsTables::class);
         $this->Contact=$this->loadModel(ContactsTables::class);
+        $this->Banner=$this->loadModel(BannersTables::class);
 
         $this->Banner=$this->loadModel(BannersTables::class);
         $session = $this->getRequest()->getSession();
@@ -140,6 +141,8 @@ $this->set("data",$dataclass);
                     }
 
 
+                }else{
+                    unset($data['file']);
                 }
 
 
@@ -323,7 +326,7 @@ public function editnotice(){
 
             }
 
-            $dt='<option>Select Option</option>';
+            $dt='<option value="">Select Option</option>';
             foreach ($class as $d){
 
                 $id=$d['id'];
@@ -361,11 +364,16 @@ public function delbanner(){
             $data = $this->request->data();
 
             $banner=$this->Banner->newEntity();
-            if(! $data['type']==2){
+
+            if( $data['type']==0){
+
                 $banner->c_id=$data['c_id'];
                 $banner->s_id=$data['s_id'];
             }
+if($data['type']==1){
+    $banner->c_id=$data['c_id'];
 
+}
             $banner->type=$data['type'];
 
             $banner->date=date("Y-m-d H:i:s");
@@ -374,28 +382,31 @@ public function delbanner(){
             $path = rand(100,2000).$_FILES['file']['name'];
             $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
 
+if($filename){
 
-            if($imageFileType !== "jpg" && $imageFileType !== "jpeg" && $imageFileType !== "png" && $imageFileType !== "PNG") {
-                $this->Flash->error('Wrong File Format');
-                $this->redirect(array("controller" => "Admin",
-                    "action" => "banner"));
-                return;
+    if($imageFileType !== "jpg" && $imageFileType !== "jpeg" && $imageFileType !== "png" && $imageFileType !== "PNG") {
+        $this->Flash->error('Wrong File Format');
+        $this->redirect(array("controller" => "Admin",
+            "action" => "banner"));
+        return;
 
-            }
+    }
 
-            if (!file_exists('banner/')) {
-                mkdir('banner/', 0777, true);
-            }
+    if (!file_exists('banner/')) {
+        mkdir('banner/', 0777, true);
+    }
 
-            $uploadPath ='banner/';
-            $uploadFile = $uploadPath.$path;
+    $uploadPath ='banner/';
+    $uploadFile = $uploadPath.$path;
 
-            if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
+    if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
 
-                $save=1;
-                $banner->file=$path;
+        $save=1;
+        $banner->file=$path;
 
-            }
+    }
+}
+
 
             $this->Banner->save($banner);
 
@@ -425,9 +436,9 @@ $tmp['class']=$class->class_name;
             if($b['type']==1){
                 $type="Exam";
                 $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
-                $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
+               // $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
                 $tmp['class']=$class->exam_name;
-                $tmp['subject']=$subject->subject_name;
+                $tmp['subject']='';
             }
             if($b['type']==2){
                 $type="Advertisement";
@@ -567,9 +578,16 @@ return;
             }
 
 
-            $exerciserecord=$this->GenerateExam->find('all')->where(['ex_id'=>$id]);
-            foreach ($exerciserecord as $e)
+            $exerciserecord=$this->GenerateExam->find('all')->where(['exam_type'=>0,'ex_id'=>$id]);
+            foreach ($exerciserecord as $e){
+                $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
+                foreach ($examobjquestion as $e)
+                    $this->ExamQuestion->delete($e);
+
                 $this->GenerateExam->delete($e);
+
+            }
+
 
             $this->Flash->success('Data Deleted');
 
@@ -609,10 +627,20 @@ return;
                 $this->Uploadfiles->delete($e);
             }
 
-            $exerciserecord=$this->GenerateExam->find('all')->where(['s_id'=>$id]);
-            foreach ($exerciserecord as $e)
+            $exerciserecord=$this->GenerateExam->find('all')->where(['exam_type'=>0,'s_id'=>$id]);
+            foreach ($exerciserecord as $e){
+                $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
+                foreach ($examobjquestion as $e)
+                    $this->ExamQuestion->delete($e);
+
                 $this->GenerateExam->delete($e);
 
+            }
+
+            $banner=$this->Banner->find('all')->where(['type'=>0,'s_id'=>$id]);
+            foreach ($banner as $e){
+                $this->Banner->delete($e);
+            }
 
             $this->Flash->success('Data Deleted');
 
@@ -660,10 +688,20 @@ return;
             foreach ($exerciserecord as $e)
                 $this->ClassMap->delete($e);
 
-            $exerciserecord=$this->GenerateExam->find('all')->where(['c_id'=>$id]);
-            foreach ($exerciserecord as $e)
+            $exerciserecord=$this->GenerateExam->find('all')->where(['exam_type'=>0,'c_id'=>$id]);
+            foreach ($exerciserecord as $e){
+                $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
+                foreach ($examobjquestion as $e)
+                    $this->ExamQuestion->delete($e);
+
                 $this->GenerateExam->delete($e);
 
+            }
+
+            $banner=$this->Banner->find('all')->where(['type'=>0,'c_id'=>$id]);
+            foreach ($banner as $e){
+                $this->Banner->delete($e);
+            }
 
 
             $this->Flash->success('Data Deleted');

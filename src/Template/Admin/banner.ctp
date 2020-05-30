@@ -144,6 +144,13 @@ h2 {
             $('#s_id').removeAttr('required');
             $('#s_id').parent().hide();
             $('#c_id').parent().hide();
+        }else if(this.value==1){
+
+            $('#c_id').attr('required','true');
+            $('#s_id').removeAttr('required');
+            $('#s_id').parent().hide();
+            $('#c_id').parent().show();
+
         }else{
 
             $('#c_id').attr('required','true');

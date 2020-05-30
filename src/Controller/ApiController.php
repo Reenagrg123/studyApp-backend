@@ -127,8 +127,6 @@ class ApiController extends AppController{
         try{
             //   Email::deliver('kumarshubhendu228@gmail.com', 'Subject', 'Message', ['from' => 'me@example.com']);
 
-
-
             $message = "Hello Usezcxzczxczr";
             $email = new Email();
             $email->transport('mail');
@@ -147,8 +145,6 @@ class ApiController extends AppController{
 
         echo json_encode("done");
         exit;
-
-
 
     }
 
@@ -423,13 +419,15 @@ class ApiController extends AppController{
             $classobj = $this->ClassMap->find('all')->where(['c_id'=>$data['c_id']])->group('exam_id')->toArray();
             $record=[];
             foreach($classobj as $c){
-                $exam = $this->Exam->find('all')->where(['id'=>$c['exam_id']])->first()->toArray();
-                $tmp=[];
-                $tmp['id']=$exam['id'];
-                $tmp['name']=$exam['exam_name'];
+                $exam = $this->Exam->find('all')->where(['id'=>$c['exam_id']])->first();
+                if($exam){
+                    $exam=$exam->toArray();
+                    $tmp=[];
+                    $tmp['id']=$exam['id'];
+                    $tmp['name']=$exam['exam_name'];
 
-                array_push($record,$tmp);
-
+                    array_push($record,$tmp);
+                }
             }
 
             $send['error'] = 0;
@@ -940,23 +938,23 @@ class ApiController extends AppController{
             $userobj->update_date = date("Y-m-d H:i:s");
 
             try{
-if($data['is_image']==1){
-    if(isset($data['image']['uri'])){
+                if($data['is_image']==1){
+                    if(isset($data['image']['uri'])){
 
-        $dataim = base64_decode($data['image']['uri']);
-
-
-        $imagename=rand().$data['name']. '.png';
-        $file = 'userimage/'.$imagename;
-        file_put_contents($file, $dataim);
-
-        $userobj->profile_img = $imagename;
-    }else{
-        $userobj->profile_img = NULL;
-    }
+                        $dataim = base64_decode($data['image']['uri']);
 
 
-}
+                        $imagename=rand().$data['name']. '.png';
+                        $file = 'userimage/'.$imagename;
+                        file_put_contents($file, $dataim);
+
+                        $userobj->profile_img = $imagename;
+                    }else{
+                        $userobj->profile_img = NULL;
+                    }
+
+
+                }
 
                 $host = Router::getRequest(true)->host();
 
@@ -1065,7 +1063,7 @@ if($data['is_image']==1){
             }
             $host = Router::getRequest(true)->host();
 
-            if(isset($_POST['email'])){
+            if(isset($data['email'])){
 
                 $userobj->email = $data['email'];
 
@@ -1173,9 +1171,16 @@ if($data['is_image']==1){
                     $send['class_id']=$datauser->toArray()['class'];
                     $send['gender']=$datauser->toArray()['gender'];
                     $send['dob']=$datauser->toArray()['dob'];
-                    $claaobj = $this->Class->findById($datauser->toArray()['class'])->first()->toArray();
-                    $send['class_name']=$claaobj['class_name'];
-                    $send['image']='http://'.$host.'/userimage/'.$datauser->toArray()['profile_img'];
+                    $claaobj = $this->Class->findById($datauser->toArray()['class'])->first();
+                    if($claaobj){
+                        $send['class_name']=$claaobj->toArray()['class_name'];
+                        $send['image']='http://'.$host.'/userimage/'.$datauser->toArray()['profile_img'];
+
+                    }else{
+                        $send['class_name']="";
+                        $send['image']='';
+
+                    }
 
                     echo json_encode($send);
                     exit;

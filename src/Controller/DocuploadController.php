@@ -733,7 +733,7 @@ if($textfile['textfile']==''){
 
                 foreach ($upload as $d){
                     $mcq=$this->Mcq->newEntity();
-                    $mcq->data=json_encode(utf8_encode($d));
+                    $mcq->data=json_encode($d);
                     $mcq->hash_id=$hashid;
                     $mcq->type=$d['type'];
                     $mcq->create_date = date("Y-m-d H:i:s");
@@ -741,7 +741,7 @@ if($textfile['textfile']==''){
 
                 }
 
-exit;
+
                 $this->Flash->success('Questions Saved');
                 $this->redirect(array("controller" => "Docupload",
                     "action" => "index"));

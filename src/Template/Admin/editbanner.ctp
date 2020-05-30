@@ -24,11 +24,11 @@
                 <div class="card-body">
 
                     <?php echo $this->Form->create('form',['type'=>'file']);
-                     echo $this->Form->input('type',['value'=>$type,'options' => array(""=>"Select Type","0"=>"Learn","1"=>"Exam","2"=>"Advertisement"),'label'=>'Upload For','class'=>'form-control','required'=>'required']);
+                     echo $this->Form->input('type',['value'=>$type,'options' => array(""=>"Select Type","0"=>"Learn","1"=>"Exam","2"=>"Advertisement"),'label'=>'Upload For','class'=>'form-control','required'=>'required','id'=>'type']);
                     echo $this->Form->input('c_id',['value'=>$c_id,'options' => $classlist,'label'=>'Class','class'=>'form-control','required'=>'required','id'=>'c_id']);
                     echo $this->Form->input('s_id',['value'=>$s_id,'options' => $subjectlist,'label'=>'Subject','class'=>'form-control','required'=>'required','id'=>'s_id']);
 
-                    echo $this->Form->input('file',['value'=>$file,'label'=>'File','class'=>'form-control','required'=>'required','type'=>'file']);
+                    echo $this->Form->input('file',['value'=>$file,'label'=>'File','class'=>'form-control','type'=>'file']);
                     echo $file;
                     echo "<br/>";
 
@@ -65,7 +65,42 @@
 </style>
 
 <script>
+    var ty= $('#type').val();
 
+    if(ty==2){
+
+        $('#c_id').removeAttr('required');
+        $('#s_id').removeAttr('required');
+        $('#s_id').parent().hide();
+        $('#c_id').parent().hide();
+    }
+
+
+    $('#type').on('change', function() {
+        if(this.value==2){
+
+            $('#c_id').removeAttr('required');
+            $('#s_id').removeAttr('required');
+            $('#s_id').parent().hide();
+            $('#c_id').parent().hide();
+        }else if(this.value==1){
+
+            $('#c_id').attr('required','true');
+            $('#s_id').removeAttr('required');
+            $('#s_id').parent().hide();
+            $('#c_id').parent().show();
+
+        }else{
+
+            $('#c_id').attr('required','true');
+            $('#s_id').attr('required','true');
+            $('#s_id').parent().show();
+            $('#c_id').parent().show();
+
+        }
+
+
+    });
     $("#type").change(function(){
         var c_id= $("#type").val();
         $.post('<?php echo $url; ?>',

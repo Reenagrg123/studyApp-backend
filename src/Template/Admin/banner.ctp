@@ -13,7 +13,7 @@
                 </button>
             </div>
             <div class="modal-body" id="load">
-<img id="setimg" src="" />
+<img id="setimg" src="" style="width:100%"/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

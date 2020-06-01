@@ -429,7 +429,7 @@ if($filename){
             if($b['type']==0){
                 $class=$this->Class->find("all")->where(['id'=>$c_id])->first();
                 $subject=$this->Subject->find("all")->where(['id'=>$s_id])->first();
-$tmp['class']=$class->class_name;
+                $tmp['class']=$class->class_name;
                 $tmp['subject']=$subject->subject_name;
 
             }
@@ -508,6 +508,23 @@ if($dataclass->profile_img)
 
     }
 
+    public function status(){
+        $id=$this->request->getQuery('id');
+        $to=$this->request->getQuery('to');
+        $dataclass=$this->Testimonial->findById($id)->first();
+        if($dataclass) {
+            $dataclass->approve=$to;
+            $this->Testimonial->save($dataclass);
+
+        }
+        $this->Flash->success('Data Updated');
+
+
+        $this->redirect(array("controller" => "Admin",
+            "action" => "testimonials"));
+
+    }
+
     public function testimonials(){
         $testimonial=$this->Testimonial->find('all')->contain('class','users')->toArray();
         $data=[];
@@ -524,7 +541,7 @@ if($userdata){
 $tmp['id']=$t['id'];
             $tmp['feedback']=$t['description'];
             $tmp['image']=$t['image'];
-
+            $tmp['approve']=$t['approve'];
             array_push($data,$tmp);
 
         }

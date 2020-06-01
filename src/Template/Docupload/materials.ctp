@@ -1,6 +1,25 @@
 
 <!-- End of Topbar -->
 
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="load">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -57,7 +76,7 @@
 
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter a topic name</label>
-                        <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Ex: Basic Integration ">
+                        <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Ex: Basic Integration " required>
                     </div>
 
            <div class="form-group">
@@ -108,8 +127,7 @@
                 <th>Subject Name</th>
                 <th>Chapter</th>
                 <th>Topic Name</th>
-                <th>File Name</th>
-                <th>Link</th>
+
 
                 <th></th>
 
@@ -130,10 +148,12 @@
                 <td><?php echo $r['Exercises']['title']; ?></td>
 
                 <td><?php echo $r['name']; ?></td>
-                <td><?php echo $r['file']; ?></td>
-                <td><?php echo $r['link']; ?></td>
+
+
 
                 <td>
+                    <a href="#" id="preview" onclick="show(`<?php echo $id; ?>`);" ><i class="fa fa-info" aria-hidden="true"></i></a>
+
 
                     <a onclick="return confirm('Are you sure you want to delete , all data will be deleted?');" href="<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "delmaterial","id"=>$id ]); ?>"> <i class="fa fa-times" aria-hidden="true"></i></a>
                 <a href="<?php echo $this->Url->build([  "controller" => "Docupload", "action" => "edit","id"=>$id ]); ?>"> <i class="fa fa-edit" aria-hidden="true"></i></a>
@@ -161,8 +181,23 @@
 
         <!-- End of Footer -->
         <?php $url=$this->Url->build([  "controller" => "docupload", "action" => "getdata" ]); ?>
+<?php $load=$this->Url->build([  "controller" => "Docupload", "action" => "loaddetail" ]); ?>
 
 <script>
+
+
+    function show(id){
+        $.post('<?php echo $load; ?>',
+            {
+                type: "1",
+                id: id
+            },
+            function(data, status){
+                $("#load").html(data);
+                $('#exampleModal').modal('toggle')
+            });
+
+    }
 
 
 $("#class").change(function(){
@@ -203,8 +238,6 @@ $(document).ready( function () {
     $('#table_id').DataTable({
         responsive: true,
 
-        scrollX:        true,
-        scrollCollapse: true,
         columnDefs: [
             {
                 targets: -1,

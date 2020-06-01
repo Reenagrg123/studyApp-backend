@@ -56,6 +56,41 @@ class DocuploadController extends AppController{
 
     }
 
+    public function loaddetail(){
+
+        if($this->request->is("post")) {
+            $data = $this->request->data;
+            $type=$data['type'];
+            $id=$data['id'];
+
+
+
+            $generatedata=$this->Materials->findById($id)->contain(['class','subject','exercises'])->first();
+                 // $exam=$this->Exam->find("all")->where(["id"=>$generatedata['c_id']])->first()->toArray();
+
+if($generatedata) {
+    $data = '   
+                <p>  Class Name: ' . $generatedata->toArray()['Class']["class_name"] . '</p>
+                     <p>  Subject Name: ' . $generatedata->toArray()['Subject']["subject_name"] . '</p>
+                          <p>  Chapter Name: ' . $generatedata->toArray()['Exercises']["title"] . '</p>
+                
+                <p>  Link: ' . $generatedata->toArray()["link"] . '</p>
+                <p>  File: ' . $generatedata->toArray()["file"] . '</p>
+                 
+                ';
+
+}
+
+                echo $data;
+                exit;
+
+
+
+
+
+        }
+    }
+
     public function delquestion(){
         $uploadid=$this->request->getQuery('upload');
         $qid=$this->request->getQuery('id');
@@ -732,12 +767,15 @@ if($textfile['textfile']==''){
 
 
                 foreach ($upload as $d){
-                    $mcq=$this->Mcq->newEntity();
-                    $mcq->data=json_encode($d);
-                    $mcq->hash_id=$hashid;
-                    $mcq->type=$d['type'];
-                    $mcq->create_date = date("Y-m-d H:i:s");
-                    $this->Mcq->save($mcq);
+                    $updata=$this->encode($d);
+                    if($updata){
+                        $mcq=$this->Mcq->newEntity();
+                        $mcq->data=$updata;
+                        $mcq->hash_id=$hashid;
+                        $mcq->type=$d['type'];
+                        $mcq->create_date = date("Y-m-d H:i:s");
+                          $this->Mcq->save($mcq);
+                    }
 
                 }
 
@@ -770,6 +808,13 @@ if($textfile['textfile']==''){
         $this->set("class",$class);
         $this->set("record",$records);
         //var_dump("sdfsadfdsaf");
+    }
+
+    public function encode($upload){
+        array_walk_recursive( $upload, function(&$item) {
+            $item = utf8_encode( $item );
+        });
+       return json_encode( $upload );
     }
 
     public function createtextfile($filename,$path){

@@ -47,6 +47,43 @@ return $c=strip_tags($c);
 
 }
 
+public function reset(){
+    $send=['error'=>1,'msg'=>""];
+    $userid=$this->getRequest()->getQuery('u_id');
+    $resetid=$this->getRequest()->getQuery('resetid');
+
+
+
+
+
+    $datauser=$this->Users->find()->where(["id"=>$userid,'password'=>$resetid])->first();
+    $host = Router::getRequest(true)->host();
+
+    if($datauser) {
+
+        if ($this->request->is("post")) {
+
+            $data = $this->request->data;
+            $datauser->password=md5($data['password']);
+            $this->Users->save($datauser);
+
+            $this->Flash->success('Password Changed');
+            $this->redirect(array("controller" => "Main",
+                "action" => "reset"));
+
+            $this->set('change',1);
+        }
+
+    }else{
+
+        $this->set('usernotfound',1);
+    }
+
+
+    $this->set("title","New Password");
+
+}
+
 public function logout(){
     $session = $this->getRequest()->getSession();
 

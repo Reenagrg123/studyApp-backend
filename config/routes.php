@@ -84,7 +84,8 @@ $routes->connect('/api/getCategory', ['controller' => 'Api', 'action' => 'getCat
 $routes->connect('/api/getEbook', ['controller' => 'Api', 'action' => 'getEbook']);
 $routes->connect('/api/getSubcategory', ['controller' => 'Api', 'action' => 'getSubcategory']);
 
-
+$routes->connect('/api/changepassword', ['controller' => 'Api', 'action' => 'changepassword']);
+$routes->connect('/api/forgot', ['controller' => 'Api', 'action' => 'forgot']);
 
 $routes->connect('/banner', ['controller' => 'Upload', 'action' => 'banner']);
 
@@ -111,11 +112,12 @@ $routes->connect('/', ['controller' => 'Main', 'action' => 'login']);
 
 $routes->connect('/post/category', ['controller' => 'Post', 'action' => 'category']);
 $routes->connect('/login', ['controller' => 'Main', 'action' => 'login']);
+$routes->connect('/reset', ['controller' => 'Main', 'action' => 'reset']);
 $routes->connect('/classadd', ['controller' => 'Admin', 'action' => 'classadd']);
 $routes->connect('/subject', ['controller' => 'Admin', 'action' => 'subject']);
 $routes->connect('/excersise', ['controller' => 'Admin', 'action' => 'excersise']);
 $routes->connect('/edituser', ['controller' => 'Admin', 'action' => 'edituser']);
-
+$routes->connect('/status', ['controller' => 'Admin', 'action' => 'status']);
 
 
 $routes->connect('/exam/examadd', ['controller' => 'Exam', 'action' => 'examadd']);

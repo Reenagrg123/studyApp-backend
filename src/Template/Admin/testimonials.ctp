@@ -17,6 +17,7 @@
                             <th>Student Name</th>
                             <th>Student Class</th>
                             <th>Contact No.</th>
+                            <th>Status</th>
 
                             <th>Feedback</th>
                             <th></th>
@@ -33,6 +34,22 @@
                             <td><?php echo $c['username']; ?></td>
                             <td><?php echo $c['class']; ?></td>
                             <td><?php echo $c['contact']; ?></td>
+                            <td>
+
+                                <?php
+                                if($c['approve']==0){
+                                ?>
+
+                               <a href="<?php echo $this->Url->build([  'controller' => 'Admin', 'action' => 'status','id'=>$id,'to'=>1 ]); ?> ">Disabled<a>
+
+                              <?php  }else{  ?>
+
+                                   <a href="<?php echo $this->Url->build([  'controller' => 'Admin', 'action' => 'status','id'=>$id,'to'=>0 ]); ?> ">Activated<a>
+
+
+                                   <?php } ?>
+                            </td>
+
 
                             <td><?php echo $c['feedback']; ?></td>
                             <td>

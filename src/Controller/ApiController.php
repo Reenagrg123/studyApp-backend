@@ -91,6 +91,81 @@ class ApiController extends AppController{
         $this->set("title","Dashboard");
     }
 
+    public function changepassword(){
+        $send=['error'=>1,'msg'=>""];
+        if ($this->request->is("post")) {
+
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ($data['user_id'] == '' || $data['current_pswd'] == '' || $data['new_pswd'] == '' ) {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $this->auth($data['user_id']);
+            $datauser=$this->Users->find()->where(["id"=>$data['user_id'],"password"=>md5($data['current_pswd'])])->first();
+            $host = Router::getRequest(true)->host();
+
+            if($datauser){
+
+                $datauser->password=md5($data['new_pswd']);
+                $this->Users->save($datauser);
+$send['error']=0;
+$send['msg']='Password Updated';
+
+echo json_encode($send);
+exit;
+
+            }else {
+
+                $send['msg'] = 'User password Not Mached';
+                echo json_encode($send);
+                exit;
+            }
+
+        }
+
+    }
+
+
+    public function forgot(){
+        $send=['error'=>1,'msg'=>""];
+        if ($this->request->is("post")) {
+
+
+            $date = date("Y-m-d");
+            $data = $this->request->data;
+            if ($data['mobile'] == '') {
+                $send['error'] = 1;
+                $send['msg'] = "Parameters should not empty";
+
+                echo json_encode($send);
+                exit;
+            }
+            $datauser=$this->Users->find()->where(["mobile"=>$data['mobile']])->first();
+            $host = Router::getRequest(true)->host();
+
+            if($datauser) {
+
+                $send['error']=0;
+                $send['url']='https://'.$host.'reset/?u_id='.$datauser->id.'&resetid='.$datauser->password;
+echo json_encode($send);
+exit;
+
+            }else{
+
+                $send['msg'] = 'User Not Found';
+                echo json_encode($send);
+                exit;
+            }
+
+        }
+    }
+
+
     public function contact(){
         if ($this->request->is("post")) {
 
@@ -224,7 +299,7 @@ class ApiController extends AppController{
                 $tmp=[];
                 $c_id=$b['c_id'];
                 $s_id=$b['s_id'];
-                $type="Learn";
+                $type=0;
                 if($b['type']==0){
                     $class=$this->Class->find("all")->where(['id'=>$c_id])->first();
                     $subject=$this->Subject->find("all")->where(['id'=>$s_id])->first();
@@ -236,16 +311,23 @@ class ApiController extends AppController{
                 }
 
                 if($b['type']==1){
-                    $type="Exam";
+                    $type=1;
                     $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
                     $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
+                    $map=$this->ClassMap->find("all")->where(['exam_id'=>$class->id]);
+                    $t=[];
+                    foreach ($map as $m){
+                        array_push($t,$m->c_id);
+                    }
+
+                    $tmp['classlist']=$t;
                     $tmp['class']=$class->exam_name;
-                    $tmp['subject']=$subject->subject_name;
-                    $tmp['subject_id']=$s_id;
+
+
                     $tmp['class_id']=$c_id;
                 }
                 if($b['type']==2){
-                    $type="Advertisement";
+                    $type=2;
 
                     $tmp['class']='';
                     $tmp['subject']='';
@@ -328,7 +410,7 @@ class ApiController extends AppController{
             }
             $this->auth($data['user_id']);
             $u_id=$data['user_id'];
-            $testi=$this->Testimonial->find("all")->where(['user_id'=>$u_id])->contain(['class','user'])->toArray();
+            $testi=$this->Testimonial->find("all")->where(['user_id'=>$u_id,'approve'=>1])->contain(['class','user'])->toArray();
             $alldata=[];
             $host = Router::getRequest(true)->host();
 

@@ -40,11 +40,11 @@
                                 if($c['approve']==0){
                                 ?>
 
-                               <a href="<?php echo $this->Url->build([  'controller' => 'Admin', 'action' => 'status','id'=>$id,'to'=>1 ]); ?> ">Disabled<a>
+                               <a href="<?php echo $this->Url->build([  'controller' => 'Admin', 'action' => 'status','id'=>$id,'to'=>1 ]); ?> ">Approve<a>
 
                               <?php  }else{  ?>
 
-                                   <a href="<?php echo $this->Url->build([  'controller' => 'Admin', 'action' => 'status','id'=>$id,'to'=>0 ]); ?> ">Activated<a>
+                                   <a href="<?php echo $this->Url->build([  'controller' => 'Admin', 'action' => 'status','id'=>$id,'to'=>0 ]); ?> ">Approved<a>
 
 
                                    <?php } ?>

@@ -113,11 +113,11 @@ class ApiController extends AppController{
 
                 $datauser->password=md5($data['new_pswd']);
                 $this->Users->save($datauser);
-$send['error']=0;
-$send['msg']='Password Updated';
+                $send['error']=0;
+                $send['msg']='Password Updated';
 
-echo json_encode($send);
-exit;
+                echo json_encode($send);
+                exit;
 
             }else {
 
@@ -152,8 +152,8 @@ exit;
 
                 $send['error']=0;
                 $send['url']='https://'.$host.'reset/?u_id='.$datauser->id.'&resetid='.$datauser->password;
-echo json_encode($send);
-exit;
+                echo json_encode($send);
+                exit;
 
             }else{
 
@@ -410,7 +410,7 @@ exit;
             }
             $this->auth($data['user_id']);
             $u_id=$data['user_id'];
-            $testi=$this->Testimonial->find("all")->where(['user_id'=>$u_id,'approve'=>1])->contain(['class','user'])->toArray();
+            $testi=$this->Testimonial->find("all")->where(['approve'=>1])->contain(['class','user'])->toArray();
             $alldata=[];
             $host = Router::getRequest(true)->host();
 
@@ -420,7 +420,13 @@ exit;
                 $tmp['user_name']=$t['User']['f_name'];
                 $tmp['class_name']=$t['Class']['class_name'];
                 $tmp['des']=$t['description'];
-                $tmp['image']='http://'.$host.'/testimonial/'.$t['image'];
+                if($t['image']){
+                    $tmp['image']='https://'.$host.'/testimonial/'.$t['image'];
+                }else{
+                    $tmp['image']='';
+                }
+
+
                 array_push($alldata,$tmp);
             }
 
@@ -1175,9 +1181,15 @@ exit;
                     $send['email']=$datauser['email'];
                     $send['class_id']=$datauser['class'];
                     $send['gender']=$datauser['gender'];
-                    $send['image']='http://'.$host.'/userimage/'.$userobj->profile_img;
+                    // $send['image']='http://'.$host.'/userimage/'.$userobj->profile_img;
                     $claaobj = $this->Class->findById($data['c_id'])->first()->toArray();
                     $send['class_name']=$claaobj['class_name'];
+                    if($userobj->profile_img){
+                        $send['image']='http://'.$host.'/userimage/'.$userobj->profile_img;
+                    }else{
+                        $send['image']='';
+                    }
+
 
                     echo json_encode($send);
                     exit;
@@ -1256,13 +1268,18 @@ exit;
                     $claaobj = $this->Class->findById($datauser->toArray()['class'])->first();
                     if($claaobj){
                         $send['class_name']=$claaobj->toArray()['class_name'];
-                        $send['image']='http://'.$host.'/userimage/'.$datauser->toArray()['profile_img'];
+
 
                     }else{
                         $send['class_name']="";
-                        $send['image']='';
 
                     }
+                    if($datauser->toArray()['profile_img']){
+                        $send['image']='http://'.$host.'/userimage/'.$datauser->toArray()['profile_img'];
+                    }else{
+                        $send['image']='';
+                    }
+
 
                     echo json_encode($send);
                     exit;

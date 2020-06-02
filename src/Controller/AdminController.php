@@ -10,10 +10,12 @@ use App\Model\Table\CategorysTables;
 use App\Model\Table\ClassexammapsTables;
 use App\Model\Table\ClasssTables;
 use App\Model\Table\ContactsTables;
+use App\Model\Table\ExamquestionsTables;
 use App\Model\Table\ExamsTables;
 use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\GenerateexamsTables;
+use App\Model\Table\MaterialsTables;
 use App\Model\Table\McqsTables;
 use App\Model\Table\NoticesTables;
 use App\Model\Table\NotificationsTables;
@@ -58,6 +60,9 @@ class AdminController extends AppController{
         $this->Testimonial=$this->loadModel(TestimonialsTables::class);
         $this->Contact=$this->loadModel(ContactsTables::class);
         $this->Banner=$this->loadModel(BannersTables::class);
+        $this->ExamQuestion=$this->loadModel(ExamquestionsTables::class);
+        $this->Materials=$this->loadModel(MaterialsTables::class);
+
 
         $this->Banner=$this->loadModel(BannersTables::class);
         $session = $this->getRequest()->getSession();
@@ -584,6 +589,10 @@ return;
             $this->Exercise->delete($dataclass);
 
 
+            $exerciserecord=$this->Materials->find('all')->where(['ch_id'=>$id]);
+            foreach ($exerciserecord as $e)
+                $this->Materials->delete($e);
+
               $exerciserecord=$this->Uploadfiles->find('all')->where(['ex_id'=>$id]);
             foreach ($exerciserecord as $e){
                 $hasid=$e['hashid'];
@@ -634,6 +643,10 @@ return;
             foreach ($exerciserecord as $e)
                 $this->Exercise->delete($e);
 
+            $exerciserecord=$this->Materials->find('all')->where(['s_id'=>$id]);
+            foreach ($exerciserecord as $e)
+                $this->Materials->delete($e);
+
             $exerciserecord=$this->Uploadfiles->find('all')->where(['s_id'=>$id]);
             foreach ($exerciserecord as $e){
                 $hasid=$e['hashid'];
@@ -680,7 +693,7 @@ return;
         $dataclass=$this->Class->findById($id)->first();
         if($dataclass){
 
-            $this->Class->delete($dataclass);
+
 
             $subjectrec=$this->Subject->find('all')->where(['c_id'=>$id]);
             foreach ($subjectrec as $s)
@@ -689,6 +702,12 @@ return;
             $exerciserecord=$this->Exercise->find('all')->where(['c_id'=>$id]);
             foreach ($exerciserecord as $e)
                 $this->Exercise->delete($e);
+
+
+            $exerciserecord=$this->Materials->find('all')->where(['c_id'=>$id]);
+            foreach ($exerciserecord as $e)
+                $this->Materials->delete($e);
+
 
             $exerciserecord=$this->Uploadfiles->find('all')->where(['c_id'=>$id]);
             foreach ($exerciserecord as $e){
@@ -705,11 +724,13 @@ return;
             foreach ($exerciserecord as $e)
                 $this->ClassMap->delete($e);
 
+
             $exerciserecord=$this->GenerateExam->find('all')->where(['exam_type'=>0,'c_id'=>$id]);
             foreach ($exerciserecord as $e){
+               // var_dump($e->id);exit;
                 $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
-                foreach ($examobjquestion as $e)
-                    $this->ExamQuestion->delete($e);
+                foreach ($examobjquestion as $em)
+                    $this->ExamQuestion->delete($em);
 
                 $this->GenerateExam->delete($e);
 
@@ -720,7 +741,13 @@ return;
                 $this->Banner->delete($e);
             }
 
+            $test=$this->Testimonial->find('all')->where(['class'=>$id]);
+            foreach ($test as $e){
+                $this->Testimonial->delete($e);
+            }
 
+            $this->Class->delete($dataclass);
+          //  var_dump("exit;");exit;
             $this->Flash->success('Data Deleted');
 
             $this->redirect(array("controller" => "Admin",

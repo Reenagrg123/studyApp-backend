@@ -22,8 +22,9 @@
 
 	<?= $this->Html->css("/css/bootstrap4/bootstrap.min.css"); ?>
 	<?= $this->Html->script("https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"); ?>
-
-
+	<?= $this->Html->meta ( 'favicon.ico', '/favicon.png', array (
+	'type' => 'icon'
+	) );  ?>
 
 	<style>
 

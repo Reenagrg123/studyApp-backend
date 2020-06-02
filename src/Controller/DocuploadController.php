@@ -693,7 +693,7 @@ $this->Uploadfiles->delete($records);
 
             $data = $this->request->data;
             $exercise=$data['ex_id'];
-            $hashid=rand(200,500);
+            $hashid=$data['c_id'].rand(200,500);
             $filename=$_FILES['file']['name'];
             $path = $hashid.$_FILES['file']['name'];
             $imageFileType = pathinfo($path, PATHINFO_EXTENSION);

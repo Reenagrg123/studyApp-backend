@@ -28,7 +28,9 @@
                     <?= $this->Html->css("https://cdnjs.cloudflare.com/ajax/libs/summernote/0.5.0/summernote-bs3.css");?>
 
                     <?= $this->Html->css("//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"); ?>
-
+   <?= $this->Html->meta ( 'favicon.ico', '/favicon.png', array (
+    'type' => 'icon'
+    ) );  ?>
                     <body id="page-top">
 
                     <!-- Page Wrapper -->

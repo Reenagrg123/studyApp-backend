@@ -181,13 +181,16 @@
                     echo "<b>Inner Question</b><div class='breadcrumb'><div class='data' >".$in->question."</div>  <textarea class='teaxtedit click2edit' name='innerquestion[".$i."][question]'> ".$in->question." </textarea>
     </div><br/>";
 
-                    echo "<b>Options</b>";
+
                             $t=0;
+                        if(! $in->type=='integer'){
+                        echo "<b>Options</b>";
                     foreach($in->option as $op){
 
                     echo "<div class='breadcrumb'><div class='data'>".$op."</div><textarea class='teaxtedit click2edit' name='innerquestion[".$i."][option][".$t."]'> ".$op." </textarea></div>";
                   $t++;
                     }
+                        }
                     echo "<b>Answer</b>";
                             $m=0;
                     foreach($in->answer as $op){
@@ -197,7 +200,7 @@
                     echo "<b>Solution</b>";
                             $p=0;
                     foreach($in->solution as $op){
-                    echo "<div class='breadcrumb'><div vlass='data'>".$op."</div><textarea class='teaxtedit click2edit' name='innerquestion[".$i."][solution][".$p."]'> ".$op." </textarea></div>";
+                    echo "<div class='breadcrumb'><div class='data'>".$op."</div><textarea class='teaxtedit click2edit' name='innerquestion[".$i."][solution][".$p."]'> ".$op." </textarea></div>";
                     $p++;
                             }
                     ?>

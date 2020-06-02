@@ -264,7 +264,10 @@ if($records){
 
 
                     $r->question = $data['innerquestion'][$i]['question'];
-                    $r->option = $data['innerquestion'][$i]['option'];
+                    if(isset($data['innerquestion'][$i]['option'])){
+                        $r->option = $data['innerquestion'][$i]['option'];
+                    }
+
                     $r->answer = $data['innerquestion'][$i]['answer'];
                    $r = $data['innerquestion'][$i]['solution'];
                     $i++;
@@ -747,7 +750,7 @@ if($textfile['textfile']==''){
        $mcqservice=new McqService('mcq/'.$exercise.'/'.$hashid.'/'.$textfile['textfile'],$exercise,$hashid);
        $upload=$mcqservice->fitertext();
 
-
+//var_dump($upload);exit;
                 $uploadfiles=$this->Uploadfiles->newEntity();
 
                 $uploadfiles->c_id=$data['c_id'];

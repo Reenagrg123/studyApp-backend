@@ -157,15 +157,21 @@ return $r;
                 if($this->checkpresence($qu,$checkquestionpattern)){
                     $question= explode('[A]',$qu);
                     $temp['id']=$i;
-                    $temp['question']=$question[0];
-                    $option= explode('[Ans]',$question[1]);
+
+                    if(array_key_exists(1,$question)){
+                        $temp['question']=$question[0];
+                        $option= explode('[Ans]',$question[1]);
+                    }else{
+                        $temp['question']=explode('[Ans]',$qu)[0];
+                        $option='';
+                    }
+
                     if(! $option==null){
                         $optionline=$this->replace($option[0],$checkpara);
 
                         $temp['option']=explode('[,]',$optionline);
                         $temp['type']='mcq';
                     }else{
-                        $temp['option']='';
                         $temp['type']='integer';
                     }
 

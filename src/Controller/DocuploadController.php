@@ -825,7 +825,7 @@ if($textfile['textfile']==''){
 
         $content = file_get_contents($path.$filename);
         $content = str_replace('<p>', ' ', $content);
-        $content = str_replace('</p>', "\r\n", $content);
+        $content = str_replace('</p>', "\r", $content);
 
         $tags = array("<p>", "</p>", "<font>", "</font>");
 //$string = "<p><font>Hello World of PHP</font></p>";
@@ -834,14 +834,14 @@ if($textfile['textfile']==''){
         $strip_list = array('<style>', 'p', '<div>','<img>');
         $content = preg_replace('/{.*?\}/is', '', $content);
 //$content = preg_replace('/(B)/', \n'(B)', $content);
-        $content = str_replace('[Q]', "\n [Q]", $content);
-        $content = str_replace('[A]', "\n [A]", $content);
-        $content = str_replace('[B]', "\n [B]", $content);
-        $content = str_replace('[C]', "\n[C]", $content);
+        $content = str_replace('[Q]', " [Q] ", $content);
+        $content = str_replace('[A]', " [A] ", $content);
+        $content = str_replace('[B]', " [B] ", $content);
+        $content = str_replace('[C]', " [C] ", $content);
         //    $content = str_replace('src="', 'src="1', $content);
-        $content = preg_replace('/style[^>]*/', '', $content);
-        $contents= str_replace('[D]', "\n [D]", $content);
-        $contents=strip_tags($content,'<p><img><div>');
+      //  $content = preg_replace('/style[^>]*/', '', $content);
+        $content= str_replace('[D]', " [D] ", $content);
+        $contents=strip_tags($content,'<p><img><div><span>');
         $ext = explode('.', $filename);
         $myfile = fopen($path.$ext[0].".txt", "w") or die("Unable to open file!");
        // $txt = "John Doe\n";

@@ -55,7 +55,7 @@
                             <!--<i class="fa fa-laugh-wink"></i>-->
                             <img src="/img/logo.png" style="width:80px;margin-left:10px" >
                         </div>
-                        <div class="sidebar-brand-text" style="margin-right:15px">Theunacademy.com</sup></div>
+                        <div class="sidebar-brand-text" style="margin-right:15px">theacademyplus.com</sup></div>
                     </a>
 
                     <!-- Divider -->

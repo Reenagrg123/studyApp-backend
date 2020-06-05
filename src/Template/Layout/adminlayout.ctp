@@ -8,8 +8,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="description" content="Demo project">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-                    <?= $this->Html->css("bootstrap4/bootstrap.min.css"); ?>
+    <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <?= $this->Html->css("bootstrap4/bootstrap.min.css"); ?>
 
                     <?= $this->Html->css("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"); ?>
 
@@ -21,7 +22,8 @@
 
                     <?= $this->Html->script("https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"); ?>
 
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js" rel="stylesheet"
+          type="text/css">
 
                     <?= $this->Html->css("https://cdnjs.cloudflare.com/ajax/libs/summernote/0.5.0/summernote.css");?>
 
@@ -31,8 +33,16 @@
    <?= $this->Html->meta ( 'favicon.ico', '/favicon.png', array (
     'type' => 'icon'
     ) );  ?>
-                    <body id="page-top">
 
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
+    <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+                    <body id="page-top">
+<style>
+
+</style>
                     <!-- Page Wrapper -->
                     <div id="wrapper">
 
@@ -45,7 +55,7 @@
                             <!--<i class="fa fa-laugh-wink"></i>-->
                             <img src="/img/logo.png" style="width:80px;margin-left:10px" >
                         </div>
-                        <div class="sidebar-brand-text" style="margin-right:15px">EQUATION UNPLUGGED</sup></div>
+                        <div class="sidebar-brand-text" style="margin-right:15px">Theunacademy.com</sup></div>
                     </a>
 
                     <!-- Divider -->

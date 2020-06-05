@@ -746,6 +746,9 @@ if($textfile['textfile']==''){
 
 }
 
+var_dump($hashid.$exercise);
+             //   header('Content-type: text/html; charset=utf-8');
+
 
        $mcqservice=new McqService('mcq/'.$exercise.'/'.$hashid.'/'.$textfile['textfile'],$exercise,$hashid);
        $upload=$mcqservice->fitertext();
@@ -791,7 +794,8 @@ if($textfile['textfile']==''){
 
             }else{
                 $this->Flash->error('Unable to upload');
-
+                $this->redirect(array("controller" => "Docupload",
+                    "action" => "index"));
                 return;
 
             }
@@ -814,18 +818,16 @@ if($textfile['textfile']==''){
     }
 
     public function encode($upload){
-        array_walk_recursive( $upload, function(&$item) {
-            $item = utf8_encode( $item );
-        });
-       return json_encode( $upload );
+
+       return  json_encode($upload) ;
     }
 
     public function createtextfile($filename,$path){
 
 
         $content = file_get_contents($path.$filename);
-        $content = str_replace('<p>', ' ', $content);
-        $content = str_replace('</p>', "\r", $content);
+       // $content = str_replace('<p>', ' ', $content);
+       // $content = str_replace('</p>', "\r", $content);
 
         $tags = array("<p>", "</p>", "<font>", "</font>");
 //$string = "<p><font>Hello World of PHP</font></p>";
@@ -845,6 +847,8 @@ if($textfile['textfile']==''){
         $ext = explode('.', $filename);
         $myfile = fopen($path.$ext[0].".txt", "w") or die("Unable to open file!");
        // $txt = "John Doe\n";
+        $contents=trim(preg_replace('/[\t\r\s]+/', ' ', $contents));
+       $contents=mb_convert_encoding($contents, "UTF-8","Windows-1252");
         fwrite($myfile, $contents);
 
         return ['textfile'=>$ext[0].".txt"];

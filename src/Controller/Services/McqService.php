@@ -89,7 +89,7 @@ return $r;
         $host = Router::getRequest(true)->host();
         //  $handle = fopen($this->path, "r");
         $file=file_get_contents($this->path);
-        $srcto='src="http://'.$host.'/mcq/'.$this->exercise.'/'.$this->hasid.'/';
+        $srcto='src="https://'.$host.'/mcq/'.$this->exercise.'/'.$this->hasid.'/';
         $file = str_replace('src="', $srcto,$file);
         $file = str_replace('@font-face', " ",$file);
         $file = str_replace('@page', " ",$file);

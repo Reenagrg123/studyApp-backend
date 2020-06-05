@@ -337,7 +337,7 @@ class ApiController extends AppController{
 
                 $tmp['type']=$type;
                 $tmp['msg']=$b['msg'];
-                $tmp['file']='http://'.$host.'/banner/'.$b['file'];
+                $tmp['file']='https://'.$host.'/banner/'.$b['file'];
                 $tmp['id']=$b['id'];
 
                 array_push($data,$tmp);
@@ -645,7 +645,7 @@ class ApiController extends AppController{
                 $temp['id']=$m['id'];
                 $temp['name']=$m['name'];
                 $temp['type']=$m['type'];
-                $temp['file']='http://'.$host.'/materials/'.$m['hash_id'].'/'.$m['file'];
+                $temp['file']='https://'.$host.'/materials/'.$m['hash_id'].'/'.$m['file'];
                 $temp['link']=$m['link'];
                 array_push($data,$temp);
             }
@@ -1063,7 +1063,7 @@ class ApiController extends AppController{
                     if($userobj->profile_img==''){
                         $send['image']='';
                     }else{
-                        $send['image']='http://'.$host.'/userimage/'.$userobj->profile_img;
+                        $send['image']='https://'.$host.'/userimage/'.$userobj->profile_img;
                     }
 
                     $send['class_name']=$claaobj['class_name'];
@@ -1185,7 +1185,7 @@ class ApiController extends AppController{
                     $claaobj = $this->Class->findById($data['c_id'])->first()->toArray();
                     $send['class_name']=$claaobj['class_name'];
                     if($userobj->profile_img){
-                        $send['image']='http://'.$host.'/userimage/'.$userobj->profile_img;
+                        $send['image']='https://'.$host.'/userimage/'.$userobj->profile_img;
                     }else{
                         $send['image']='';
                     }
@@ -1275,7 +1275,7 @@ class ApiController extends AppController{
 
                     }
                     if($datauser->toArray()['profile_img']){
-                        $send['image']='http://'.$host.'/userimage/'.$datauser->toArray()['profile_img'];
+                        $send['image']='https://'.$host.'/userimage/'.$datauser->toArray()['profile_img'];
                     }else{
                         $send['image']='';
                     }

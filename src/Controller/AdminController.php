@@ -15,6 +15,7 @@ use App\Model\Table\ExamsTables;
 use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\GenerateexamsTables;
+use App\Model\Table\HistorysTables;
 use App\Model\Table\MaterialsTables;
 use App\Model\Table\McqsTables;
 use App\Model\Table\NoticesTables;
@@ -62,7 +63,7 @@ class AdminController extends AppController{
         $this->Banner=$this->loadModel(BannersTables::class);
         $this->ExamQuestion=$this->loadModel(ExamquestionsTables::class);
         $this->Materials=$this->loadModel(MaterialsTables::class);
-
+        $this->History=$this->loadModel(HistorysTables::class);
 
         $this->Banner=$this->loadModel(BannersTables::class);
         $session = $this->getRequest()->getSession();
@@ -80,7 +81,7 @@ class AdminController extends AppController{
     }
     public function contact(){
         $dataclass=$this->Contact->find('all')->contain(['user']);
-$this->set("data",$dataclass);
+        $this->set("data",$dataclass);
 
 
     }
@@ -112,7 +113,7 @@ $this->set("data",$dataclass);
 
 
                 $data = $this->request->data;
-               // var_dump($data);exit;
+                // var_dump($data);exit;
                 $filename=$_FILES['file']['name'];
                 $path = rand(100,2000).$_FILES['file']['name'];
                 $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
@@ -159,6 +160,7 @@ $this->set("data",$dataclass);
                     "action" => "banner"));
             }
             $classobj= $this->Class->find('all')->select(['id','class_name'])->toArray();
+            $examobj= $this->Exam->find('all')->select(['id','exam_name'])->toArray();
             $subject= $this->Subject->find('all')->select(['id','subject_name'])->where(['c_id'=>$dataclass->c_id])->toArray();
             $classlist=[];
             foreach ($classobj as $c) {
@@ -168,6 +170,13 @@ $this->set("data",$dataclass);
             foreach ($subject as $c) {
                 $subjectlist[$c['id']]=$c['subject_name'];
             }
+
+            $examlist=[];
+            foreach ($examobj as $c) {
+                $examlist[$c['id']]=$c['exam_name'];
+            }
+
+            $this->set('examlist',$examlist);
             $this->set('subjectlist',$subjectlist);
             $this->set('classlist',$classlist);
             $this->set("type",$dataclass->type);
@@ -193,43 +202,43 @@ $this->set("data",$dataclass);
                 $this->redirect(array("controller" => "Admin",
                     "action" => "testimonials"));
             }
-             // unlink('banner/'.$dataclass->file);
+            // unlink('banner/'.$dataclass->file);
             $this->set("notice",$dataclass->description);
             // $this->Notice->delete($dataclass);
         }
     }
 
-public function editnotice(){
-    $id=$this->request->getQuery('id');
-    $dataclass=$this->Notice->findById($id)->first();
+    public function editnotice(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Notice->findById($id)->first();
 
-    if($dataclass) {
-        if($this->request->is("post")) {
+        if($dataclass) {
+            if($this->request->is("post")) {
 
-            $data = $this->request->data;
+                $data = $this->request->data;
 
                 $userdata=$this->Notice->patchEntity($dataclass,$data);
-            $this->Notice->save($userdata);
-            $this->Flash->success('Data Updated');
+                $this->Notice->save($userdata);
+                $this->Flash->success('Data Updated');
 
-            $this->redirect(array("controller" => "Admin",
-                "action" => "notice"));
+                $this->redirect(array("controller" => "Admin",
+                    "action" => "notice"));
 
+            }
+
+
+            // unlink('banner/'.$dataclass->file);
+
+            $this->set("notice",$dataclass->notice);
+            // $this->Notice->delete($dataclass);
         }
-
-
-        // unlink('banner/'.$dataclass->file);
-
-        $this->set("notice",$dataclass->notice);
-       // $this->Notice->delete($dataclass);
     }
-}
     public function delnotice(){
         $id=$this->request->getQuery('id');
         $dataclass=$this->Notice->findById($id)->first();
 
         if($dataclass) {
-           // unlink('banner/'.$dataclass->file);
+            // unlink('banner/'.$dataclass->file);
             $this->Notice->delete($dataclass);
         }
         $this->Flash->success('Data Deleted');
@@ -263,21 +272,21 @@ public function editnotice(){
             $this->redirect(array("controller" => "Admin",
                 "action" => "users"));
         }
-       $classobj= $this->Class->find('all')->select(['id','class_name'])->toArray();
-      // var_dump($classobj);exit;
+        $classobj= $this->Class->find('all')->select(['id','class_name'])->toArray();
+        // var_dump($classobj);exit;
 
-       $classlist=[];
+        $classlist=[];
 
-       foreach ($classobj as $c) {
+        foreach ($classobj as $c) {
 
-           $classlist[$c['id']]=$c['class_name'];
-     //  $tmp['id']=$c['id'];
-      // array_push($classlist, $tmp);
+            $classlist[$c['id']]=$c['class_name'];
+            //  $tmp['id']=$c['id'];
+            // array_push($classlist, $tmp);
 
-       }
+        }
 
         $this->set('classlist',$classlist);
-       // $this->set('classlist',$classlist );
+        // $this->set('classlist',$classlist );
         $this->set("name",$userdata->f_name);
         $this->set("gender",$userdata->gender);
         $this->set("email",$userdata->email);
@@ -285,7 +294,7 @@ public function editnotice(){
         $this->set("class",$userdata->class);
         $this->set("dob",$userdata->dob);
 
-        }
+    }
 
     public function getdata(){
 
@@ -348,21 +357,21 @@ public function editnotice(){
     }
 
 
-public function delbanner(){
-    $id=$this->request->getQuery('id');
-    $dataclass=$this->Banner->findById($id)->first();
+    public function delbanner(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Banner->findById($id)->first();
 
-    if($dataclass) {
-        unlink('banner/'.$dataclass->file);
-        $this->Banner->delete($dataclass);
+        if($dataclass) {
+            unlink('banner/'.$dataclass->file);
+            $this->Banner->delete($dataclass);
+        }
+        $this->Flash->success('Data Deleted');
+
+
+        $this->redirect(array("controller" => "Admin",
+            "action" => "banner"));
+
     }
-    $this->Flash->success('Data Deleted');
-
-
-    $this->redirect(array("controller" => "Admin",
-        "action" => "banner"));
-
-}
     public function banner(){
         $banner=$this->Banner->find("all")->toArray();
         if($this->request->is("post")) {
@@ -375,10 +384,10 @@ public function delbanner(){
                 $banner->c_id=$data['c_id'];
                 $banner->s_id=$data['s_id'];
             }
-if($data['type']==1){
-    $banner->c_id=$data['c_id'];
+            if($data['type']==1){
+                $banner->c_id=$data['c_id'];
 
-}
+            }
             $banner->type=$data['type'];
 
             $banner->date=date("Y-m-d H:i:s");
@@ -387,30 +396,30 @@ if($data['type']==1){
             $path = rand(100,2000).$_FILES['file']['name'];
             $imageFileType = pathinfo($path, PATHINFO_EXTENSION);
 
-if($filename){
+            if($filename){
 
-    if($imageFileType !== "jpg" && $imageFileType !== "jpeg" && $imageFileType !== "png" && $imageFileType !== "PNG") {
-        $this->Flash->error('Wrong File Format');
-        $this->redirect(array("controller" => "Admin",
-            "action" => "banner"));
-        return;
+                if($imageFileType !== "jpg" && $imageFileType !== "jpeg" && $imageFileType !== "png" && $imageFileType !== "PNG") {
+                    $this->Flash->error('Wrong File Format');
+                    $this->redirect(array("controller" => "Admin",
+                        "action" => "banner"));
+                    return;
 
-    }
+                }
 
-    if (!file_exists('banner/')) {
-        mkdir('banner/', 0777, true);
-    }
+                if (!file_exists('banner/')) {
+                    mkdir('banner/', 0777, true);
+                }
 
-    $uploadPath ='banner/';
-    $uploadFile = $uploadPath.$path;
+                $uploadPath ='banner/';
+                $uploadFile = $uploadPath.$path;
 
-    if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
+                if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)) {
 
-        $save=1;
-        $banner->file=$path;
+                    $save=1;
+                    $banner->file=$path;
 
-    }
-}
+                }
+            }
 
 
             $this->Banner->save($banner);
@@ -441,7 +450,7 @@ if($filename){
             if($b['type']==1){
                 $type="Exam";
                 $class=$this->Exam->find("all")->where(['id'=>$c_id])->first();
-               // $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
+                // $subject=$this->ExamSubject->find("all")->where(['id'=>$s_id])->first();
                 $tmp['class']=$class->exam_name;
                 $tmp['subject']='';
             }
@@ -453,46 +462,46 @@ if($filename){
             }
 
 
-$tmp['type']=$type;
+            $tmp['type']=$type;
             $tmp['msg']=$b['msg'];
             $tmp['file']=$host.'/banner/'.$b['file'];
             $tmp['id']=$b['id'];
 
-array_push($data,$tmp);
+            array_push($data,$tmp);
         }
 
-      $this->set('banner',$data);
+        $this->set('banner',$data);
 
-        }
+    }
     public function notice(){
-    $datanotice=$this->Notice->find("all")->toArray();
-            if($this->request->is("post")) {
-                $data = $this->request->data();
-                $notice=$data['notice'];
+        $datanotice=$this->Notice->find("all")->toArray();
+        if($this->request->is("post")) {
+            $data = $this->request->data();
+            $notice=$data['notice'];
 
 
 
-                $classobj=$this->Notice->newEntity();
+            $classobj=$this->Notice->newEntity();
 
-                $classobj->notice=$notice;
+            $classobj->notice=$notice;
 
-                // $encryptpass = Security::encrypt($data['password'], $this->key);
-                // $resultr = Security::decrypt($result, $this->key);
+            // $encryptpass = Security::encrypt($data['password'], $this->key);
+            // $resultr = Security::decrypt($result, $this->key);
 
-                $classobj->create_date = date("Y-m-d H:i:s");
+            $classobj->create_date = date("Y-m-d H:i:s");
 
-                $this->Notice->save($classobj);
-                $this->Flash->success('Notice Added');
+            $this->Notice->save($classobj);
+            $this->Flash->success('Notice Added');
 
-                $this->redirect(array("controller" => "Admin",
-                    "action" => "notice"));
+            $this->redirect(array("controller" => "Admin",
+                "action" => "notice"));
 
-                return;
+            return;
 
-            }
+        }
 
 
-            $this->set("data",$datanotice);
+        $this->set("data",$datanotice);
 
 
     }
@@ -500,8 +509,16 @@ array_push($data,$tmp);
         $id=$this->request->getQuery('id');
         $dataclass=$this->Users->findById($id)->first();
         if($dataclass) {
-if($dataclass->profile_img)
-            unlink('userimage/'.$dataclass->profile_img);
+            if($dataclass->profile_img)
+                unlink('userimage/'.$dataclass->profile_img);
+
+            $testimonial=$this->Testimonials->find('all')->where(['user_id'=>$dataclass->id]);
+            foreach ($testimonial as $em)
+                $this->Testimonials->delete($em);
+
+            $history=$this->History->find('all')->where(['user_id'=>$dataclass->id]);
+            foreach ($history as $em)
+                $this->History->delete($em);
 
             $this->Users->delete($dataclass);
         }
@@ -538,12 +555,12 @@ if($dataclass->profile_img)
             $tmp['class']=$t['Class']['class_name'];
             $u_id=$t['user_id'];
             $userdata=$this->Users->find('all')->where(['id'=>$u_id])->first();
-if($userdata){
-    $tmp['username']=$userdata->f_name;
-    $tmp['contact']=$userdata->mobile;
-}
+            if($userdata){
+                $tmp['username']=$userdata->f_name;
+                $tmp['contact']=$userdata->mobile;
+            }
 
-$tmp['id']=$t['id'];
+            $tmp['id']=$t['id'];
             $tmp['feedback']=$t['description'];
             $tmp['image']=$t['image'];
             $tmp['approve']=$t['approve'];
@@ -554,32 +571,32 @@ $tmp['id']=$t['id'];
         $this->set("data",$data);
 
     }
-public function users(){
-    $users=$this->Users->find('all')->contain('class')->toArray();
-    $this->set("users",$users);
-}
+    public function users(){
+        $users=$this->Users->find('all')->contain('class')->toArray();
+        $this->set("users",$users);
+    }
 
-public function deltestimonial(){
-    $id=$this->request->getQuery('id');
-    $dataclass=$this->Testimonial->findById($id)->first();
-    if($dataclass) {
+    public function deltestimonial(){
+        $id=$this->request->getQuery('id');
+        $dataclass=$this->Testimonial->findById($id)->first();
+        if($dataclass) {
 
-        $this->Testimonial->delete($dataclass);
-        $this->Flash->success('Data Deleted');
+            $this->Testimonial->delete($dataclass);
+            $this->Flash->success('Data Deleted');
+
+
+            $this->redirect(array("controller" => "Admin",
+                "action" => "testimonials"));
+            return;
+
+        }
+        $this->Flash->success('No Data Found');
 
 
         $this->redirect(array("controller" => "Admin",
             "action" => "testimonials"));
-return;
 
     }
-    $this->Flash->success('No Data Found');
-
-
-    $this->redirect(array("controller" => "Admin",
-        "action" => "testimonials"));
-
-}
 
     public function delexercise(){
         $id=$this->request->getQuery('id');
@@ -593,7 +610,7 @@ return;
             foreach ($exerciserecord as $e)
                 $this->Materials->delete($e);
 
-              $exerciserecord=$this->Uploadfiles->find('all')->where(['ex_id'=>$id]);
+            $exerciserecord=$this->Uploadfiles->find('all')->where(['ex_id'=>$id]);
             foreach ($exerciserecord as $e){
                 $hasid=$e['hashid'];
                 $exerciserecord=$this->Mcq->find('all')->where(['hash_id'=>$hasid]);
@@ -609,6 +626,10 @@ return;
                 $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
                 foreach ($examobjquestion as $e)
                     $this->ExamQuestion->delete($e);
+
+                $history=$this->History->find('all')->where(['exam_id'=>$e->id]);
+                foreach ($history as $em)
+                    $this->History->delete($em);
 
                 $this->GenerateExam->delete($e);
 
@@ -662,6 +683,10 @@ return;
                 $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
                 foreach ($examobjquestion as $e)
                     $this->ExamQuestion->delete($e);
+
+                $history=$this->History->find('all')->where(['exam_id'=>$e->id]);
+                foreach ($history as $em)
+                    $this->History->delete($em);
 
                 $this->GenerateExam->delete($e);
 
@@ -727,10 +752,14 @@ return;
 
             $exerciserecord=$this->GenerateExam->find('all')->where(['exam_type'=>0,'c_id'=>$id]);
             foreach ($exerciserecord as $e){
-               // var_dump($e->id);exit;
+                // var_dump($e->id);exit;
                 $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
                 foreach ($examobjquestion as $em)
                     $this->ExamQuestion->delete($em);
+
+                $history=$this->History->find('all')->where(['exam_id'=>$e->id]);
+                foreach ($history as $em)
+                    $this->History->delete($em);
 
                 $this->GenerateExam->delete($e);
 
@@ -747,7 +776,7 @@ return;
             }
 
             $this->Class->delete($dataclass);
-          //  var_dump("exit;");exit;
+            //  var_dump("exit;");exit;
             $this->Flash->success('Data Deleted');
 
             $this->redirect(array("controller" => "Admin",

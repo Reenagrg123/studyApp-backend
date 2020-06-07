@@ -13,7 +13,7 @@
                 </button>
             </div>
             <div class="modal-body" id="load">
-<img id="setimg" src="" style="width:100%"/>
+                <img id="setimg" src="" style="width:100%"/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -94,6 +94,7 @@
                         <thead>
                         <tr>
                             <th>S No.</th>
+                            <th>Banner For</th>
                             <th>Exam/Class Name</th>
                             <th>Subject Name</th>
                             <th>File </th>
@@ -112,11 +113,12 @@
                         <tr>
 
                             <td><?php echo $i; ?></td>
+                            <td><?php echo $g['type']; ?></td>
                             <td><?php echo $g['class']; ?></td>
                             <td><?php echo $g['subject']; ?></td>
                             <td>
                                 <a href="#" onclick="show('<?php echo $src; ?>')" >View Image</a>
-                             </td>
+                            </td>
                             <td>
                                 <a onclick="return confirm('Are you sure you want to delete?? All related data will be deleted !!');" href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "delbanner","id"=>$id ]); ?>' ><i class="fa fa-times" aria-hidden="true"></i></a>
                                 <a  href='<?php echo $this->Url->build([  "controller" => "Admin", "action" => "editbanner","id"=>$id ]); ?>' ><i class="fa fa-edit" aria-hidden="true"></i></a>

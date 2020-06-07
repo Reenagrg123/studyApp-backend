@@ -15,6 +15,7 @@ use App\Model\Table\ExamsTables;
 use App\Model\Table\Examsubjects;
 use App\Model\Table\ExercisessTables;
 use App\Model\Table\GenerateexamsTables;
+use App\Model\Table\HistorysTables;
 use App\Model\Table\McqsTables;
 use App\Model\Table\NotificationsTables;
 use App\Model\Table\PostsTables;
@@ -46,7 +47,7 @@ class ExamController extends AppController{
         $this->Exercise=$this->loadModel(ExamexercisessTables::class);
         $this->Exam=$this->loadModel(ExamsTables::class);
         $this->ClassMap=$this->loadModel(ClassexammapsTables::class);
-
+        $this->History=$this->loadModel(HistorysTables::class);
 
 
         $this->Banner=$this->loadModel(BannersTables::class);
@@ -81,12 +82,7 @@ class ExamController extends AppController{
 
 
             foreach ($examobj as $e){
-                $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
-                foreach ($examobjquestion as $e)
-                    $this->ExamQuestion->delete($e);
-
-                $this->GenerateExam->delete($e);
-
+                $this->delgenerateexam($e->id);
             }
 
             $this->Exercise->delete($dataclass);
@@ -115,6 +111,10 @@ class ExamController extends AppController{
             $examobjquestion=$this->ExamQuestion->find('all')->where(['generateexam_id'=>$e->id]);
             foreach ($examobjquestion as $e)
                 $this->ExamQuestion->delete($e);
+
+            $history=$this->History->find('all')->where(['exam_id'=>$e->id]);
+            foreach ($history as $em)
+                $this->History->delete($em);
 
             $this->GenerateExam->delete($e);
         }

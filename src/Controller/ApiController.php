@@ -753,15 +753,22 @@ class ApiController extends AppController{
             }
             $this->auth($data['user_id']);
             // $examid=$data['exam_id'];
+
             $user_id=$data['user_id'];
-            $history=$this->History->find('all')->where(['user_id'=>$user_id])->contain(['Generateexam'])->toArray();
+            $history=$this->History->find('all')->where(['user_id'=>$user_id])->contain(['Generateexam']);
+            if($history){
 
+                $send['error'] = 0;
+                $send['data'] = array_reverse($history->toArray());
+            }else{
 
-            $send['error'] = 0;
-            $send['data'] = $history;
+                $send['error'] = 0;
+                $send['data'] = "";
 
+            }
             echo json_encode($send);
             exit;
+
 
         }
 
@@ -779,26 +786,30 @@ class ApiController extends AppController{
             $data=[];
             $tmpdata=[];
             $totalmarks=0;
-            $generatedata=$this->GenerateExam->find("all")->where(['id'=>$id])->first()->toArray();
+            $generatedata=$this->GenerateExam->find("all")->where(['id'=>$id])->first();
             if($generatedata){
+                $generatedata=$generatedata->toArray();
                 $data['totaltime']=$generatedata['total_time'];
                 $data['Instruction']=$generatedata['instruction'];
                 $examquestion=$this->ExamQuestion->find("all")->where(['generateexam_id'=>$id])->toArray();
                 foreach ($examquestion as $ex){
                     $q_id=$ex['q_id'];
-                    $mcq=$this->Mcq->find("all")->where(['id'=>$q_id])->first()->toArray();
-                    $has=$mcq['hash_id'];
-                    $getmarks=$this->Uploadfiles->find('all')->where(['hashid'=>$has])->first()->toArray();
-
-                    $temp=[];
-                    $temp['question_id']=$mcq['id'];
-                    $temp['question']=$mcq['data'];
-                    $temp['type']=$mcq['type'];
-                    $temp['correctmark']=$getmarks['correct_mark'];
-                    $temp['wrongmark']=$getmarks['wrong_mark'];
-                    $totalmarks=$totalmarks+$getmarks['correct_mark'];
-                    array_push($tmpdata,$temp);
-
+                    $mcq=$this->Mcq->find("all")->where(['id'=>$q_id])->first();
+                    if($mcq){
+                        $mcq=$mcq->toArray();
+                        $has=$mcq['hash_id'];
+                        $getmarks=$this->Uploadfiles->find('all')->where(['hashid'=>$has])->first();
+                        if($getmarks){
+                            $getmarks=$getmarks->toArray();
+                            $temp=[];
+                            $temp['question_id']=$mcq['id'];
+                            $temp['question']=$mcq['data'];
+                            $temp['type']=$mcq['type'];
+                            $temp['correctmark']=$getmarks['correct_mark'];
+                            $temp['wrongmark']=$getmarks['wrong_mark'];
+                            $totalmarks=$totalmarks+$getmarks['correct_mark'];
+                            array_push($tmpdata,$temp);
+                        }  }
                 }
                 $data['total_mark']=$totalmarks;
                 $data['questiondata']=$tmpdata;

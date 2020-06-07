@@ -13,11 +13,10 @@
                     <table id="table_id" class="cell-border compact stripe hover">
                         <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>S No.</th>
                             <th>Name</th>
-
+                            <th>Email</th>
                             <th>Contact No.</th>
-
                             <th>Message</th>
                             <th></th>
                         </tr>
@@ -31,7 +30,7 @@
                         <a>
                             <td><?php echo $i; ?></td>
                             <td><?php echo $c['User']['f_name']; ?></td>
-
+                            <td><?php echo $c['User']['email']; ?></td>
                             <td><?php echo $c['User']['mobile']; ?></td>
 
                             <td><?php echo $c['msg']; ?></td>

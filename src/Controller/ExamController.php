@@ -85,6 +85,13 @@ class ExamController extends AppController{
                 $this->delgenerateexam($e->id);
             }
 
+
+            $examobj2=$this->GenerateExam->find('all')->where(['exam_type'=>2,'ex_id'=>$id]);
+
+            foreach ($examobj2 as $e){
+                $this->delgenerateexam($e->id);
+            }
+
             $this->Exercise->delete($dataclass);
 
 
@@ -179,6 +186,7 @@ class ExamController extends AppController{
             $examobj2=$this->GenerateExam->find('all')->where(['exam_type'=>2,'c_id'=>$id]);
 
             foreach ($examobj2 as $e){
+
                 $this->delgenerateexam($e->id);
             }
 
@@ -186,10 +194,7 @@ class ExamController extends AppController{
             foreach ($examobj1 as $e){
                 $this->delgenerateexam($e->id);
             }
-            $examobj0=$this->GenerateExam->find('all')->where(['exam_type'=>0,'c_id'=>$id]);
-            foreach ($examobj0 as $e){
-                $this->delgenerateexam($e->id);
-            }
+
 
             $banner=$this->Banner->find('all')->where(['type'=>1,'c_id'=>$id]);
             foreach ($banner as $e){

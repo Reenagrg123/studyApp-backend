@@ -512,13 +512,17 @@ class AdminController extends AppController{
             if($dataclass->profile_img)
                 unlink('userimage/'.$dataclass->profile_img);
 
-            $testimonial=$this->Testimonials->find('all')->where(['user_id'=>$dataclass->id]);
+            $testimonial=$this->Testimonial->find('all')->where(['user_id'=>$dataclass->id]);
             foreach ($testimonial as $em)
-                $this->Testimonials->delete($em);
+                $this->Testimonial->delete($em);
 
             $history=$this->History->find('all')->where(['user_id'=>$dataclass->id]);
             foreach ($history as $em)
                 $this->History->delete($em);
+
+            $contact=$this->Contact->find('all')->where(['user_id'=>$dataclass->id]);
+            foreach ($contact as $em)
+                $this->Contact->delete($em);
 
             $this->Users->delete($dataclass);
         }
